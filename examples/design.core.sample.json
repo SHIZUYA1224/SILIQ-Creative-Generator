@@ -1,0 +1,259 @@
+{
+  "format": "siliq-creative-generator-core",
+  "schemaVersion": "0.2.0-core",
+  "documentId": "sample-campaign",
+  "revision": 0,
+  "title": "構造検証用・未承認・素材未同梱",
+  "colorSpace": "sRGB",
+  "baseArtboard": {
+    "width": 1080,
+    "height": 1080,
+    "rootNodeId": "root"
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "name": "アートボードルート",
+      "type": "group",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1080
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "childIds": [
+        "background",
+        "photo",
+        "headline",
+        "brand-logo"
+      ]
+    },
+    {
+      "id": "background",
+      "name": "背景（例示・未承認）",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1080
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "linear-gradient",
+        "angleDeg": 90,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#F4F4F4",
+            "opacity": 1
+          },
+          {
+            "offset": 1,
+            "color": "#D8D8D8",
+            "opacity": 1
+          }
+        ]
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "photo",
+      "name": "差し替え写真",
+      "type": "image",
+      "bounds": {
+        "x": 60,
+        "y": 60,
+        "width": 960,
+        "height": 600
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-placeholder",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "headline",
+      "name": "差し替え見出し",
+      "type": "text",
+      "bounds": {
+        "x": 60,
+        "y": 700,
+        "width": 960,
+        "height": 180
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "品質を、崩さず量産する。",
+        "fontId": "font-heading",
+        "fontSize": 64,
+        "lineHeight": 80,
+        "letterSpacing": 0,
+        "maxLines": 2,
+        "overflowPolicy": "fit-approved-sizes",
+        "allowedFontSizes": [
+          64,
+          63,
+          62,
+          61,
+          60,
+          59,
+          58,
+          57,
+          56
+        ],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#171717"
+      }
+    },
+    {
+      "id": "brand-logo",
+      "name": "指定ロゴ",
+      "type": "logo",
+      "bounds": {
+        "x": 60,
+        "y": 930,
+        "width": 180,
+        "height": 60
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": true,
+      "assetId": "logo-placeholder",
+      "fit": "contain",
+      "preserveAspectRatio": true,
+      "minWidth": 120,
+      "clearSpace": 24
+    }
+  ],
+  "fonts": [
+    {
+      "id": "font-heading",
+      "nameHint": "ユーザーが選ぶローカルの日本語フォント",
+      "state": "unresolved",
+      "sha256": null,
+      "faceIndex": 0,
+      "packagePolicy": "reference-only"
+    }
+  ],
+  "assets": [
+    {
+      "id": "image-placeholder",
+      "kind": "raster",
+      "state": "unresolved",
+      "sha256": null,
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "logo-placeholder",
+      "kind": "vector",
+      "state": "unresolved",
+      "sha256": null,
+      "mimeHint": "image/svg+xml"
+    }
+  ],
+  "slots": [
+    {
+      "id": "headline-slot",
+      "type": "text",
+      "required": true,
+      "nodeId": "headline",
+      "target": "text.value",
+      "maxLength": 80
+    },
+    {
+      "id": "photo-slot",
+      "type": "image",
+      "required": true,
+      "nodeId": "photo",
+      "target": "assetId"
+    }
+  ],
+  "variants": [
+    {
+      "id": "square",
+      "label": "正方形・未承認",
+      "width": 1080,
+      "height": 1080,
+      "approvalStatus": "draft",
+      "nodePatches": []
+    },
+    {
+      "id": "portrait",
+      "label": "縦長・未承認",
+      "width": 1080,
+      "height": 1350,
+      "approvalStatus": "draft",
+      "nodePatches": [
+        {
+          "nodeId": "root",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1350
+          }
+        },
+        {
+          "nodeId": "background",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1350
+          }
+        },
+        {
+          "nodeId": "photo",
+          "bounds": {
+            "x": 60,
+            "y": 60,
+            "width": 960,
+            "height": 820
+          }
+        },
+        {
+          "nodeId": "headline",
+          "bounds": {
+            "x": 60,
+            "y": 930,
+            "width": 960,
+            "height": 180
+          },
+          "fontSize": 64
+        },
+        {
+          "nodeId": "brand-logo",
+          "bounds": {
+            "x": 60,
+            "y": 1200,
+            "width": 180,
+            "height": 60
+          }
+        }
+      ]
+    }
+  ]
+}

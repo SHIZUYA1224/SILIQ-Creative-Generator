@@ -1,0 +1,897 @@
+{
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "siliq-creative-generator-core"
+    },
+    "schemaVersion": {
+      "const": "0.2.0-core"
+    },
+    "documentId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "colorSpace": {
+      "const": "sRGB"
+    },
+    "baseArtboard": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16384
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16384
+        },
+        "rootNodeId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "rootNodeId"
+      ],
+      "additionalProperties": false
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/node"
+      },
+      "minItems": 1,
+      "maxItems": 2000
+    },
+    "fonts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/font"
+      },
+      "minItems": 0,
+      "maxItems": 100
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      },
+      "minItems": 0,
+      "maxItems": 2000
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/slot"
+      },
+      "minItems": 0,
+      "maxItems": 500
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/variant"
+      },
+      "minItems": 1,
+      "maxItems": 64
+    }
+  },
+  "required": [
+    "format",
+    "schemaVersion",
+    "documentId",
+    "revision",
+    "title",
+    "colorSpace",
+    "baseArtboard",
+    "nodes",
+    "fonts",
+    "assets",
+    "slots",
+    "variants"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SILIQ Phase 0 core document contract — draft, not full v1",
+  "$defs": {
+    "bounds": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "y": {
+          "type": "number",
+          "minimum": -1000000,
+          "maximum": 1000000
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16384
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16384
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "solid": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "solid"
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      },
+      "required": [
+        "kind",
+        "color"
+      ],
+      "additionalProperties": false
+    },
+    "linearGradient": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "linear-gradient"
+        },
+        "angleDeg": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "offset": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              },
+              "opacity": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "offset",
+              "color",
+              "opacity"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 2,
+          "maxItems": 16
+        }
+      },
+      "required": [
+        "kind",
+        "angleDeg",
+        "stops"
+      ],
+      "additionalProperties": false
+    },
+    "paint": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/solid"
+        },
+        {
+          "$ref": "#/$defs/linearGradient"
+        }
+      ]
+    },
+    "font": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "nameHint": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "state": {
+          "enum": [
+            "unresolved",
+            "resolved"
+          ]
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "faceIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "packagePolicy": {
+          "enum": [
+            "reference-only",
+            "embed-confirmed"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "nameHint",
+        "state",
+        "sha256",
+        "faceIndex",
+        "packagePolicy"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "resolved"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "sha256": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "asset": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "kind": {
+          "enum": [
+            "raster",
+            "vector"
+          ]
+        },
+        "state": {
+          "enum": [
+            "unresolved",
+            "resolved"
+          ]
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mimeHint": {
+          "enum": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/svg+xml"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "state",
+        "sha256",
+        "mimeHint"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "resolved"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "sha256": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "textSpec": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "fontId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "fontSize": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2000
+        },
+        "lineHeight": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 4000
+        },
+        "letterSpacing": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "maxLines": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "overflowPolicy": {
+          "enum": [
+            "error",
+            "fit-approved-sizes"
+          ]
+        },
+        "allowedFontSizes": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 2000
+          },
+          "minItems": 0,
+          "maxItems": 200
+        },
+        "language": {
+          "enum": [
+            "ja",
+            "en"
+          ]
+        },
+        "align": {
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "fontId",
+        "fontSize",
+        "lineHeight",
+        "letterSpacing",
+        "maxLines",
+        "overflowPolicy",
+        "allowedFontSizes",
+        "language",
+        "align"
+      ],
+      "additionalProperties": false
+    },
+    "slot": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "type": {
+          "enum": [
+            "text",
+            "image"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "nodeId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "target": {
+          "enum": [
+            "text.value",
+            "assetId"
+          ]
+        },
+        "maxLength": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "required",
+        "nodeId",
+        "target"
+      ],
+      "additionalProperties": false
+    },
+    "nodePatch": {
+      "type": "object",
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "bounds": {
+          "$ref": "#/$defs/bounds"
+        },
+        "fontSize": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2000
+        }
+      },
+      "required": [
+        "nodeId",
+        "bounds"
+      ],
+      "additionalProperties": false
+    },
+    "variant": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16384
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16384
+        },
+        "approvalStatus": {
+          "enum": [
+            "draft",
+            "approved"
+          ]
+        },
+        "nodePatches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nodePatch"
+          },
+          "minItems": 0,
+          "maxItems": 2000
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "width",
+        "height",
+        "approvalStatus",
+        "nodePatches"
+      ],
+      "additionalProperties": false
+    },
+    "groupNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "type": {
+          "const": "group"
+        },
+        "bounds": {
+          "$ref": "#/$defs/bounds"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "childIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "minItems": 0,
+          "maxItems": 2000
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "bounds",
+        "rotationDeg",
+        "opacity",
+        "visible",
+        "locked",
+        "childIds"
+      ],
+      "additionalProperties": false
+    },
+    "rectNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "type": {
+          "const": "rect"
+        },
+        "bounds": {
+          "$ref": "#/$defs/bounds"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "fill": {
+          "$ref": "#/$defs/paint"
+        },
+        "cornerRadius": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 8192
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "bounds",
+        "rotationDeg",
+        "opacity",
+        "visible",
+        "locked",
+        "fill",
+        "cornerRadius"
+      ],
+      "additionalProperties": false
+    },
+    "textNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "type": {
+          "const": "text"
+        },
+        "bounds": {
+          "$ref": "#/$defs/bounds"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "text": {
+          "$ref": "#/$defs/textSpec"
+        },
+        "fill": {
+          "$ref": "#/$defs/solid"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "bounds",
+        "rotationDeg",
+        "opacity",
+        "visible",
+        "locked",
+        "text",
+        "fill"
+      ],
+      "additionalProperties": false
+    },
+    "imageNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "type": {
+          "const": "image"
+        },
+        "bounds": {
+          "$ref": "#/$defs/bounds"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "assetId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "fit": {
+          "enum": [
+            "cover",
+            "contain"
+          ]
+        },
+        "focalPoint": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "y": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        "clipToBounds": {
+          "const": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "bounds",
+        "rotationDeg",
+        "opacity",
+        "visible",
+        "locked",
+        "assetId",
+        "fit",
+        "focalPoint",
+        "clipToBounds"
+      ],
+      "additionalProperties": false
+    },
+    "logoNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "type": {
+          "const": "logo"
+        },
+        "bounds": {
+          "$ref": "#/$defs/bounds"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "assetId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "fit": {
+          "const": "contain"
+        },
+        "preserveAspectRatio": {
+          "const": true
+        },
+        "minWidth": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16384
+        },
+        "clearSpace": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 8192
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "bounds",
+        "rotationDeg",
+        "opacity",
+        "visible",
+        "locked",
+        "assetId",
+        "fit",
+        "preserveAspectRatio",
+        "minWidth",
+        "clearSpace"
+      ],
+      "additionalProperties": false
+    },
+    "node": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/groupNode"
+        },
+        {
+          "$ref": "#/$defs/rectNode"
+        },
+        {
+          "$ref": "#/$defs/textNode"
+        },
+        {
+          "$ref": "#/$defs/imageNode"
+        },
+        {
+          "$ref": "#/$defs/logoNode"
+        }
+      ]
+    }
+  }
+}
