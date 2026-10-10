@@ -531,3 +531,25 @@ fn report_records_font_backend() {
     let out = run(&fixture_doc(), "square", &store()).unwrap();
     assert_eq!(out.report.font_backend, Some(FontBackend::preferred()));
 }
+
+// ----------------------------------------------------------- showcase --
+
+/// The showcase fixture (fictional brand, synthetic assets, two weights of
+/// Noto Sans JP) must keep rendering without warnings and without any fit
+/// reduction, and deterministically.
+#[test]
+fn showcase_fixture_renders_cleanly() {
+    let doc: Value = serde_json::from_str(&fs::read_to_string(format!("{FIXTURES}/documents/showcase.json")).unwrap()).unwrap();
+    for (variant, size) in [("portrait", (1080, 1350)), ("square", (1080, 1080))] {
+        let a = run(&doc, variant, &store()).unwrap();
+        let b = run(&doc, variant, &store()).unwrap();
+        assert_eq!(a.png, b.png, "{variant}");
+        let p = pixels(&a.png);
+        assert_eq!((p.0, p.1), size);
+        assert!(a.report.warnings.is_empty(), "{variant}: {:?}", a.report.warnings);
+        assert_eq!(a.report.fonts.len(), 2);
+        for t in &a.report.text {
+            assert_eq!(t.applied_font_size, t.requested_font_size, "{variant}/{}", t.node_id);
+        }
+    }
+}
