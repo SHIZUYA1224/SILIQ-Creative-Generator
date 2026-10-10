@@ -1,0 +1,64 @@
+{
+  "formatVersion": "1.0.0",
+  "notes": "Exact upstream source-commit LICENSE documents are retained. objc2 crates omit full license texts in published source; supplemental full texts are from their upstream repository commit e45c53301628aec4ead5c086dde282942ca972db. selectors published source omits MPL text; the canonical Mozilla text is supplied. First-party UNLICENSED policy is unchanged.",
+  "packages": {
+    "cargo:alloc-stdlib@0.3.0": [
+      "third_party/licenses/upstream/alloc-stdlib-0.3.0/LICENSE"
+    ],
+    "cargo:block2@0.6.2": [
+      "third_party/licenses/upstream/block2-0.6.2/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt"
+    ],
+    "cargo:dispatch2@0.3.1": [
+      "third_party/licenses/upstream/dispatch2-0.3.1/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-ZLIB.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-APACHE.txt"
+    ],
+    "cargo:objc2@0.6.5": [
+      "third_party/licenses/upstream/objc2-0.6.5/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt"
+    ],
+    "cargo:objc2-app-kit@0.3.2": [
+      "third_party/licenses/upstream/objc2-app-kit-0.3.2/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-ZLIB.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-APACHE.txt"
+    ],
+    "cargo:objc2-core-foundation@0.3.2": [
+      "third_party/licenses/upstream/objc2-core-foundation-0.3.2/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-ZLIB.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-APACHE.txt"
+    ],
+    "cargo:objc2-encode@4.1.0": [
+      "third_party/licenses/upstream/objc2-encode-4.1.0/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt"
+    ],
+    "cargo:objc2-exception-helper@0.1.1": [
+      "third_party/licenses/upstream/objc2-exception-helper-0.1.1/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-ZLIB.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-APACHE.txt"
+    ],
+    "cargo:objc2-foundation@0.3.2": [
+      "third_party/licenses/upstream/objc2-foundation-0.3.2/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt"
+    ],
+    "cargo:objc2-quartz-core@0.3.2": [
+      "third_party/licenses/upstream/objc2-quartz-core-0.3.2/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-ZLIB.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-APACHE.txt"
+    ],
+    "cargo:objc2-web-kit@0.3.2": [
+      "third_party/licenses/upstream/objc2-web-kit-0.3.2/LICENSE-upstream-at-source-commit.md",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-MIT.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-ZLIB.txt",
+      "third_party/licenses/upstream/objc2-license-supplement/LICENSE-APACHE.txt"
+    ],
+    "cargo:selectors@0.38.0": [
+      "third_party/licenses/upstream/selectors-0.38.0/LICENSE-MPL-2.0.txt"
+    ]
+  }
+}

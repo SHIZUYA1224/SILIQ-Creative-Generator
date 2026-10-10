@@ -133,3 +133,33 @@ pub struct VectorArt {
 pub fn import_svg(bytes: &[u8]) -> Result<VectorArt, SvgError> {
     parse::import(bytes)
 }
+
+/// Parse the bounded path subset used by editable document paths, clips and masks.
+/// Coordinates and expanded segment count are limited; arcs are explicitly rejected.
+pub fn parse_path(data: &str) -> Result<Vec<Segment>, SvgError> {
+    if data.len() > 1024 * 1024 {
+        return Err(SvgError::new(SvgErrorKind::ResourceLimit, "path exceeds 1 MiB"));
+    }
+    {
+        let mut budget = MAX_SEGMENTS;
+        let segments = path::parse_path_data(data, &mut budget)?;
+        for segment in &segments {
+            let points: Vec<Point> = match *segment {
+                Segment::MoveTo(p) | Segment::LineTo(p) => vec![p],
+                Segment::QuadTo(a, b) => vec![a, b],
+                Segment::CubicTo(a, b, c) => vec![a, b, c],
+                Segment::Close => vec![],
+            };
+            if points
+                .iter()
+                .any(|p| !p.x.is_finite() || !p.y.is_finite() || p.x.abs() > 1_000_000.0 || p.y.abs() > 1_000_000.0)
+            {
+                return Err(SvgError::new(
+                    SvgErrorKind::ResourceLimit,
+                    "expanded path coordinates exceed the finite coordinate bound",
+                ));
+            }
+        }
+        Ok(segments)
+    }
+}

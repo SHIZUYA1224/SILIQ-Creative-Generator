@@ -7,7 +7,8 @@
     "schemaVersion": {
       "enum": [
         "0.2.0-core",
-        "0.3.0-core"
+        "0.3.0-core",
+        "0.4.0-core"
       ]
     },
     "documentId": {
@@ -89,6 +90,16 @@
       },
       "minItems": 1,
       "maxItems": 64
+    },
+    "nodeStyles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nodeStyle"
+      },
+      "maxItems": 2000
+    },
+    "brandSnapshot": {
+      "$ref": "#/$defs/brandSnapshot"
     }
   },
   "required": [
@@ -107,7 +118,7 @@
   ],
   "additionalProperties": false,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "SILIQ core document contract 0.3.0-core (reads 0.2.0-core) — draft, not full v1",
+  "title": "SILIQ core document contract 0.4.0-core (reads 0.2/0.3)",
   "$defs": {
     "bounds": {
       "type": "object",
@@ -214,6 +225,9 @@
         },
         {
           "$ref": "#/$defs/linearGradient"
+        },
+        {
+          "$ref": "#/$defs/radialGradient"
         }
       ]
     },
@@ -432,6 +446,26 @@
             "center",
             "right"
           ]
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fontFeature"
+          },
+          "maxItems": 32
+        },
+        "kinsoku": {
+          "enum": [
+            "unicode",
+            "strict-japanese"
+          ]
+        },
+        "runs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/textRun"
+          },
+          "maxItems": 100
         }
       },
       "required": [
@@ -509,6 +543,16 @@
           "exclusiveMinimum": 0,
           "maximum": 4000,
           "description": "0.3.0-core, text nodes only."
+        },
+        "affine": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000,
+            "maximum": 1000000
+          },
+          "minItems": 6,
+          "maxItems": 6
         }
       },
       "required": [
@@ -775,7 +819,8 @@
         "fit": {
           "enum": [
             "cover",
-            "contain"
+            "contain",
+            "stretch"
           ]
         },
         "focalPoint": {
@@ -799,7 +844,7 @@
           "additionalProperties": false
         },
         "clipToBounds": {
-          "const": true
+          "type": "boolean"
         }
       },
       "required": [
@@ -905,6 +950,9 @@
         },
         {
           "$ref": "#/$defs/logoNode"
+        },
+        {
+          "$ref": "#/$defs/pathNode"
         }
       ]
     },
@@ -965,6 +1013,698 @@
       ],
       "additionalProperties": false,
       "description": "0.3.0-core. Shadow of the glyphs including the outline; blur is a radius in du."
+    },
+    "fontFeature": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "pattern": "^[ -~]{4}$"
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        }
+      },
+      "required": [
+        "tag",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "radialGradient": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "radial-gradient"
+        },
+        "center": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "y": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        "radius": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 2
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "offset": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              },
+              "opacity": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "offset",
+              "color",
+              "opacity"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 2,
+          "maxItems": 16
+        }
+      },
+      "required": [
+        "kind",
+        "center",
+        "radius",
+        "stops"
+      ],
+      "additionalProperties": false
+    },
+    "pathNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "type": {
+          "const": "path"
+        },
+        "bounds": {
+          "$ref": "#/$defs/bounds"
+        },
+        "rotationDeg": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "fill": {
+          "$ref": "#/$defs/paint"
+        },
+        "data": {
+          "type": "string",
+          "maxLength": 1048576
+        },
+        "viewBox": {
+          "$ref": "#/$defs/bounds"
+        },
+        "fillRule": {
+          "enum": [
+            "non-zero",
+            "even-odd"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "bounds",
+        "rotationDeg",
+        "opacity",
+        "visible",
+        "locked",
+        "fill",
+        "data",
+        "viewBox",
+        "fillRule"
+      ],
+      "additionalProperties": false
+    },
+    "stroke": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 200
+        }
+      },
+      "required": [
+        "color",
+        "width"
+      ],
+      "additionalProperties": false
+    },
+    "nodeEffect": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "blur"
+            },
+            "radius": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 200
+            }
+          },
+          "required": [
+            "kind",
+            "radius"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "shadow"
+            },
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "opacity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "offsetX": {
+              "type": "number",
+              "minimum": -1000,
+              "maximum": 1000
+            },
+            "offsetY": {
+              "type": "number",
+              "minimum": -1000,
+              "maximum": 1000
+            },
+            "blur": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 200
+            }
+          },
+          "required": [
+            "kind",
+            "color",
+            "opacity",
+            "offsetX",
+            "offsetY",
+            "blur"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "pathClip": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "maxLength": 1048576
+        },
+        "fillRule": {
+          "enum": [
+            "non-zero",
+            "even-odd"
+          ]
+        }
+      },
+      "required": [
+        "data",
+        "fillRule"
+      ],
+      "additionalProperties": false
+    },
+    "pathMask": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "maxLength": 1048576
+        },
+        "fillRule": {
+          "enum": [
+            "non-zero",
+            "even-odd"
+          ]
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "invert": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "data",
+        "fillRule",
+        "opacity",
+        "invert"
+      ],
+      "additionalProperties": false
+    },
+    "nodeStyle": {
+      "type": "object",
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "blendMode": {
+          "enum": [
+            "normal",
+            "multiply",
+            "screen"
+          ]
+        },
+        "stroke": {
+          "$ref": "#/$defs/stroke"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nodeEffect"
+          },
+          "maxItems": 8
+        },
+        "clip": {
+          "$ref": "#/$defs/pathClip"
+        },
+        "mask": {
+          "$ref": "#/$defs/pathMask"
+        },
+        "imageAdjustments": {
+          "$ref": "#/$defs/imageAdjustments"
+        },
+        "protectedRegion": {
+          "$ref": "#/$defs/normalizedRect"
+        },
+        "protectedFrom": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "affine": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000,
+            "maximum": 1000000
+          },
+          "minItems": 6,
+          "maxItems": 6
+        }
+      },
+      "required": [
+        "nodeId"
+      ],
+      "additionalProperties": false
+    },
+    "textRun": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 40000
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 40000
+        },
+        "fontId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "fontId"
+      ],
+      "additionalProperties": false
+    },
+    "imageAdjustments": {
+      "type": "object",
+      "properties": {
+        "brightness": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "contrast": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "saturation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "brightness",
+        "contrast",
+        "saturation"
+      ],
+      "additionalProperties": false
+    },
+    "normalizedRect": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "namedColor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "color"
+      ],
+      "additionalProperties": false
+    },
+    "namedTextStyle": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "style": {
+          "$ref": "#/$defs/textSpec"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "style"
+      ],
+      "additionalProperties": false
+    },
+    "brandSnapshot": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "colors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/namedColor"
+          },
+          "maxItems": 100
+        },
+        "textStyles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/namedTextStyle"
+          },
+          "maxItems": 100
+        },
+        "logoAssetIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "colors",
+        "textStyles",
+        "logoAssetIds"
+      ],
+      "additionalProperties": false
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schemaVersion": {
+            "enum": [
+              "0.2.0-core",
+              "0.3.0-core"
+            ]
+          }
+        },
+        "required": [
+          "schemaVersion"
+        ]
+      },
+      "then": {
+        "properties": {
+          "nodeStyles": {
+            "maxItems": 0
+          },
+          "nodes": {
+            "items": {
+              "not": {
+                "anyOf": [
+                  {
+                    "properties": {
+                      "type": {
+                        "const": "path"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "type": {
+                        "const": "rect"
+                      },
+                      "fill": {
+                        "properties": {
+                          "kind": {
+                            "const": "radial-gradient"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "fill"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "type": {
+                        "const": "image"
+                      },
+                      "fit": {
+                        "const": "stretch"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "fit"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "type": {
+                        "const": "image"
+                      },
+                      "clipToBounds": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "clipToBounds"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "type": {
+                        "const": "text"
+                      },
+                      "text": {
+                        "properties": {
+                          "features": {
+                            "minItems": 1
+                          }
+                        },
+                        "required": [
+                          "features"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "text"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "type": {
+                        "const": "text"
+                      },
+                      "text": {
+                        "properties": {
+                          "runs": {
+                            "minItems": 1
+                          }
+                        },
+                        "required": [
+                          "runs"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "text"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "type": {
+                        "const": "text"
+                      },
+                      "text": {
+                        "properties": {
+                          "kinsoku": {
+                            "const": "strict-japanese"
+                          }
+                        },
+                        "required": [
+                          "kinsoku"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "text"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "brandSnapshot": false,
+          "variants": {
+            "items": {
+              "properties": {
+                "nodePatches": {
+                  "items": {
+                    "properties": {
+                      "affine": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

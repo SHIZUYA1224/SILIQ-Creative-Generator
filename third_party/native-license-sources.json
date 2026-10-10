@@ -1,0 +1,73 @@
+{
+  "formatVersion": "1.0.0",
+  "skiaSourceTag": "m153-0.101.2",
+  "skiaSourceCommit": "61e7ca4e99062cdd0ab69445d5963fb3365778f6",
+  "dependencyDeclarations": "https://raw.githubusercontent.com/rust-skia/skia/m153-0.101.2/DEPS",
+  "scope": "License texts at the dependency revisions declared by the Skia source tag. Prebuilt archive does not contain an attestation of every native source revision; this inventory does not establish complete binary provenance.",
+  "licenses": [
+    {
+      "name": "expat",
+      "sourceRevision": "6154446fccefbf3ca644894f598969113b0c7bcd",
+      "sourceRepository": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git",
+      "file": "third_party/licenses/native-vendored/expat/COPYING",
+      "url": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/COPYING?format=TEXT",
+      "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87"
+    },
+    {
+      "name": "harfbuzz",
+      "sourceRevision": "9cb1fee51069b206effb4736e443b038d230789d",
+      "sourceRepository": "https://chromium.googlesource.com/external/github.com/harfbuzz/harfbuzz.git",
+      "file": "third_party/licenses/native-vendored/harfbuzz/COPYING",
+      "url": "https://chromium.googlesource.com/external/github.com/harfbuzz/harfbuzz.git/+/9cb1fee51069b206effb4736e443b038d230789d/COPYING?format=TEXT",
+      "sha256": "ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64"
+    },
+    {
+      "name": "icu",
+      "sourceRevision": "d578f2e8b7bd5938e21cfb6bf15c079e0aa5b738",
+      "sourceRepository": "https://chromium.googlesource.com/chromium/deps/icu.git",
+      "file": "third_party/licenses/native-vendored/icu/LICENSE",
+      "url": "https://chromium.googlesource.com/chromium/deps/icu.git/+/d578f2e8b7bd5938e21cfb6bf15c079e0aa5b738/LICENSE?format=TEXT",
+      "sha256": "e55522d81edc687a341a4411e0776e54ca654e90147f354a90458aaced4116af"
+    },
+    {
+      "name": "libjpeg-turbo",
+      "sourceRevision": "e14cbfaa85529d47f9f55b0f104a579c1061f9ad",
+      "sourceRepository": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git",
+      "file": "third_party/licenses/native-vendored/libjpeg-turbo/LICENSE.md",
+      "url": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/LICENSE.md?format=TEXT",
+      "sha256": "96f5b328adbb78eeaaec6980d73fd558cb1e4d62560ed615646bc3cf5e532430"
+    },
+    {
+      "name": "libjpeg-turbo",
+      "sourceRevision": "e14cbfaa85529d47f9f55b0f104a579c1061f9ad",
+      "sourceRepository": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git",
+      "file": "third_party/licenses/native-vendored/libjpeg-turbo/README.ijg",
+      "url": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/README.ijg?format=TEXT",
+      "sha256": "75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6"
+    },
+    {
+      "name": "libpng",
+      "sourceRevision": "d5515b5b8be3901aac04e5bd8bd5c89f287bcd33",
+      "sourceRepository": "https://skia.googlesource.com/third_party/libpng.git",
+      "file": "third_party/licenses/native-vendored/libpng/LICENSE",
+      "url": "https://skia.googlesource.com/third_party/libpng.git/+/d5515b5b8be3901aac04e5bd8bd5c89f287bcd33/LICENSE?format=TEXT",
+      "sha256": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526"
+    },
+    {
+      "name": "wuffs",
+      "sourceRevision": "e3f919ccfe3ef542cfc983a82146070258fb57f8",
+      "sourceRepository": "https://skia.googlesource.com/external/github.com/google/wuffs-mirror-release-c.git",
+      "file": "third_party/licenses/native-vendored/wuffs/LICENSE",
+      "url": "https://skia.googlesource.com/external/github.com/google/wuffs-mirror-release-c.git/+/e3f919ccfe3ef542cfc983a82146070258fb57f8/LICENSE?format=TEXT",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "name": "zlib",
+      "sourceRevision": "646b7f569718921d7d4b5b8e22572ff6c76f2596",
+      "sourceRepository": "https://chromium.googlesource.com/chromium/src/third_party/zlib",
+      "file": "third_party/licenses/native-vendored/zlib/LICENSE",
+      "url": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/LICENSE?format=TEXT",
+      "sha256": "e1cfcc55c325b3f78cf55df9664abaa066e2271dffe8213347d9fccdfbac8f2c"
+    }
+  ]
+}

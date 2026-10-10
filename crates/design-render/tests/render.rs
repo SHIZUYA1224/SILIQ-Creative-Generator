@@ -290,7 +290,9 @@ fn invalid_face_index_is_reported() {
 
 #[test]
 fn missing_glyphs_detected_by_codepoint() {
-    let mgr = FontMgr::custom_empty().unwrap();
+    // The pinned macOS Skia build parses supplied font bytes through CoreText;
+    // its FreeType custom-empty manager is intentionally unavailable.
+    let mgr = FontMgr::custom_empty().unwrap_or_default();
     let bytes = fs::read(format!("{FIXTURES}/resources/fonts/{FONT_SHA}.otf")).unwrap();
     let tf = mgr.new_from_data(skia_safe::Data::new_copy(&bytes), 0).unwrap();
     assert!(missing_glyphs("品質を、崩さず量産する。ABC abc 123 ー々〆", &tf).is_empty());
@@ -386,7 +388,7 @@ fn corrupt_image_is_refused() {
 }
 
 #[test]
-fn webp_is_refused_in_this_build() {
+fn corrupted_webp_is_refused() {
     let dir = temp_store();
     let sha = add_asset(&dir, b"RIFF\x10\0\0\0WEBPVP8 \x04\0\0\0\0\0\0\0", "webp");
     let mut doc = fixture_doc();

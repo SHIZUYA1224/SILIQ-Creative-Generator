@@ -7,9 +7,9 @@ use serde::{Deserialize, Deserializer, Serialize};
 
 pub const FORMAT: &str = "siliq-creative-generator-core";
 /// Newest schema version this engine writes and reads.
-pub const SCHEMA_VERSION: &str = "0.3.0-core";
+pub const SCHEMA_VERSION: &str = "0.4.0-core";
 /// Every version this engine reads. 0.3.0-core adds text `outline` / `shadow`.
-pub const SUPPORTED_SCHEMA_VERSIONS: &[&str] = &["0.2.0-core", "0.3.0-core"];
+pub const SUPPORTED_SCHEMA_VERSIONS: &[&str] = &["0.2.0-core", "0.3.0-core", "0.4.0-core"];
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -26,6 +26,35 @@ pub struct DesignDocument {
     pub assets: Vec<Asset>,
     pub slots: Vec<Slot>,
     pub variants: Vec<Variant>,
+    /// Optional styles keyed by stable node ID, introduced in 0.4.0-core.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub node_styles: Vec<NodeStyle>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub brand_snapshot: Option<BrandSnapshot>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NamedColor {
+    pub id: String,
+    pub name: String,
+    pub color: String,
+}
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NamedTextStyle {
+    pub id: String,
+    pub name: String,
+    pub style: TextSpec,
+}
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct BrandSnapshot {
+    pub id: String,
+    pub revision: u64,
+    pub colors: Vec<NamedColor>,
+    pub text_styles: Vec<NamedTextStyle>,
+    pub logo_asset_ids: Vec<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -52,6 +81,12 @@ pub enum Paint {
     Solid { color: String },
     #[serde(rename = "linear-gradient", rename_all = "camelCase")]
     LinearGradient { angle_deg: f64, stops: Vec<GradientStop> },
+    #[serde(rename = "radial-gradient", rename_all = "camelCase")]
+    RadialGradient {
+        center: FocalPoint,
+        radius: f64,
+        stops: Vec<GradientStop>,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -178,6 +213,161 @@ pub struct TextSpec {
     pub allowed_font_sizes: Vec<f64>,
     pub language: Language,
     pub align: Align,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub features: Vec<FontFeature>,
+    #[serde(default, skip_serializing_if = "KinsokuPolicy::is_unicode")]
+    pub kinsoku: KinsokuPolicy,
+    /// Style ranges use UTF-8 byte offsets at character boundaries. Uncovered
+    /// ranges use the base style, and author text is never rewritten.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub runs: Vec<TextRun>,
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum KinsokuPolicy {
+    #[default]
+    Unicode,
+    StrictJapanese,
+}
+impl KinsokuPolicy {
+    pub fn is_unicode(&self) -> bool {
+        *self == Self::Unicode
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TextRun {
+    pub start: usize,
+    pub end: usize,
+    pub font_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub color: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct FontFeature {
+    pub tag: String,
+    pub value: u32,
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum BlendMode {
+    #[default]
+    Normal,
+    Multiply,
+    Screen,
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PathRule {
+    #[default]
+    NonZero,
+    EvenOdd,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Stroke {
+    pub color: String,
+    pub width: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "kebab-case", deny_unknown_fields)]
+pub enum NodeEffect {
+    Blur {
+        radius: f64,
+    },
+    #[serde(rename_all = "camelCase")]
+    Shadow {
+        color: String,
+        opacity: f64,
+        offset_x: f64,
+        offset_y: f64,
+        blur: f64,
+    },
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PathClip {
+    pub data: String,
+    pub fill_rule: PathRule,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PathMask {
+    pub data: String,
+    pub fill_rule: PathRule,
+    pub opacity: f64,
+    pub invert: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ImageAdjustments {
+    pub brightness: f64,
+    pub contrast: f64,
+    pub saturation: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NormalizedRect {
+    pub x: f64,
+    pub y: f64,
+    pub width: f64,
+    pub height: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct NodeStyle {
+    pub node_id: String,
+    #[serde(default)]
+    pub blend_mode: BlendMode,
+    /// SVG affine convention: x'=a*x+c*y+e, y'=b*x+d*y+f.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub affine: Option<[f64; 6]>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub stroke: Option<Stroke>,
+    /// Effects apply in the saved order. The whole node/group is filtered.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub effects: Vec<NodeEffect>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub clip: Option<PathClip>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub mask: Option<PathMask>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub image_adjustments: Option<ImageAdjustments>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub protected_region: Option<NormalizedRect>,
+    /// Author-selected layers which must stay outside this logo's clear space.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub protected_from: Vec<String>,
+}
+
+impl NodeStyle {
+    pub fn new(node_id: impl Into<String>) -> Self {
+        Self {
+            node_id: node_id.into(),
+            blend_mode: BlendMode::Normal,
+            affine: None,
+            stroke: None,
+            effects: vec![],
+            clip: None,
+            mask: None,
+            image_adjustments: None,
+            protected_region: None,
+            protected_from: vec![],
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -223,6 +413,7 @@ pub struct FocalPoint {
 pub enum ImageFit {
     Cover,
     Contain,
+    Stretch,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -256,6 +447,20 @@ pub enum Node {
         locked: bool,
         fill: Paint,
         corner_radius: f64,
+    },
+    #[serde(rename_all = "camelCase")]
+    Path {
+        id: String,
+        name: String,
+        bounds: Bounds,
+        rotation_deg: f64,
+        opacity: f64,
+        visible: bool,
+        locked: bool,
+        data: String,
+        view_box: Bounds,
+        fill: Paint,
+        fill_rule: PathRule,
     },
     #[serde(rename_all = "camelCase")]
     Text {
@@ -311,7 +516,12 @@ pub enum Node {
 impl Node {
     pub fn id(&self) -> &str {
         match self {
-            Node::Group { id, .. } | Node::Rect { id, .. } | Node::Text { id, .. } | Node::Image { id, .. } | Node::Logo { id, .. } => id,
+            Node::Group { id, .. }
+            | Node::Rect { id, .. }
+            | Node::Text { id, .. }
+            | Node::Image { id, .. }
+            | Node::Logo { id, .. }
+            | Node::Path { id, .. } => id,
         }
     }
 
@@ -322,6 +532,7 @@ impl Node {
             Node::Text { .. } => "text",
             Node::Image { .. } => "image",
             Node::Logo { .. } => "logo",
+            Node::Path { .. } => "path",
         }
     }
 
@@ -349,6 +560,13 @@ impl Node {
                 ..
             }
             | Node::Image {
+                bounds,
+                rotation_deg,
+                opacity,
+                visible,
+                ..
+            }
+            | Node::Path {
                 bounds,
                 rotation_deg,
                 opacity,
@@ -400,6 +618,14 @@ impl Node {
                 locked,
                 ..
             }
+            | Node::Path {
+                bounds,
+                rotation_deg,
+                opacity,
+                visible,
+                locked,
+                ..
+            }
             | Node::Logo {
                 bounds,
                 rotation_deg,
@@ -423,7 +649,8 @@ impl Node {
             | Node::Rect { locked, .. }
             | Node::Text { locked, .. }
             | Node::Image { locked, .. }
-            | Node::Logo { locked, .. } => *locked,
+            | Node::Logo { locked, .. }
+            | Node::Path { locked, .. } => *locked,
         }
     }
 
@@ -433,7 +660,8 @@ impl Node {
             | Node::Rect { bounds, .. }
             | Node::Text { bounds, .. }
             | Node::Image { bounds, .. }
-            | Node::Logo { bounds, .. } => bounds,
+            | Node::Logo { bounds, .. }
+            | Node::Path { bounds, .. } => bounds,
         }
     }
 }
@@ -495,6 +723,8 @@ pub enum ApprovalStatus {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct NodePatch {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub affine: Option<[f64; 6]>,
     pub node_id: String,
     pub bounds: Bounds,
     #[serde(default, skip_serializing_if = "Option::is_none")]

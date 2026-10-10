@@ -1,0 +1,36 @@
+fn main() {
+    tauri_build::try_build(
+        tauri_build::Attributes::new().app_manifest(tauri_build::AppManifest::new().commands(&[
+            "open_fixture",
+            "new_document",
+            "read_session",
+            "apply_edit",
+            "undo_edit",
+            "redo_edit",
+            "set_mode",
+            "request_preview",
+            "preview_metadata",
+            "run_preflight",
+            "open_project",
+            "save_project",
+            "recover_project",
+            "import_asset",
+            "resolve_font",
+            "export_png",
+            "export_design",
+            "select_dataset",
+            "preflight_batch",
+            "request_batch_preview",
+            "start_batch",
+            "batch_status",
+            "cancel_batch",
+            "resume_batch",
+            "list_saved_batches",
+            "resume_saved_batch",
+            "close_session",
+            "storage_status",
+            "cleanup_storage",
+        ])),
+    )
+    .expect("build the restricted desktop command manifest");
+}

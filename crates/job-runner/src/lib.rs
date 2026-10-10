@@ -12,19 +12,24 @@
 //!
 //! The resource store caches verified bytes, so all items see the same
 //! fonts and assets even if files change on disk during the job (BAT-003).
-//! Not implemented yet: cancel / resume, partial-output mode, parallelism.
+//! Controlled jobs add progress, cancellation and checksum-verified resume.
 
+mod controlled;
 pub mod csv;
+mod io;
 pub mod naming;
+pub use controlled::{
+    BatchPreflight, BatchProgress, ErrorPolicy, PlannedItem, batch_input_digest, export_batch_input_digest, preflight,
+    preflight_export_granted, preflight_granted, preflight_resume_granted, resume_batch_controlled, run_batch_controlled,
+    run_batch_granted, run_export_batch_granted,
+};
 
-use design_model::{Code, DesignDocument, Issue, Issues, bind_row, load_document, require_approved, resolve_variant};
-use design_render::resources::{ResourceStore, sha256_hex};
-use design_render::{RENDER_PROFILE, RenderOptions, RenderProfile, render_document, text::FontBackend};
-use serde::Serialize;
+use design_model::{Code, DesignDocument, Issue, Issues, require_approved, resolve_variant};
+use design_render::resources::ResourceStore;
+use design_render::{RenderOptions, RenderProfile, text::FontBackend};
+use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashSet};
-use std::fs;
-use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 pub struct BatchRequest<'a> {
     pub template: &'a [u8],
@@ -38,7 +43,7 @@ pub struct BatchRequest<'a> {
     pub options: RenderOptions,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ManifestItem {
     pub row_id: String,
@@ -52,6 +57,8 @@ pub struct ManifestItem {
     /// Applied size per text node (shows any approved fit reduction).
     pub applied_font_sizes: BTreeMap<String, f64>,
     pub warnings: Vec<Issue>,
+    pub format: design_export::ExportFormat,
+    pub export_report: serde_json::Value,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -69,66 +76,31 @@ pub struct Manifest {
     pub render_profile: RenderProfile,
     pub font_backend: FontBackend,
     pub items: Vec<ManifestItem>,
+    pub input_digest: String,
+    pub issues: Vec<Issue>,
+    pub export_recipes: Vec<design_export::ExportRecipe>,
 }
 
+#[derive(Clone)]
 struct Planned {
     row_id: String,
     values: BTreeMap<String, String>,
     variant_id: String,
     file: String,
+    recipe: design_export::ExportRecipe,
 }
 
 pub fn run_batch(req: &BatchRequest) -> Result<Manifest, Issues> {
-    let doc = load_document(req.template)?;
-    let table = csv::parse(req.data).map_err(|i| vec![i])?;
-    let planned = plan(&doc, &table, req)?;
-
-    // ---- render into staging
-    let staging = create_staging(req.out_dir).map_err(|i| vec![i])?;
-    let result = render_all(&doc, &planned, req, &staging);
-    let items = match result {
-        Ok(items) => items,
-        Err(issues) => {
-            let _ = fs::remove_dir_all(&staging);
-            return Err(issues);
-        }
-    };
-
-    // ---- publish
-    let mut published: Vec<PathBuf> = Vec::new();
-    for item in &items {
-        let target = req.out_dir.join(&item.file);
-        if let Err(e) = fs::hard_link(staging.join(&item.file), &target) {
-            for p in &published {
-                let _ = fs::remove_file(p);
-            }
-            let _ = fs::remove_dir_all(&staging);
-            return Err(vec![publish_error(&item.file, e)]);
-        }
-        published.push(target);
-    }
-    let _ = fs::remove_dir_all(&staging);
-
-    let manifest = Manifest {
-        status: "completed",
-        error_policy: "block-all",
-        template_document_id: doc.document_id.clone(),
-        template_revision: doc.revision,
-        template_sha256: sha256_hex(req.template),
-        data_sha256: sha256_hex(req.data),
-        rows: table.records.len(),
-        variants: req.variants.to_vec(),
-        total: items.len(),
-        render_profile: RENDER_PROFILE,
-        font_backend: req.options.font_backend,
-        items,
-    };
-    let json = serde_json::to_vec_pretty(&manifest).expect("serializable");
-    write_new(&req.out_dir.join(req.manifest_name), &json).map_err(|i| vec![i])?;
-    Ok(manifest)
+    run_batch_controlled(req, &std::sync::atomic::AtomicBool::new(false), |_| {})
 }
 
-fn plan(doc: &DesignDocument, table: &csv::Table, req: &BatchRequest) -> Result<Vec<Planned>, Issues> {
+fn plan(
+    doc: &DesignDocument,
+    table: &csv::Table,
+    req: &BatchRequest,
+    directory: &std::fs::File,
+    resume: bool,
+) -> Result<Vec<Planned>, Issues> {
     let mut issues = Vec::new();
 
     // Columns: rowId plus slot ids; every required slot must have a column.
@@ -198,11 +170,11 @@ fn plan(doc: &DesignDocument, table: &csv::Table, req: &BatchRequest) -> Result<
     // Rows and names.
     let mut row_ids = HashSet::new();
     let mut names = HashSet::new();
-    names.insert(req.manifest_name.to_owned());
+    names.insert(req.manifest_name.to_ascii_lowercase());
     if let Err(i) = naming::validate_output_name(req.manifest_name, "json") {
         issues.push(i);
     }
-    if req.out_dir.join(req.manifest_name).symlink_metadata().is_ok() {
+    if !resume && io::exists(directory, req.manifest_name).map_err(|i| vec![i])? {
         issues.push(collision(req.manifest_name));
     }
     let mut planned = Vec::new();
@@ -243,7 +215,7 @@ fn plan(doc: &DesignDocument, table: &csv::Table, req: &BatchRequest) -> Result<
                 issues.push(i.row(row_id).variant(v));
                 continue;
             }
-            if !names.insert(file.clone()) {
+            if !names.insert(file.to_ascii_lowercase()) {
                 issues.push(Issue::error(
                     Code::OutputCollision,
                     format!("two outputs would be named {file}"),
@@ -251,7 +223,7 @@ fn plan(doc: &DesignDocument, table: &csv::Table, req: &BatchRequest) -> Result<
                 ));
                 continue;
             }
-            if req.out_dir.join(&file).symlink_metadata().is_ok() {
+            if !resume && io::exists(directory, &file).map_err(|i| vec![i])? {
                 issues.push(collision(&file).row(row_id).variant(v));
                 continue;
             }
@@ -260,64 +232,18 @@ fn plan(doc: &DesignDocument, table: &csv::Table, req: &BatchRequest) -> Result<
                 values: values.clone(),
                 variant_id: v.clone(),
                 file,
+                recipe: design_export::ExportRecipe::default(),
             });
         }
     }
-    if issues.is_empty() { Ok(planned) } else { Err(issues) }
-}
-
-fn render_all(doc: &DesignDocument, planned: &[Planned], req: &BatchRequest, staging: &Path) -> Result<Vec<ManifestItem>, Issues> {
-    let template_sha = sha256_hex(req.template);
-    let mut issues = Vec::new();
-    let mut items = Vec::new();
-    for p in planned {
-        let tag = |mut i: Issue| {
-            i.location.row_id.get_or_insert_with(|| p.row_id.clone());
-            i.location.variant_id.get_or_insert_with(|| p.variant_id.clone());
-            i
-        };
-        let bound = match bind_row(doc, &p.row_id, &p.values) {
-            Ok(d) => d,
-            Err(e) => {
-                issues.extend(e.into_iter().map(tag));
-                continue;
-            }
-        };
-        match render_document(&bound, &p.variant_id, req.store, req.options) {
-            Ok(out) => {
-                if let Err(i) = write_new(&staging.join(&p.file), &out.png) {
-                    issues.push(tag(i));
-                    continue;
-                }
-                let digest_input = serde_json::to_vec(&(&template_sha, &p.variant_id, &p.values)).expect("serializable");
-                items.push(ManifestItem {
-                    row_id: p.row_id.clone(),
-                    variant_id: p.variant_id.clone(),
-                    file: p.file.clone(),
-                    sha256: out.report.output_sha256.clone(),
-                    width: out.report.width,
-                    height: out.report.height,
-                    input_digest: sha256_hex(&digest_input),
-                    applied_font_sizes: out.report.text.iter().map(|t| (t.node_id.clone(), t.applied_font_size)).collect(),
-                    warnings: out.report.warnings.into_iter().map(tag).collect(),
-                });
-            }
-            Err(e) => issues.extend(e.into_iter().map(tag)),
-        }
+    if planned.len() > 20_000 {
+        issues.push(Issue::error(
+            Code::ResourceLimit,
+            "more than 20,000 batch items",
+            "Split the dataset or select fewer variants.",
+        ));
     }
-    if issues.is_empty() { Ok(items) } else { Err(issues) }
-}
-
-fn create_staging(out_dir: &Path) -> Result<PathBuf, Issue> {
-    let dir = out_dir.join(format!(".siliq-batch-{}", std::process::id()));
-    fs::create_dir(&dir).map_err(|e| {
-        Issue::error(
-            Code::PathDenied,
-            format!("cannot create staging directory: {}", e.kind()),
-            "Check that the output directory is writable.",
-        )
-    })?;
-    Ok(dir)
+    if issues.is_empty() { Ok(planned) } else { Err(issues) }
 }
 
 fn collision(name: &str) -> Issue {
@@ -328,33 +254,15 @@ fn collision(name: &str) -> Issue {
     )
 }
 
-fn publish_error(name: &str, e: std::io::Error) -> Issue {
-    if e.kind() == std::io::ErrorKind::AlreadyExists {
-        collision(name)
-    } else {
-        Issue::error(
-            Code::PathDenied,
-            format!("cannot publish {name}: {}", e.kind()),
-            "Check the output directory.",
-        )
-    }
+static NONCE: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+fn next_nonce() -> u64 {
+    NONCE.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
 }
 
 /// Create `path` (must not exist), write, flush.
 pub fn write_new(path: &Path, bytes: &[u8]) -> Result<(), Issue> {
-    let fail = |e: std::io::Error| {
-        if e.kind() == std::io::ErrorKind::AlreadyExists {
-            collision(&path.file_name().unwrap_or_default().to_string_lossy())
-        } else {
-            Issue::error(
-                Code::PathDenied,
-                format!("cannot write output: {}", e.kind()),
-                "Check that the output directory is writable and has free space.",
-            )
-        }
-    };
-    let mut f = fs::OpenOptions::new().write(true).create_new(true).open(path).map_err(fail)?;
-    f.write_all(bytes).map_err(fail)?;
-    f.sync_all().map_err(fail)?;
-    Ok(())
+    let parent = path.parent().filter(|p| !p.as_os_str().is_empty()).unwrap_or(Path::new("."));
+    let directory = io::directory(parent)?;
+    let name = path.file_name().and_then(|s| s.to_str()).ok_or_else(io::denied)?;
+    io::atomic_json(&directory, name, bytes, false)
 }

@@ -1,0 +1,3442 @@
+{
+  "format": "siliq-creative-generator-core",
+  "schemaVersion": "0.4.0-core",
+  "documentId": "performance-standard",
+  "revision": 1,
+  "title": "Public-safe standard performance fixture (synthetic; approval for QA only)",
+  "colorSpace": "sRGB",
+  "baseArtboard": {
+    "width": 1080,
+    "height": 1350,
+    "rootNodeId": "root"
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "name": "root",
+      "type": "group",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1350
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "childIds": [
+        "background",
+        "radial",
+        "headline",
+        "subheadline",
+        "picture-0",
+        "image-label-0",
+        "picture-1",
+        "image-label-1",
+        "picture-2",
+        "image-label-2",
+        "picture-3",
+        "image-label-3",
+        "picture-4",
+        "image-label-4",
+        "picture-5",
+        "image-label-5",
+        "picture-6",
+        "image-label-6",
+        "picture-7",
+        "image-label-7",
+        "line-0",
+        "line-1",
+        "line-2",
+        "line-3",
+        "line-4",
+        "line-5",
+        "line-6",
+        "line-7",
+        "line-8",
+        "line-9",
+        "line-10",
+        "line-11",
+        "line-12",
+        "line-13",
+        "line-14",
+        "line-15",
+        "line-16",
+        "line-17",
+        "line-18",
+        "line-19",
+        "line-20",
+        "line-21",
+        "line-22",
+        "line-23",
+        "line-24",
+        "line-25",
+        "line-26",
+        "line-27",
+        "line-28",
+        "line-29",
+        "line-30",
+        "line-31",
+        "line-32",
+        "line-33",
+        "line-34",
+        "line-35",
+        "line-36",
+        "line-37",
+        "line-38",
+        "line-39",
+        "detail-60",
+        "detail-61",
+        "detail-62",
+        "detail-63",
+        "detail-64",
+        "detail-65",
+        "detail-66",
+        "detail-67",
+        "detail-68",
+        "detail-69",
+        "detail-70",
+        "detail-71",
+        "detail-72",
+        "detail-73",
+        "detail-74",
+        "detail-75",
+        "detail-76",
+        "detail-77",
+        "detail-78",
+        "detail-79",
+        "detail-80",
+        "detail-81",
+        "detail-82",
+        "detail-83",
+        "detail-84",
+        "detail-85",
+        "detail-86",
+        "detail-87",
+        "detail-88",
+        "detail-89",
+        "detail-90",
+        "detail-91",
+        "detail-92",
+        "detail-93",
+        "detail-94",
+        "detail-95",
+        "detail-96",
+        "detail-97",
+        "detail-98",
+        "detail-99",
+        "detail-100",
+        "detail-101",
+        "detail-102",
+        "detail-103",
+        "detail-104",
+        "detail-105",
+        "detail-106",
+        "detail-107",
+        "detail-108",
+        "detail-109",
+        "detail-110",
+        "detail-111",
+        "detail-112",
+        "detail-113",
+        "detail-114",
+        "detail-115",
+        "detail-116",
+        "detail-117",
+        "detail-118",
+        "detail-119"
+      ]
+    },
+    {
+      "id": "background",
+      "name": "background",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1350
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "linear-gradient",
+        "angleDeg": 90,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#EFF9F4",
+            "opacity": 1
+          },
+          {
+            "offset": 1,
+            "color": "#A9D8C9",
+            "opacity": 1
+          }
+        ]
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "radial",
+      "name": "radial",
+      "type": "rect",
+      "bounds": {
+        "x": 640,
+        "y": 30,
+        "width": 360,
+        "height": 130
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "radial-gradient",
+        "center": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "radius": 0.8,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#FFFFFF",
+            "opacity": 0.8
+          },
+          {
+            "offset": 1,
+            "color": "#FFFFFF",
+            "opacity": 0
+          }
+        ]
+      },
+      "cornerRadius": 65
+    },
+    {
+      "id": "headline",
+      "name": "headline",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 35,
+        "width": 900,
+        "height": 62
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "公開用の資料 BENCH 001",
+        "fontId": "black",
+        "fontSize": 32,
+        "lineHeight": 51.2,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "subheadline",
+      "name": "subheadline",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 115,
+        "width": 950,
+        "height": 40
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語と English / 固定された検証素材",
+        "fontId": "regular",
+        "fontSize": 20,
+        "lineHeight": 32.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "picture-0",
+      "name": "picture-0",
+      "type": "image",
+      "bounds": {
+        "x": 40,
+        "y": 195,
+        "width": 225,
+        "height": 220
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-0",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "image-label-0",
+      "name": "image-label-0",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 423,
+        "width": 225,
+        "height": 35
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "資料 1 / Image",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 27.200000000000003,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "picture-1",
+      "name": "picture-1",
+      "type": "image",
+      "bounds": {
+        "x": 295,
+        "y": 195,
+        "width": 225,
+        "height": 220
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-1",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "image-label-1",
+      "name": "image-label-1",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 423,
+        "width": 225,
+        "height": 35
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "資料 2 / Image",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 27.200000000000003,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "picture-2",
+      "name": "picture-2",
+      "type": "image",
+      "bounds": {
+        "x": 550,
+        "y": 195,
+        "width": 225,
+        "height": 220
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-2",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "image-label-2",
+      "name": "image-label-2",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 423,
+        "width": 225,
+        "height": 35
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "資料 3 / Image",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 27.200000000000003,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "picture-3",
+      "name": "picture-3",
+      "type": "image",
+      "bounds": {
+        "x": 805,
+        "y": 195,
+        "width": 225,
+        "height": 220
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-3",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "image-label-3",
+      "name": "image-label-3",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 423,
+        "width": 225,
+        "height": 35
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "資料 4 / Image",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 27.200000000000003,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "picture-4",
+      "name": "picture-4",
+      "type": "image",
+      "bounds": {
+        "x": 40,
+        "y": 485,
+        "width": 225,
+        "height": 220
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-4",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "image-label-4",
+      "name": "image-label-4",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 713,
+        "width": 225,
+        "height": 35
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "資料 5 / Image",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 27.200000000000003,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "picture-5",
+      "name": "picture-5",
+      "type": "image",
+      "bounds": {
+        "x": 295,
+        "y": 485,
+        "width": 225,
+        "height": 220
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-5",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "image-label-5",
+      "name": "image-label-5",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 713,
+        "width": 225,
+        "height": 35
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "資料 6 / Image",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 27.200000000000003,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "picture-6",
+      "name": "picture-6",
+      "type": "image",
+      "bounds": {
+        "x": 550,
+        "y": 485,
+        "width": 225,
+        "height": 220
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-6",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "image-label-6",
+      "name": "image-label-6",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 713,
+        "width": 225,
+        "height": 35
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "資料 7 / Image",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 27.200000000000003,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "picture-7",
+      "name": "picture-7",
+      "type": "image",
+      "bounds": {
+        "x": 805,
+        "y": 485,
+        "width": 225,
+        "height": 220
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "image-7",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "image-label-7",
+      "name": "image-label-7",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 713,
+        "width": 225,
+        "height": 35
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "資料 8 / Image",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 27.200000000000003,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-0",
+      "name": "line-0",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 800,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 00",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-1",
+      "name": "line-1",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 800,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 01",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-2",
+      "name": "line-2",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 800,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 02",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-3",
+      "name": "line-3",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 800,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 03",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-4",
+      "name": "line-4",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 843,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 04",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-5",
+      "name": "line-5",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 843,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 05",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-6",
+      "name": "line-6",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 843,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 06",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-7",
+      "name": "line-7",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 843,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 07",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-8",
+      "name": "line-8",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 886,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 08",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-9",
+      "name": "line-9",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 886,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 09",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-10",
+      "name": "line-10",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 886,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 10",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-11",
+      "name": "line-11",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 886,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 11",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-12",
+      "name": "line-12",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 929,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 12",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-13",
+      "name": "line-13",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 929,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 13",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-14",
+      "name": "line-14",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 929,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 14",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-15",
+      "name": "line-15",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 929,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 15",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-16",
+      "name": "line-16",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 972,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 16",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-17",
+      "name": "line-17",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 972,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 17",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-18",
+      "name": "line-18",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 972,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 18",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-19",
+      "name": "line-19",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 972,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 19",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-20",
+      "name": "line-20",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 1015,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 20",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-21",
+      "name": "line-21",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 1015,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 21",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-22",
+      "name": "line-22",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 1015,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 22",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-23",
+      "name": "line-23",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 1015,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 23",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-24",
+      "name": "line-24",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 1058,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 24",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-25",
+      "name": "line-25",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 1058,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 25",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-26",
+      "name": "line-26",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 1058,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 26",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-27",
+      "name": "line-27",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 1058,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 27",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-28",
+      "name": "line-28",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 1101,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 28",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-29",
+      "name": "line-29",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 1101,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 29",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-30",
+      "name": "line-30",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 1101,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 30",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-31",
+      "name": "line-31",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 1101,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 31",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-32",
+      "name": "line-32",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 1144,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 32",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-33",
+      "name": "line-33",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 1144,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 33",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-34",
+      "name": "line-34",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 1144,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 34",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-35",
+      "name": "line-35",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 1144,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 35",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-36",
+      "name": "line-36",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 1187,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 36",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-37",
+      "name": "line-37",
+      "type": "text",
+      "bounds": {
+        "x": 295,
+        "y": 1187,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 37",
+        "fontId": "bold",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-38",
+      "name": "line-38",
+      "type": "text",
+      "bounds": {
+        "x": 550,
+        "y": 1187,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 38",
+        "fontId": "black",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "line-39",
+      "name": "line-39",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 1187,
+        "width": 225,
+        "height": 32
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "日本語 AB 39",
+        "fontId": "regular",
+        "fontSize": 15,
+        "lineHeight": 24.0,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#203A35"
+      }
+    },
+    {
+      "id": "detail-60",
+      "name": "detail-60",
+      "type": "rect",
+      "bounds": {
+        "x": 40,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-61",
+      "name": "detail-61",
+      "type": "rect",
+      "bounds": {
+        "x": 123,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-62",
+      "name": "detail-62",
+      "type": "rect",
+      "bounds": {
+        "x": 206,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-63",
+      "name": "detail-63",
+      "type": "rect",
+      "bounds": {
+        "x": 289,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-64",
+      "name": "detail-64",
+      "type": "rect",
+      "bounds": {
+        "x": 372,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-65",
+      "name": "detail-65",
+      "type": "rect",
+      "bounds": {
+        "x": 455,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-66",
+      "name": "detail-66",
+      "type": "rect",
+      "bounds": {
+        "x": 538,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-67",
+      "name": "detail-67",
+      "type": "rect",
+      "bounds": {
+        "x": 621,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-68",
+      "name": "detail-68",
+      "type": "rect",
+      "bounds": {
+        "x": 704,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-69",
+      "name": "detail-69",
+      "type": "rect",
+      "bounds": {
+        "x": 787,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-70",
+      "name": "detail-70",
+      "type": "rect",
+      "bounds": {
+        "x": 870,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-71",
+      "name": "detail-71",
+      "type": "rect",
+      "bounds": {
+        "x": 953,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-72",
+      "name": "detail-72",
+      "type": "rect",
+      "bounds": {
+        "x": 40,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-73",
+      "name": "detail-73",
+      "type": "rect",
+      "bounds": {
+        "x": 123,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-74",
+      "name": "detail-74",
+      "type": "rect",
+      "bounds": {
+        "x": 206,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-75",
+      "name": "detail-75",
+      "type": "rect",
+      "bounds": {
+        "x": 289,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-76",
+      "name": "detail-76",
+      "type": "rect",
+      "bounds": {
+        "x": 372,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-77",
+      "name": "detail-77",
+      "type": "rect",
+      "bounds": {
+        "x": 455,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-78",
+      "name": "detail-78",
+      "type": "rect",
+      "bounds": {
+        "x": 538,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-79",
+      "name": "detail-79",
+      "type": "rect",
+      "bounds": {
+        "x": 621,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-80",
+      "name": "detail-80",
+      "type": "rect",
+      "bounds": {
+        "x": 704,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-81",
+      "name": "detail-81",
+      "type": "rect",
+      "bounds": {
+        "x": 787,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-82",
+      "name": "detail-82",
+      "type": "rect",
+      "bounds": {
+        "x": 870,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-83",
+      "name": "detail-83",
+      "type": "rect",
+      "bounds": {
+        "x": 953,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-84",
+      "name": "detail-84",
+      "type": "rect",
+      "bounds": {
+        "x": 40,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-85",
+      "name": "detail-85",
+      "type": "rect",
+      "bounds": {
+        "x": 123,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-86",
+      "name": "detail-86",
+      "type": "rect",
+      "bounds": {
+        "x": 206,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-87",
+      "name": "detail-87",
+      "type": "rect",
+      "bounds": {
+        "x": 289,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-88",
+      "name": "detail-88",
+      "type": "rect",
+      "bounds": {
+        "x": 372,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-89",
+      "name": "detail-89",
+      "type": "rect",
+      "bounds": {
+        "x": 455,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-90",
+      "name": "detail-90",
+      "type": "rect",
+      "bounds": {
+        "x": 538,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-91",
+      "name": "detail-91",
+      "type": "rect",
+      "bounds": {
+        "x": 621,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-92",
+      "name": "detail-92",
+      "type": "rect",
+      "bounds": {
+        "x": 704,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-93",
+      "name": "detail-93",
+      "type": "rect",
+      "bounds": {
+        "x": 787,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-94",
+      "name": "detail-94",
+      "type": "rect",
+      "bounds": {
+        "x": 870,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-95",
+      "name": "detail-95",
+      "type": "rect",
+      "bounds": {
+        "x": 953,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-96",
+      "name": "detail-96",
+      "type": "rect",
+      "bounds": {
+        "x": 40,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-97",
+      "name": "detail-97",
+      "type": "rect",
+      "bounds": {
+        "x": 123,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-98",
+      "name": "detail-98",
+      "type": "rect",
+      "bounds": {
+        "x": 206,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-99",
+      "name": "detail-99",
+      "type": "rect",
+      "bounds": {
+        "x": 289,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-100",
+      "name": "detail-100",
+      "type": "rect",
+      "bounds": {
+        "x": 372,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-101",
+      "name": "detail-101",
+      "type": "rect",
+      "bounds": {
+        "x": 455,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-102",
+      "name": "detail-102",
+      "type": "rect",
+      "bounds": {
+        "x": 538,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-103",
+      "name": "detail-103",
+      "type": "rect",
+      "bounds": {
+        "x": 621,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-104",
+      "name": "detail-104",
+      "type": "rect",
+      "bounds": {
+        "x": 704,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-105",
+      "name": "detail-105",
+      "type": "rect",
+      "bounds": {
+        "x": 787,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-106",
+      "name": "detail-106",
+      "type": "rect",
+      "bounds": {
+        "x": 870,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-107",
+      "name": "detail-107",
+      "type": "rect",
+      "bounds": {
+        "x": 953,
+        "y": 1250,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-108",
+      "name": "detail-108",
+      "type": "rect",
+      "bounds": {
+        "x": 40,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-109",
+      "name": "detail-109",
+      "type": "rect",
+      "bounds": {
+        "x": 123,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-110",
+      "name": "detail-110",
+      "type": "rect",
+      "bounds": {
+        "x": 206,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-111",
+      "name": "detail-111",
+      "type": "rect",
+      "bounds": {
+        "x": 289,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-112",
+      "name": "detail-112",
+      "type": "rect",
+      "bounds": {
+        "x": 372,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-113",
+      "name": "detail-113",
+      "type": "rect",
+      "bounds": {
+        "x": 455,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-114",
+      "name": "detail-114",
+      "type": "rect",
+      "bounds": {
+        "x": 538,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-115",
+      "name": "detail-115",
+      "type": "rect",
+      "bounds": {
+        "x": 621,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-116",
+      "name": "detail-116",
+      "type": "rect",
+      "bounds": {
+        "x": 704,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-117",
+      "name": "detail-117",
+      "type": "rect",
+      "bounds": {
+        "x": 787,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#216B57"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-118",
+      "name": "detail-118",
+      "type": "rect",
+      "bounds": {
+        "x": 870,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#85BDAA"
+      },
+      "cornerRadius": 3
+    },
+    {
+      "id": "detail-119",
+      "name": "detail-119",
+      "type": "rect",
+      "bounds": {
+        "x": 953,
+        "y": 1275,
+        "width": 58,
+        "height": 10
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#DBEEE5"
+      },
+      "cornerRadius": 3
+    }
+  ],
+  "fonts": [
+    {
+      "id": "regular",
+      "nameHint": "Noto Sans JP regular (unmodified OFL fixture)",
+      "state": "resolved",
+      "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    },
+    {
+      "id": "bold",
+      "nameHint": "Noto Sans JP bold (unmodified OFL fixture)",
+      "state": "resolved",
+      "sha256": "1b0edfb500b73a4fa8a4fcaae1bbbd403994e08e73e3e0da37e70d3853f42c5f",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    },
+    {
+      "id": "black",
+      "nameHint": "Noto Sans JP black (unmodified OFL fixture)",
+      "state": "resolved",
+      "sha256": "3aa30b0956510f4205f759ab3079a5b658310ebcda2577f290466ea51c948819",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    }
+  ],
+  "assets": [
+    {
+      "id": "image-0",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "ecd184b009c90c6a30fe9be1f01bbee032ea6514ed145c844de7e427a18236ac",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "image-1",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "106dc90d59703bd41a7b5818014830eb3b54a882c2b0e64785d71fa3b4c5d410",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "image-2",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "bfa4cde6fb4f9fb05547d6c2f02b097b6581fe48ad02c45af2a096bf1ccdc979",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "image-3",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "14c924ed69ce68d8f89cc0b556e80bb5ca2eb7c3f071eb4afc49db3d92550a3d",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "image-4",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "73c1f1c85d7ad286edc39a65a28c062f38e7b9ca899f7d1cef3f8ca0c85c8994",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "image-5",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "8662bf0a44bec180f013c65325de3380fed037858e0cabbeb51a0c2ff8aaeb1a",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "image-6",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "05be53e7e23be42a6b18454007ea186a4b02d1d5c9b7759f865fa92adc2f3cb8",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "image-7",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "ebe33dbc5a788bb4928c2905648defc84f45017658645454c2aa760cf544f8f1",
+      "mimeHint": "image/png"
+    }
+  ],
+  "slots": [
+    {
+      "id": "headline",
+      "type": "text",
+      "required": true,
+      "nodeId": "headline",
+      "target": "text.value",
+      "maxLength": 40
+    }
+  ],
+  "nodeStyles": [
+    {
+      "nodeId": "picture-0",
+      "effects": [
+        {
+          "kind": "shadow",
+          "color": "#102A25",
+          "opacity": 0.28,
+          "offsetX": 2,
+          "offsetY": 4,
+          "blur": 5
+        }
+      ]
+    },
+    {
+      "nodeId": "picture-1",
+      "effects": [
+        {
+          "kind": "shadow",
+          "color": "#102A25",
+          "opacity": 0.28,
+          "offsetX": 2,
+          "offsetY": 4,
+          "blur": 5
+        }
+      ]
+    },
+    {
+      "nodeId": "picture-2",
+      "effects": [
+        {
+          "kind": "shadow",
+          "color": "#102A25",
+          "opacity": 0.28,
+          "offsetX": 2,
+          "offsetY": 4,
+          "blur": 5
+        }
+      ]
+    },
+    {
+      "nodeId": "picture-3",
+      "effects": [
+        {
+          "kind": "shadow",
+          "color": "#102A25",
+          "opacity": 0.28,
+          "offsetX": 2,
+          "offsetY": 4,
+          "blur": 5
+        }
+      ]
+    },
+    {
+      "nodeId": "picture-4",
+      "effects": [
+        {
+          "kind": "shadow",
+          "color": "#102A25",
+          "opacity": 0.28,
+          "offsetX": 2,
+          "offsetY": 4,
+          "blur": 5
+        }
+      ]
+    },
+    {
+      "nodeId": "picture-5",
+      "effects": [
+        {
+          "kind": "shadow",
+          "color": "#102A25",
+          "opacity": 0.28,
+          "offsetX": 2,
+          "offsetY": 4,
+          "blur": 5
+        }
+      ]
+    },
+    {
+      "nodeId": "picture-6",
+      "effects": [
+        {
+          "kind": "shadow",
+          "color": "#102A25",
+          "opacity": 0.28,
+          "offsetX": 2,
+          "offsetY": 4,
+          "blur": 5
+        }
+      ]
+    },
+    {
+      "nodeId": "picture-7",
+      "effects": [
+        {
+          "kind": "shadow",
+          "color": "#102A25",
+          "opacity": 0.28,
+          "offsetX": 2,
+          "offsetY": 4,
+          "blur": 5
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "id": "v1",
+      "label": "Approved QA variant 1",
+      "width": 1080,
+      "height": 1350,
+      "approvalStatus": "approved",
+      "nodePatches": []
+    },
+    {
+      "id": "v2",
+      "label": "Approved QA variant 2",
+      "width": 1080,
+      "height": 1350,
+      "approvalStatus": "approved",
+      "nodePatches": [
+        {
+          "nodeId": "headline",
+          "bounds": {
+            "x": 44,
+            "y": 35,
+            "width": 900,
+            "height": 62
+          }
+        }
+      ]
+    },
+    {
+      "id": "v3",
+      "label": "Approved QA variant 3",
+      "width": 1080,
+      "height": 1350,
+      "approvalStatus": "approved",
+      "nodePatches": [
+        {
+          "nodeId": "headline",
+          "bounds": {
+            "x": 48,
+            "y": 35,
+            "width": 900,
+            "height": 62
+          }
+        }
+      ]
+    }
+  ]
+}

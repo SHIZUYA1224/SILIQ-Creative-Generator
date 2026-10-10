@@ -1,0 +1,117 @@
+name: Offline creative engine
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_BUILD_JOBS: '2'
+
+jobs:
+  contracts-and-ui:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '25.1.0'
+          cache: npm
+      - run: npm ci
+      - name: Generated schema contracts stay in sync
+        run: |
+          npm run contracts
+          git diff --exit-code -- schemas/design.core.schema.json packages/contracts-generated/design.ts
+          test -z "$(git ls-files --others --exclude-standard packages/contracts-generated)"
+      - run: npm run typecheck
+      - run: npm run test:ui
+      - run: npm run build
+
+  core-linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: CPU Skia build prerequisites (development runner only)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang libclang-dev pkg-config libfontconfig1-dev libfreetype-dev
+      - name: Pinned Rust toolchain
+        run: rustup show
+      - run: cargo fmt --all -- --check
+      - name: Headless core lint and tests
+        run: |
+          scripts/cargo-verified.sh clippy --workspace --exclude siliq-desktop --exclude siliq-native-bridge --all-targets --locked -- -D warnings
+          scripts/cargo-verified.sh test --workspace --exclude siliq-desktop --exclude siliq-native-bridge --locked
+      - name: Core release and offline dependency audit
+        run: |
+          scripts/cargo-verified.sh build --release -p render-cli --locked
+          tests/offline/check-deps.sh
+      # Desktop is intentionally excluded: Linux GUI support is not declared,
+      # and this headless job does not install WebKitGTK or build a Tauri app.
+
+  native-macos:
+    # GitHub's official runner table identifies macos-15 as standard arm64.
+    # This matches the checksum-pinned aarch64-apple-darwin Skia archive.
+    runs-on: macos-15
+    needs: contracts-and-ui
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '25.1.0'
+          cache: npm
+      - name: Confirm native architecture and pinned Rust
+        run: |
+          test "$(uname -m)" = arm64
+          rustup show
+      - run: npm ci
+      - name: Retained editor assets required by the shared Rust context
+        run: npm run build
+      - name: Native SwiftUI types
+        run: npm run macos:typecheck
+      - run: cargo fmt --all -- --check
+      - name: Entire native workspace lint and tests
+        run: |
+          scripts/cargo-verified.sh clippy --workspace --all-targets --locked -- -D warnings
+          scripts/cargo-verified.sh test --workspace --locked
+      - name: Source inventory and bundled license texts
+        run: python3 scripts/generate-sbom.py
+      - name: Native SwiftUI release with local ad-hoc Sandbox signature
+        run: npm run desktop:build
+      - name: Native geometry and direct AppKit composition checks
+        run: npm run macos:test
+      - name: Signed App Sandbox persistence and five-format batch probe
+        run: scripts/test-macos-sandbox.sh
+      - name: Release core and offline static audits
+        run: |
+          scripts/cargo-verified.sh build --release -p render-cli --locked
+          tests/offline/check-deps.sh
+          scripts/offline-desktop-audit.sh "target/release/bundle/macos/SILIQ Creative Generator.app" out/desktop-audit
+      - name: Retain build evidence (no public release or notarization)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-macos-build-evidence
+          path: |
+            third_party/sbom-aarch64-apple-darwin.json
+            third_party/NOTICE
+            third_party/license-inventory.json
+            out/desktop-audit/static-audit.json
+            out/desktop-audit/bundle-audit.json
+            out/sandbox-probe/signature-audit.json
+            out/sandbox-probe/entitlements.plist
+            out/sandbox-probe/result.json
+            out/sandbox-probe/probe.log
+            out/sandbox-probe/probe.stderr.log
+          if-no-files-found: error

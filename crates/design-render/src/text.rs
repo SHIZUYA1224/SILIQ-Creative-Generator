@@ -246,15 +246,23 @@ pub fn layout_text(
         .node(node_id)
         .font(&spec.font_id));
     }
-    let missing = missing_glyphs(&spec.value, &font.typeface);
-    if !missing.is_empty() {
-        return Err(Issue::error(
-            Code::GlyphMissing,
-            format!("font {:?} has no glyph for {}", spec.font_id, codepoints(&missing)),
-            "Change the text, or have the author choose a font that covers these characters. No fallback font is used.",
-        )
-        .node(node_id)
-        .font(&spec.font_id));
+    for (chunk, font_id, _) in styled_chunks(spec) {
+        let run_font = fonts.get(font_id).ok_or_else(|| {
+            Issue::error(Code::FontMissing, "declared run font is not loaded", "Resolve the font.")
+                .node(node_id)
+                .font(font_id)
+        })?;
+        let visible: String = chunk.chars().filter(|c| *c != '\u{2060}').collect();
+        let missing = missing_glyphs(&visible, &run_font.typeface);
+        if !missing.is_empty() {
+            return Err(Issue::error(
+                Code::GlyphMissing,
+                format!("font {font_id:?} has no glyph for {}", codepoints(&missing)),
+                "Choose a declared font that covers these characters. No fallback is used.",
+            )
+            .node(node_id)
+            .font(font_id));
+        }
     }
 
     let candidates: Vec<f64> = match spec.overflow_policy {
@@ -272,7 +280,14 @@ pub fn layout_text(
         tried.push(size);
         let mut p = build_paragraph(spec, size, color_rgb, font, fonts);
         p.layout(box_w as f32);
-        verify_runs(&mut p, font, node_id, &spec.font_id)?;
+        let mut allowed = vec![font.typeface.unique_id()];
+        allowed.extend(
+            spec.runs
+                .iter()
+                .filter_map(|r| fonts.get(&r.font_id))
+                .map(|f| f.typeface.unique_id()),
+        );
+        verify_runs_allowed(&mut p, &allowed, node_id, &spec.font_id)?;
         let lines = p.line_number();
         let height = p.height() as f64;
         let longest = p.longest_line() as f64;
@@ -286,7 +301,7 @@ pub fn layout_text(
                 tried_font_sizes: tried,
                 line_count: lines,
                 height,
-                lines: line_infos(&p, &spec.value),
+                lines: line_infos(&p, spec),
             };
             return Ok(LaidOutText { paragraph: p, report });
         }
@@ -393,6 +408,7 @@ fn line_signature(p: &Paragraph) -> Vec<(usize, usize, u64)> {
 }
 
 /// How the glyphs of one paragraph pass are painted.
+#[derive(Clone, Copy)]
 enum Foreground<'a> {
     Color([u8; 3]),
     Paint(&'a Paint),
@@ -417,6 +433,9 @@ fn build_paragraph_with(spec: &TextSpec, size: f64, fg: Foreground, font: &Loade
         .set_height_override(true)
         .set_half_leading(true)
         .set_locale(spec.language.bcp47());
+    for feature in &spec.features {
+        ts.add_font_feature(&feature.tag, feature.value as i32);
+    }
     match fg {
         Foreground::Color(rgb) => {
             ts.set_color(Color::from_rgb(rgb[0], rgb[1], rgb[2]));
@@ -453,13 +472,31 @@ fn build_paragraph_with(spec: &TextSpec, size: f64, fg: Foreground, font: &Loade
 
     let mut b = ParagraphBuilder::new(&ps, fonts.collection.clone());
     b.push_style(&ts);
-    b.add_text(&spec.value);
+    for (chunk, font_id, color) in styled_chunks(spec) {
+        let mut run_style = ts.clone();
+        if let Some(font) = fonts.get(font_id) {
+            run_style.set_font_families(&[font.family_alias.as_str()]);
+        }
+        if matches!(fg, Foreground::Color(_))
+            && let Some(color) = color
+        {
+            let rgb = hex_rgb(color);
+            run_style.set_color(Color::from_rgb(rgb[0], rgb[1], rgb[2]));
+        }
+        b.push_style(&run_style);
+        b.add_text(&chunk);
+        b.pop();
+    }
     b.build()
 }
 
 /// After layout, refuse any run that is not the requested typeface or any
 /// glyph Skia could not resolve — a second guard against silent fallback.
+#[cfg(test)]
 fn verify_runs(p: &mut Paragraph, font: &LoadedFont, node_id: &str, font_id: &str) -> Result<(), Issue> {
+    verify_runs_allowed(p, &[font.typeface.unique_id()], node_id, font_id)
+}
+fn verify_runs_allowed(p: &mut Paragraph, allowed: &[u32], node_id: &str, font_id: &str) -> Result<(), Issue> {
     if p.unresolved_glyphs().unwrap_or(0) > 0 {
         return Err(Issue::error(
             Code::GlyphMissing,
@@ -469,11 +506,10 @@ fn verify_runs(p: &mut Paragraph, font: &LoadedFont, node_id: &str, font_id: &st
         .node(node_id)
         .font(font_id));
     }
-    let want = font.typeface.unique_id();
     let mut foreign = false;
     p.visit(|_, info| {
         if let Some(info) = info
-            && info.font().typeface().unique_id() != want
+            && !allowed.contains(&info.font().typeface().unique_id())
         {
             foreign = true;
         }
@@ -490,18 +526,75 @@ fn verify_runs(p: &mut Paragraph, font: &LoadedFont, node_id: &str, font_id: &st
     Ok(())
 }
 
-fn line_infos(p: &Paragraph, text: &str) -> Vec<LineInfo> {
+fn joins(spec: &TextSpec, c: char, next: char) -> bool {
+    spec.kinsoku == design_model::KinsokuPolicy::StrictJapanese
+        && spec.language == design_model::Language::Ja
+        && c != '\n'
+        && next != '\n'
+        && ("、。，．・：；？！ー々ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ）〕］｝〉》」』】〙〛’”".contains(next)
+            || "（〔［｛〈《「『【〘〚‘“".contains(c))
+}
+
+fn styled_chunks(spec: &TextSpec) -> Vec<(String, &str, Option<&str>)> {
+    let chars: Vec<_> = spec.value.char_indices().collect();
+    let mut chunks: Vec<(String, &str, Option<&str>)> = Vec::new();
+    for (i, (byte, c)) in chars.iter().enumerate() {
+        let run = spec.runs.iter().find(|r| r.start <= *byte && *byte < r.end);
+        let font_id = run.map(|r| r.font_id.as_str()).unwrap_or(&spec.font_id);
+        let color = run.and_then(|r| r.color.as_deref());
+        if chunks.last().is_none_or(|(_, f, col)| *f != font_id || *col != color) {
+            chunks.push((String::new(), font_id, color));
+        }
+        let chunk = &mut chunks.last_mut().unwrap().0;
+        chunk.push(*c);
+        if let Some((_, next)) = chars.get(i + 1)
+            && joins(spec, *c, *next)
+        {
+            chunk.push('\u{2060}');
+        }
+    }
+    if chunks.is_empty() {
+        chunks.push((String::new(), &spec.font_id, None));
+    }
+    chunks
+}
+
+/// Strict-Japanese word-joiner boundaries are derived layout data only. The
+/// authored string stays byte-for-byte unchanged and report offsets refer to it.
+fn layout_string(spec: &TextSpec) -> (String, Vec<(usize, usize)>) {
+    let mut result = String::new();
+    let mut map = vec![(0, 0)];
+    let mut units = 0;
+    let chars: Vec<(usize, char)> = spec.value.char_indices().collect();
+    for (i, (byte, c)) in chars.iter().enumerate() {
+        result.push(*c);
+        units += c.len_utf16();
+        let next_byte = *byte + c.len_utf8();
+        map.push((units, next_byte));
+        if let Some((_, next)) = chars.get(i + 1)
+            && joins(spec, *c, *next)
+        {
+            result.push('\u{2060}');
+            units += 1;
+            map.push((units, next_byte));
+        }
+    }
+    (result, map)
+}
+
+fn line_infos(p: &Paragraph, spec: &TextSpec) -> Vec<LineInfo> {
+    let text = &spec.value;
+    let (_, mapping) = layout_string(spec);
     // SkParagraph reports line indices in UTF-16 code units (verified by the
     // astral-plane test in tests/render.rs); convert them to UTF-8 offsets.
     let to_utf8 = |u16_index: usize| -> usize {
-        let mut units = 0;
-        for (byte, c) in text.char_indices() {
-            if units >= u16_index {
-                return byte;
-            }
-            units += c.len_utf16();
-        }
-        text.len()
+        mapping
+            .iter()
+            .rev()
+            .find(|(units, _)| *units <= u16_index)
+            .map(|(_, byte)| *byte)
+            .unwrap_or(0)
+            .min(text.len())
     };
     p.get_line_metrics()
         .iter()
@@ -559,6 +652,9 @@ mod tests {
             allowed_font_sizes: vec![],
             language: design_model::Language::Ja,
             align: Align::Left,
+            features: vec![],
+            kinsoku: design_model::KinsokuPolicy::Unicode,
+            runs: vec![],
         };
         let mut p = build_paragraph(&spec, 40.0, [0, 0, 0], font, &fonts);
         p.layout(1000.0);

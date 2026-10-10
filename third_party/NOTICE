@@ -1,0 +1,255 @@
+SILIQ Creative Generator — third-party notices
+
+First-party source remains UNLICENSED. This notice does not change its license.
+
+The following dependency versions and upstream license declarations come from
+the locked target-specific normal Cargo graph and installed frontend runtime graph.
+Complete available license texts accompany this notice in licenses/.
+
+Native Skia: tag m153-0.101.2, rust-skia release 0.153.3
+Native archive SHA-256: 75e65a6e374581d59b00519719db1ff4064c256aeac9c4df977366fbcf1ec047
+Skia license: licenses/native/Skia-BSD-3-Clause.txt
+Public-safe Noto Sans JP fixture fonts: public-safe/licenses/NotoSansJP-OFL-1.1.txt
+
+This software is based in part on the work of the Independent JPEG Group.
+Native vendored licenses: licenses/native-vendored/ (Expat, HarfBuzz, ICU,
+libjpeg-turbo, libpng, Wuffs, zlib), with exact source URLs/revisions and hashes
+in native-license-sources.json. Those revisions are Skia DEPS declarations,
+not an attestation of the contents of the prebuilt binary archive.
+
+selectors 0.38.0 (MPL-2.0) corresponding source is included unchanged at
+sources/selectors-0.38.0.crate; its SHA-256 is documented in sources/NOTICE.
+Additional upstream license snapshots and supplemental objc2 full texts
+are documented in upstream-license-sources.json. No license is assigned to
+third-party code beyond its original upstream declaration.
+
+Operating-system frameworks are prerequisites, not redistributed by this app.
+Native vendored library provenance/CVE review is tracked separately; the SBOM
+does not claim to prove the complete C/C++ contents of a prebuilt archive.
+
+cargo: adler2 2.0.1 — 0BSD OR MIT OR Apache-2.0
+cargo: aho-corasick 1.1.5 — Unlicense OR MIT
+cargo: alloc-no-stdlib 3.0.0 — BSD-3-Clause
+cargo: alloc-stdlib 0.3.0 — BSD-3-Clause
+cargo: anyhow 1.0.104 — MIT OR Apache-2.0
+cargo: base64 0.21.7 — MIT OR Apache-2.0
+cargo: base64 0.22.1 — MIT OR Apache-2.0
+cargo: base64 0.23.1 — MIT OR Apache-2.0
+cargo: bit-set 0.8.0 — Apache-2.0 OR MIT
+cargo: bit-vec 0.8.0 — Apache-2.0 OR MIT
+cargo: bitflags 1.3.2 — MIT/Apache-2.0
+cargo: bitflags 2.13.2 — MIT OR Apache-2.0
+cargo: block-buffer 0.10.4 — MIT OR Apache-2.0
+cargo: block-buffer 0.12.1 — MIT OR Apache-2.0
+cargo: block2 0.6.2 — MIT
+cargo: brotli 9.0.0 — BSD-3-Clause AND MIT
+cargo: brotli-decompressor 6.0.1 — BSD-3-Clause/MIT
+cargo: byteorder 1.5.0 — Unlicense OR MIT
+cargo: byteorder-lite 0.1.0 — Unlicense OR MIT
+cargo: bytes 1.12.1 — MIT
+cargo: camino 1.2.6 — MIT OR Apache-2.0
+cargo: cargo-platform 0.1.9 — MIT OR Apache-2.0
+cargo: cargo_metadata 0.19.2 — MIT
+cargo: cfb 0.14.0 — MIT
+cargo: cfg-if 1.0.5 — MIT OR Apache-2.0
+cargo: cookie 0.18.2 — MIT OR Apache-2.0
+cargo: core-foundation 0.10.1 — MIT OR Apache-2.0
+cargo: core-foundation-sys 0.8.7 — MIT OR Apache-2.0
+cargo: core-graphics 0.25.0 — MIT OR Apache-2.0
+cargo: core-graphics-types 0.2.0 — MIT OR Apache-2.0
+cargo: cpufeatures 0.2.17 — MIT OR Apache-2.0
+cargo: cpufeatures 0.3.1 — MIT OR Apache-2.0
+cargo: crc32fast 1.5.2 — MIT OR Apache-2.0
+cargo: crossbeam-channel 0.5.17 — MIT OR Apache-2.0
+cargo: crossbeam-utils 0.8.23 — MIT OR Apache-2.0
+cargo: crypto-common 0.1.7 — MIT OR Apache-2.0
+cargo: crypto-common 0.2.2 — MIT OR Apache-2.0
+cargo: cssparser 0.37.0 — MPL-2.0
+cargo: cssparser-macros 0.7.1 — MPL-2.0
+cargo: ctor 1.0.13 — Apache-2.0 OR MIT
+cargo: darling 0.24.1 — MIT
+cargo: darling_core 0.24.1 — MIT
+cargo: darling_macro 0.24.1 — MIT
+cargo: deranged 0.5.8 — MIT OR Apache-2.0
+cargo: derive_more 2.1.1 — MIT
+cargo: derive_more-impl 2.1.1 — MIT
+cargo: digest 0.10.7 — MIT OR Apache-2.0
+cargo: digest 0.11.3 — MIT OR Apache-2.0
+cargo: dirs 7.0.0 — MIT OR Apache-2.0
+cargo: dirs-sys 0.5.0 — MIT OR Apache-2.0
+cargo: dispatch2 0.3.1 — Zlib OR Apache-2.0 OR MIT
+cargo: displaydoc 0.2.7 — MIT OR Apache-2.0
+cargo: dom_query 0.28.0 — MIT
+cargo: dpi 0.1.2 — Apache-2.0 AND MIT
+cargo: dtoa 1.0.11 — MIT OR Apache-2.0
+cargo: dtoa-short 0.3.5 — MPL-2.0
+cargo: dunce 1.0.5 — CC0-1.0 OR MIT-0 OR Apache-2.0
+cargo: dyn-clone 1.0.20 — MIT OR Apache-2.0
+cargo: embed_plist 1.2.2 — MIT OR Apache-2.0
+cargo: equivalent 1.0.2 — Apache-2.0 OR MIT
+cargo: erased-serde 0.4.10 — MIT OR Apache-2.0
+cargo: errno 0.3.14 — MIT OR Apache-2.0
+cargo: fastrand 2.5.0 — Apache-2.0 OR MIT
+cargo: fdeflate 0.3.7 — MIT OR Apache-2.0
+cargo: flate2 1.1.10 — MIT OR Apache-2.0
+cargo: fnv 1.0.7 — Apache-2.0 / MIT
+cargo: foldhash 0.2.0 — Zlib
+cargo: foreign-types 0.5.0 — MIT/Apache-2.0
+cargo: foreign-types-macros 0.2.4 — MIT/Apache-2.0
+cargo: foreign-types-shared 0.3.1 — MIT/Apache-2.0
+cargo: form_urlencoded 1.2.2 — MIT OR Apache-2.0
+cargo: generic-array 0.14.7 — MIT
+cargo: getrandom 0.3.4 — MIT OR Apache-2.0
+cargo: getrandom 0.4.3 — MIT OR Apache-2.0
+cargo: glob 0.3.4 — MIT OR Apache-2.0
+cargo: hashbrown 0.12.3 — MIT OR Apache-2.0
+cargo: hashbrown 0.17.1 — MIT OR Apache-2.0
+cargo: heck 0.5.0 — MIT OR Apache-2.0
+cargo: html5ever 0.39.0 — MIT OR Apache-2.0
+cargo: http 1.5.0 — MIT OR Apache-2.0
+cargo: hybrid-array 0.4.15 — MIT OR Apache-2.0
+cargo: ico 0.5.0 — MIT
+cargo: icu_collections 2.3.0 — Unicode-3.0
+cargo: icu_locale_core 2.3.0 — Unicode-3.0
+cargo: icu_normalizer 2.3.0 — Unicode-3.0
+cargo: icu_normalizer_data 2.3.0 — Unicode-3.0
+cargo: icu_properties 2.3.0 — Unicode-3.0
+cargo: icu_properties_data 2.3.0 — Unicode-3.0
+cargo: icu_provider 2.3.1 — Unicode-3.0
+cargo: ident_case 1.0.1 — MIT/Apache-2.0
+cargo: idna 1.1.0 — MIT OR Apache-2.0
+cargo: idna_adapter 1.2.2 — Apache-2.0 OR MIT
+cargo: image-webp 0.2.4 — MIT OR Apache-2.0
+cargo: indexmap 1.9.3 — Apache-2.0 OR MIT
+cargo: indexmap 2.14.2 — Apache-2.0 OR MIT
+cargo: infer 0.22.0 — MIT
+cargo: itoa 1.0.18 — MIT OR Apache-2.0
+cargo: json-patch 4.2.0 — MIT/Apache-2.0
+cargo: jsonptr 0.7.1 — MIT OR Apache-2.0
+cargo: keyboard-types 0.8.3 — MIT OR Apache-2.0
+cargo: libc 0.2.190 — MIT OR Apache-2.0
+cargo: litemap 0.8.3 — Unicode-3.0
+cargo: lock_api 0.4.14 — MIT OR Apache-2.0
+cargo: log 0.4.34 — MIT OR Apache-2.0
+cargo: markup5ever 0.39.0 — MIT OR Apache-2.0
+cargo: memchr 2.8.3 — Unlicense OR MIT
+cargo: mime 0.3.17 — MIT OR Apache-2.0
+cargo: miniz_oxide 0.8.9 — MIT OR Zlib OR Apache-2.0
+cargo: miniz_oxide 0.9.1 — MIT OR Zlib OR Apache-2.0
+cargo: muda 0.20.0 — Apache-2.0 OR MIT
+cargo: new_debug_unreachable 1.0.6 — MIT
+cargo: num-conv 0.2.2 — MIT OR Apache-2.0
+cargo: objc2 0.6.5 — MIT
+cargo: objc2-app-kit 0.3.2 — Zlib OR Apache-2.0 OR MIT
+cargo: objc2-core-foundation 0.3.2 — Zlib OR Apache-2.0 OR MIT
+cargo: objc2-encode 4.1.0 — MIT
+cargo: objc2-exception-helper 0.1.1 — Zlib OR Apache-2.0 OR MIT
+cargo: objc2-foundation 0.3.2 — MIT
+cargo: objc2-quartz-core 0.3.2 — Zlib OR Apache-2.0 OR MIT
+cargo: objc2-web-kit 0.3.2 — Zlib OR Apache-2.0 OR MIT
+cargo: once_cell 1.21.4 — MIT OR Apache-2.0
+cargo: option-ext 0.2.0 — MPL-2.0
+cargo: parking_lot 0.12.5 — MIT OR Apache-2.0
+cargo: parking_lot_core 0.9.12 — MIT OR Apache-2.0
+cargo: percent-encoding 2.3.2 — MIT OR Apache-2.0
+cargo: phf 0.13.1 — MIT
+cargo: phf_generator 0.13.1 — MIT
+cargo: phf_macros 0.13.1 — MIT
+cargo: phf_shared 0.13.1 — MIT
+cargo: pin-project-lite 0.2.17 — Apache-2.0 OR MIT
+cargo: plist 1.10.1 — MIT
+cargo: png 0.17.16 — MIT OR Apache-2.0
+cargo: png 0.18.1 — MIT OR Apache-2.0
+cargo: potential_utf 0.1.6 — Unicode-3.0
+cargo: powerfmt 0.2.1 — MIT OR Apache-2.0
+cargo: precomputed-hash 0.1.1 — MIT
+cargo: proc-macro2 1.0.107 — MIT OR Apache-2.0
+cargo: quick-error 2.0.1 — MIT/Apache-2.0
+cargo: quick-xml 0.42.0 — MIT
+cargo: quote 1.0.47 — MIT OR Apache-2.0
+cargo: raw-window-handle 0.6.2 — MIT OR Apache-2.0 OR Zlib
+cargo: regex 1.13.1 — MIT OR Apache-2.0
+cargo: regex-automata 0.4.18 — MIT OR Apache-2.0
+cargo: regex-syntax 0.8.11 — MIT OR Apache-2.0
+cargo: rfd 0.16.0 — MIT
+cargo: roxmltree 0.21.1 — MIT OR Apache-2.0
+cargo: rustc-hash 2.1.3 — Apache-2.0 OR MIT
+cargo: rustix 1.1.5 — Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+cargo: same-file 1.0.6 — Unlicense/MIT
+cargo: schemars 0.8.22 — MIT
+cargo: schemars_derive 0.8.22 — MIT
+cargo: scopeguard 1.2.0 — MIT OR Apache-2.0
+cargo: selectors 0.38.0 — MPL-2.0
+cargo: semver 1.0.28 — MIT OR Apache-2.0
+cargo: serde 1.0.229 — MIT OR Apache-2.0
+cargo: serde-untagged 0.1.9 — MIT OR Apache-2.0
+cargo: serde_core 1.0.229 — MIT OR Apache-2.0
+cargo: serde_derive 1.0.229 — MIT OR Apache-2.0
+cargo: serde_derive_internals 0.29.1 — MIT OR Apache-2.0
+cargo: serde_json 1.0.151 — MIT OR Apache-2.0
+cargo: serde_repr 0.1.21 — MIT OR Apache-2.0
+cargo: serde_spanned 1.1.2 — MIT OR Apache-2.0
+cargo: serde_with 3.24.0 — MIT OR Apache-2.0
+cargo: serde_with_macros 3.24.0 — MIT OR Apache-2.0
+cargo: serialize-to-javascript 0.1.2 — MIT OR Apache-2.0
+cargo: serialize-to-javascript-impl 0.1.2 — MIT OR Apache-2.0
+cargo: servo_arc 0.4.3 — MIT OR Apache-2.0
+cargo: sha2 0.10.9 — MIT OR Apache-2.0
+cargo: sha2 0.11.0 — MIT OR Apache-2.0
+cargo: simd-adler32 0.3.10 — MIT
+cargo: siphasher 1.0.4 — MIT OR Apache-2.0
+cargo: skia-bindings 0.153.3 — MIT
+cargo: skia-safe 0.153.3 — MIT
+cargo: smallvec 1.16.3 — MIT OR Apache-2.0
+cargo: stable_deref_trait 1.2.1 — MIT OR Apache-2.0
+cargo: string_cache 0.9.0 — MIT OR Apache-2.0
+cargo: strsim 0.11.1 — MIT
+cargo: swift-rs 1.0.8 — MIT OR Apache-2.0
+cargo: syn 2.0.119 — MIT OR Apache-2.0
+cargo: syn 3.0.7 — MIT OR Apache-2.0
+cargo: synstructure 0.14.0 — MIT
+cargo: tao 0.37.1 — Apache-2.0
+cargo: tauri 2.12.2 — Apache-2.0 OR MIT
+cargo: tauri-codegen 2.7.1 — Apache-2.0 OR MIT
+cargo: tauri-macros 2.7.1 — Apache-2.0 OR MIT
+cargo: tauri-plugin-dialog 2.8.1 — Apache-2.0 OR MIT
+cargo: tauri-plugin-fs 2.6.0 — Apache-2.0 OR MIT
+cargo: tauri-runtime 2.12.1 — Apache-2.0 OR MIT
+cargo: tauri-runtime-wry 2.12.1 — Apache-2.0 OR MIT
+cargo: tauri-utils 2.10.1 — Apache-2.0 OR MIT
+cargo: tendril 0.5.1 — MIT OR Apache-2.0
+cargo: thiserror 2.0.21 — MIT OR Apache-2.0
+cargo: thiserror-impl 2.0.21 — MIT OR Apache-2.0
+cargo: time 0.3.55 — MIT OR Apache-2.0
+cargo: time-core 0.1.9 — MIT OR Apache-2.0
+cargo: time-macros 0.2.32 — MIT OR Apache-2.0
+cargo: tinystr 0.8.4 — Unicode-3.0
+cargo: tokio 1.53.2 — MIT
+cargo: toml 1.1.8+spec-1.1.0 — MIT OR Apache-2.0
+cargo: toml_datetime 1.1.2+spec-1.1.0 — MIT OR Apache-2.0
+cargo: toml_parser 1.1.5+spec-1.1.0 — MIT OR Apache-2.0
+cargo: toml_writer 1.1.3+spec-1.1.0 — MIT OR Apache-2.0
+cargo: typed-path 0.12.3 — MIT OR Apache-2.0
+cargo: typeid 1.0.3 — MIT OR Apache-2.0
+cargo: typenum 1.20.1 — MIT OR Apache-2.0
+cargo: unicode-ident 1.0.26 — (MIT OR Apache-2.0) AND Unicode-3.0
+cargo: url 2.5.8 — MIT OR Apache-2.0
+cargo: urlpattern 0.6.0 — MIT
+cargo: utf8_iter 1.0.4 — Apache-2.0 OR MIT
+cargo: uuid 1.28.0 — Apache-2.0 OR MIT
+cargo: walkdir 2.5.0 — Unlicense/MIT
+cargo: web-time 1.1.0 — MIT OR Apache-2.0
+cargo: web_atoms 0.2.6 — MIT OR Apache-2.0
+cargo: window-vibrancy 0.8.1 — Apache-2.0 OR MIT
+cargo: winnow 1.0.4 — MIT
+cargo: writeable 0.6.4 — Unicode-3.0
+cargo: wry 0.57.0 — Apache-2.0 OR MIT
+cargo: yoke 0.8.3 — Unicode-3.0
+cargo: yoke-derive 0.8.4 — Unicode-3.0
+cargo: zerofrom 0.1.8 — Unicode-3.0
+cargo: zerofrom-derive 0.1.8 — Unicode-3.0
+cargo: zerotrie 0.2.5 — Unicode-3.0
+cargo: zerovec 0.11.8 — Unicode-3.0
+cargo: zerovec-derive 0.11.6 — Unicode-3.0
+cargo: zip 8.6.0 — MIT
+cargo: zmij 1.0.23 — MIT

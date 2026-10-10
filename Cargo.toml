@@ -1,11 +1,16 @@
 [workspace]
 resolver = "3"
 members = [
+  "crates/native-bridge",
     "crates/design-model",
     "crates/design-edit",
     "crates/design-svg",
     "crates/design-render",
-    "crates/render-cli", "crates/job-runner", "crates/design-edit",
+    "crates/render-cli",
+    "crates/job-runner",
+    "apps/desktop/src-tauri",
+    "crates/project-store",
+    "crates/design-export",
 ]
 
 [workspace.package]
@@ -35,3 +40,6 @@ design-edit = { path = "crates/design-edit" }
 design-svg = { path = "crates/design-svg" }
 design-render = { path = "crates/design-render" }
 job-runner = { path = "crates/job-runner" }
+project-store = { path = "crates/project-store" }
+design-export = { path = "crates/design-export" }
+image-webp = { version = "=0.2.4", default-features = false }

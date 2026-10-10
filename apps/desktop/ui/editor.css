@@ -1,0 +1,52 @@
+.saved-jobs { margin: 24px 0; padding-top: 10px; border-top: 1px solid #e1e8d9; }
+.saved-job-row { display: flex; gap: 12px; }
+.saved-job-row select { flex: 1; }
+.saved-job-row button { flex-shrink: 0; }
+.template-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.node-resize-handle { position: absolute; width: 10px; height: 10px; right: -5px; bottom: -5px; padding: 0; border: 1px solid #54886d; background: #fff; cursor: nwse-resize; z-index: 3; touch-action: none; }
+.ruler-horizontal { position: absolute; left: 0; right: 0; top: -20px; height: 15px; display: flex; justify-content: space-between; color: #94a086; font-size: 7px; pointer-events: none; }
+.ruler-vertical { position: absolute; left: -24px; top: 0; bottom: 0; width: 18px; display: flex; flex-direction: column; justify-content: space-between; color: #94a086; font-size: 7px; pointer-events: none; }
+.guide-line { position: absolute; pointer-events: none; background: #4b947b88; z-index: 102; }
+.guide-line.horizontal { height: 1px; width: 100%; }
+.guide-line.vertical { width: 1px; height: 100%; }
+.brand-color-row { display: flex; align-items: center; gap: 7px; margin: 8px 0; }
+.brand-color-row>input { width: 30px; flex-shrink: 0; }
+.brand-color-row>.field { flex: 1; min-width: 0; margin-bottom: 0; }
+.brand-color-row>.field>span { display: none; }
+.brand-color-row>.field input { font-size: 9px; padding: 6px; }
+.brand-color-row>button { font-size: 9px; padding: 2px; color: #668158; }
+.brand-style-row { display: flex; align-items: center; gap: 7px; margin-top: 12px; }
+.brand-style-row>.field { flex: 1; margin: 0; }
+.brand-style-row>button { font-size: 9px; color: #668158; padding: 2px; }
+.format-options { display: flex; flex-wrap: wrap; gap: 0 14px; }
+.settings-modal { width: 680px; }
+.storage-path { font-family: monospace; font-size: 10px; overflow-wrap: anywhere; background: #f5f8ef; border: 1px solid #e0e8d5; padding: 10px; border-radius: 5px; color: #829573; }
+.storage-rows { margin: 20px 0; }
+.storage-rows>div { display: flex; gap: 14px; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid #e7eddd; }
+.storage-rows>div>svg { color: #7c9567; margin-top: 3px; }
+.storage-rows>div>div { flex: 1; }
+.storage-rows strong { display: block; font-size: 12px; }
+.storage-rows span { color: #899e76; font-size: 10px; display: block; margin-top: 3px; }
+.storage-rows p { color: #a1af91; font-size: 9px; margin-top: 7px; }
+.confirmation-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }
+.layer-actions { display: flex; padding: 0 14px 10px; gap: 3px; border-bottom: 1px solid #e9ede3; }
+
+.candidate-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px; }
+.candidate-card { margin:0;background:#f5f8ef;border:1px solid #e0e8d7;border-radius:5px;overflow:hidden; }
+.candidate-card>div { height:120px;display:flex;align-items:center;justify-content:center;color:#7f916e;font-size:9px; }
+.candidate-card img { width:100%;height:100%;object-fit:contain; }
+.candidate-card figcaption { padding:8px;font-size:8px;overflow-wrap:anywhere; }
+.candidate-card strong,.candidate-card small { display:block;margin-bottom:4px; }
+.candidate-pagination { display:flex;justify-content:space-between;align-items:center;font-size:10px;margin:12px 0; }
+.candidate-pagination button,.text-run button { font-size:10px;border:1px solid #dae4cc;padding:5px 9px;border-radius:4px; }
+.text-run { display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:9px;margin-top:8px; }
+:focus-visible { outline:2px solid #39735b;outline-offset:2px; }
+
+.artboard-surround { position:relative;margin:20px 24px 0; }
+.guide-controls { display:flex;gap:16px;font-size:9px;color:#6e8560;margin:4px 0; }
+.guide-controls label { display:flex;align-items:center;gap:6px; }
+.guide-controls input { width:55px;padding:3px;border:1px solid #dce4d1;border-radius:4px;font-size:9px;background:#fff; }
+.artboard-caption button { font-size:9px;padding:2px 6px;border-radius:4px;background:#e2e8db; }
+
+.issue-diagnostic { margin:6px 0;font-size:9px;color:#8b805f; }
+.issue-diagnostic summary { cursor:pointer; }

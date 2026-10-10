@@ -14,17 +14,19 @@ pub mod resources;
 pub mod text;
 
 use design_model::{
-    AssetKind, Code, DesignDocument, Issue, Issues, MimeHint, Node, Paint, ResolveState, has_errors, load_document, require_approved,
-    resolve_variant,
+    AssetKind, BlendMode, Code, DesignDocument, Issue, Issues, MimeHint, Node, NodeEffect, NodeStyle, Paint, PathRule, ResolveState,
+    Stroke, has_errors, load_document, require_approved, resolve_variant,
 };
 use design_svg::{Fill, FillRule, Segment, VectorArt};
 use resources::{MAX_IMAGE_BYTES, ResourceStore, sha256_hex};
 use serde::Serialize;
+use skia_safe::canvas::SaveLayerRec;
 use skia_safe::gradient::{self, Gradient, Interpolation, interpolation};
 use skia_safe::textlayout::Paragraph;
 use skia_safe::{
-    AlphaType, Canvas, ClipOp, Color, Color4f, ColorSpace, ColorType, FilterMode, Image, ImageInfo, Matrix, MipmapMode, Paint as SkPaint,
-    PaintStyle, PathBuilder, PathFillType, RRect, Rect, SamplingOptions, Shader, TileMode, png_encoder, shaders, surfaces,
+    AlphaType, Canvas, ClipOp, Color, Color4f, ColorSpace, ColorType, FilterMode, Image, ImageFilter, ImageInfo, Matrix, MipmapMode,
+    Paint as SkPaint, PaintStyle, Path, PathBuilder, PathFillType, RRect, Rect, SamplingOptions, Shader, TileMode, image_filters,
+    png_encoder, shaders, surfaces,
 };
 use std::collections::HashMap;
 use text::{FontBackend, FontSet, TextReport, layout_text};
@@ -37,6 +39,7 @@ pub const MAX_OUTPUT_PIXELS: f64 = 64.0 * 1024.0 * 1024.0;
 #[serde(rename_all = "camelCase")]
 pub struct RenderProfile {
     pub engine: &'static str,
+    pub build_fingerprint: &'static str,
     pub skia_bindings: &'static str,
     pub surface: &'static str,
     pub color_space: &'static str,
@@ -48,7 +51,8 @@ pub struct RenderProfile {
 }
 
 pub const RENDER_PROFILE: RenderProfile = RenderProfile {
-    engine: "siliq design-render 0.0.1 (CPU raster)",
+    engine: "siliq design-render 0.4-core (CPU raster)",
+    build_fingerprint: env!("SILIQ_RENDER_BUILD_FINGERPRINT"),
     skia_bindings: "0.153.3",
     surface: "RGBA8888, premultiplied alpha, transparent initial pixels",
     color_space: "sRGB",
@@ -98,6 +102,8 @@ pub struct RenderReport {
 
 pub struct RenderOutput {
     pub png: Vec<u8>,
+    /// Straight RGBA8 / sRGB pixels. Row stride is width * 4.
+    pub rgba: Vec<u8>,
     pub report: RenderReport,
 }
 
@@ -107,17 +113,33 @@ enum Op {
     Push {
         matrix: Matrix,
         opacity: f32,
+        blend: skia_safe::BlendMode,
+        filter: Option<ImageFilter>,
+        clip: Option<Path>,
+        isolate: bool,
     },
     Pop,
+    Mask {
+        path: Path,
+        opacity: f32,
+        invert: bool,
+    },
+    Path {
+        path: Path,
+        fill: PaintSpec,
+        stroke: Option<Stroke>,
+    },
     Rect {
         rect: Rect,
         radius: f32,
         fill: PaintSpec,
+        stroke: Option<Stroke>,
     },
     Image {
         image: Image,
         dst: Rect,
-        clip: Rect,
+        clip: Option<Rect>,
+        color_filter: Option<skia_safe::ColorFilter>,
     },
     /// Paragraph passes in paint order (shadow, outline, fill), each with its offset.
     Text {
@@ -132,6 +154,12 @@ enum Op {
 }
 
 enum PaintSpec {
+    Radial {
+        center: (f32, f32),
+        radius: f32,
+        colors: Vec<Color4f>,
+        pos: Vec<f32>,
+    },
     Solid(Color4f),
     Linear {
         start: (f32, f32),
@@ -167,7 +195,7 @@ pub fn render(doc_bytes: &[u8], variant_id: &str, store: &ResourceStore) -> Resu
 
 pub fn render_with(doc_bytes: &[u8], variant_id: &str, store: &ResourceStore, options: RenderOptions) -> Result<RenderOutput, Issues> {
     let doc = load_document(doc_bytes)?;
-    render_validated(&doc, variant_id, store, options)
+    render_validated(&doc, variant_id, store, options, true)
 }
 
 /// Render an in-memory document (e.g. a template with a data row bound).
@@ -182,12 +210,35 @@ pub fn render_document(
     if has_errors(&issues) {
         return Err(issues);
     }
-    render_validated(doc, variant_id, store, options)
+    render_validated(doc, variant_id, store, options, true)
 }
 
-fn render_validated(doc: &DesignDocument, variant_id: &str, store: &ResourceStore, options: RenderOptions) -> Result<RenderOutput, Issues> {
+/// Native authoring preview uses the same CPU renderer but permits draft variants.
+/// Production export functions continue to require explicit author approval.
+pub fn render_preview_document(
+    doc: &DesignDocument,
+    variant_id: &str,
+    store: &ResourceStore,
+    options: RenderOptions,
+) -> Result<RenderOutput, Issues> {
+    let issues = design_model::validate(doc);
+    if has_errors(&issues) {
+        return Err(issues);
+    }
+    render_validated(doc, variant_id, store, options, false)
+}
+
+fn render_validated(
+    doc: &DesignDocument,
+    variant_id: &str,
+    store: &ResourceStore,
+    options: RenderOptions,
+    approved_only: bool,
+) -> Result<RenderOutput, Issues> {
     let variant = resolve_variant(doc, variant_id).map_err(|i| vec![i])?;
-    require_approved(&variant).map_err(|i| vec![i])?;
+    if approved_only {
+        require_approved(&variant).map_err(|i| vec![i])?;
+    }
 
     let (w, h) = (variant.width, variant.height);
     if w.fract() != 0.0 || h.fract() != 0.0 {
@@ -211,6 +262,14 @@ fn render_validated(doc: &DesignDocument, variant_id: &str, store: &ResourceStor
         ]);
     }
 
+    let max_effects = doc.node_styles.iter().map(|s| s.effects.len()).max().unwrap_or(0);
+    if w * h * 4.0 * (3.0 + 2.0 * max_effects as f64) > 1024.0 * 1024.0 * 1024.0 {
+        return Err(vec![Issue::error(
+            Code::ResourceLimit,
+            "render working set exceeds the 1 GiB reservation",
+            "Reduce dimensions or the number of effects.",
+        )]);
+    }
     let nodes: HashMap<&str, &Node> = variant.nodes.iter().map(|n| (n.id(), n)).collect();
     let order = draw_order(doc, &nodes);
 
@@ -225,9 +284,16 @@ fn render_validated(doc: &DesignDocument, variant_id: &str, store: &ResourceStor
             _ => None,
         })
         .collect();
+    for n in &order {
+        if let Node::Text { text, .. } = n {
+            font_ids.extend(text.runs.iter().map(|r| r.font_id.as_str()));
+        }
+    }
     font_ids.sort();
     font_ids.dedup();
     let decls: Vec<_> = doc.fonts.iter().filter(|f| font_ids.contains(&f.id.as_str())).collect();
+    reserve_before_decode(doc, &nodes, &order, &variant.node_styles, &decls, store, w, h)
+        .map_err(|issue| vec![issue.variant(variant_id)])?;
     let fonts = match FontSet::load_with(&decls, store, options.font_backend) {
         Ok(f) => Some(f),
         Err(mut e) => {
@@ -255,6 +321,21 @@ fn render_validated(doc: &DesignDocument, variant_id: &str, store: &ResourceStor
         }
     }
 
+    let decoded_bytes: u64 = prepared
+        .values()
+        .filter_map(|a| match a {
+            Prepared::Image(i) => Some(i.width() as u64 * i.height() as u64 * 4),
+            _ => None,
+        })
+        .sum();
+    if w * h * 4.0 * (3.0 + 2.0 * max_effects as f64) + decoded_bytes as f64 + store.snapshot_size() as f64 > 1024.0 * 1024.0 * 1024.0 {
+        issues.push(Issue::error(
+            Code::ResourceLimit,
+            "native surfaces, decoded images and snapshot bytes exceed 1 GiB",
+            "Reduce original image sizes or output dimensions.",
+        ));
+    }
+    check_logo_clearspace(doc, &nodes, &prepared, &variant.node_styles, w, h, &mut issues);
     // ---- resolve text and geometry
     let mut text_reports = Vec::new();
     let mut ops = Vec::new();
@@ -268,6 +349,7 @@ fn render_validated(doc: &DesignDocument, variant_id: &str, store: &ResourceStor
             &mut text_reports,
             &mut issues,
             &mut warnings,
+            &variant.node_styles,
         );
     }
     if has_errors(&issues) || fonts.is_none() {
@@ -280,7 +362,7 @@ fn render_validated(doc: &DesignDocument, variant_id: &str, store: &ResourceStor
     }
 
     // ---- draw
-    let png = draw(&ops, w as i32, h as i32).map_err(|i| vec![i])?;
+    let (png, rgba) = draw(&ops, w as i32, h as i32).map_err(|i| vec![i])?;
     asset_uses.sort_by(|a, b| a.id.cmp(&b.id));
     let report = RenderReport {
         document_id: doc.document_id.clone(),
@@ -307,7 +389,98 @@ fn render_validated(doc: &DesignDocument, variant_id: &str, store: &ResourceStor
         warnings,
         output_sha256: sha256_hex(&png),
     };
-    Ok(RenderOutput { png, report })
+    Ok(RenderOutput { png, rgba, report })
+}
+
+#[allow(clippy::too_many_arguments)]
+fn reserve_before_decode(
+    doc: &DesignDocument,
+    nodes: &HashMap<&str, &Node>,
+    order: &[&Node],
+    styles: &[NodeStyle],
+    fonts: &[&design_model::Font],
+    store: &ResourceStore,
+    width: f64,
+    height: f64,
+) -> Result<(), Issue> {
+    fn depth(id: &str, nodes: &HashMap<&str, &Node>, styles: &[NodeStyle], held: usize) -> usize {
+        let node = nodes[id];
+        if !node.common().3 {
+            return held;
+        }
+        let style = styles.iter().find(|s| s.node_id == id);
+        let effects = style.map(|s| s.effects.len()).unwrap_or(0);
+        let mask = style.is_some_and(|s| s.mask.is_some());
+        let layer = node.common().2 < 1.0 || effects > 0 || mask || style.is_some_and(|s| s.blend_mode != BlendMode::Normal);
+        let held = held + usize::from(layer);
+        let glyph_effect = matches!(node, Node::Text { shadow: Some(_), .. });
+        let mut maximum = held + 2 * effects + usize::from(mask) + usize::from(glyph_effect);
+        if let Node::Group { child_ids, .. } = node {
+            for child in child_ids {
+                maximum = maximum.max(depth(child, nodes, styles, held));
+            }
+        }
+        maximum
+    }
+    let surface = (width * height * 4.0) as u64;
+    let layers = depth(&doc.base_artboard.root_node_id, nodes, styles, 0);
+    let mut estimated = surface.saturating_mul(3 + layers as u64) + 64 * 1024 * 1024;
+    for font in fonts {
+        if let Some(sha) = &font.sha256
+            && let Ok((bytes, _)) = store.read("fonts", sha, &["otf", "ttf", "ttc"], resources::MAX_FONT_BYTES)
+        {
+            estimated = estimated.saturating_add(bytes.len() as u64 * 2);
+        }
+    }
+    let mut assets = std::collections::HashSet::new();
+    let mut largest_decode = 0u64;
+    for node in order {
+        let (Node::Image { id, asset_id, .. } | Node::Logo { id, asset_id, .. }) = node else {
+            continue;
+        };
+        if !assets.insert(asset_id.as_str()) {
+            continue;
+        }
+        let Some(asset) = doc.assets.iter().find(|a| a.id == *asset_id) else {
+            continue;
+        };
+        let Some(sha) = &asset.sha256 else {
+            continue;
+        };
+        let Ok((bytes, _)) = store.read("assets", sha, &[asset.mime_hint.extension()], MAX_IMAGE_BYTES) else {
+            continue;
+        };
+        if asset.kind == AssetKind::Vector {
+            estimated = estimated.saturating_add(bytes.len() as u64 * 64);
+        } else {
+            match raster::probe_dimensions(&bytes, asset.mime_hint) {
+                Ok((w, h)) => {
+                    let pixels = u64::from(w) * u64::from(h) * 4;
+                    estimated = estimated.saturating_add(pixels);
+                    largest_decode = largest_decode.max(pixels);
+                }
+                Err(issue) if issue.code == Code::ResourceLimit => return Err(issue.node(id)),
+                Err(_) => {} // Normal preflight reports the malformed input, alongside other problems.
+            }
+        }
+        if estimated > 1024 * 1024 * 1024 {
+            break;
+        }
+    }
+    estimated = estimated
+        .saturating_add(store.snapshot_size())
+        .saturating_add(largest_decode.saturating_mul(2));
+    if estimated > 1024 * 1024 * 1024 {
+        return Err(Issue::error(
+            Code::ResourceLimit,
+            format!(
+                "estimated native working set is {} MiB; limit is 1024 MiB",
+                estimated.div_ceil(1024 * 1024)
+            ),
+            "Reduce the number/size of source assets, output dimensions or nested effects before rendering.",
+        ));
+    }
+    Ok(())
 }
 
 fn with_node(mut i: Issue, node: &str) -> Issue {
@@ -389,6 +562,146 @@ fn prepare_asset(doc: &DesignDocument, asset_id: &str, store: &ResourceStore) ->
     }
 }
 
+fn check_logo_clearspace(
+    doc: &DesignDocument,
+    nodes: &HashMap<&str, &Node>,
+    prepared: &HashMap<String, Prepared>,
+    styles: &[NodeStyle],
+    width: f64,
+    height: f64,
+    issues: &mut Issues,
+) {
+    fn geometry(
+        id: &str,
+        nodes: &HashMap<&str, &Node>,
+        parent: &Matrix,
+        styles: &[NodeStyle],
+        world: &mut HashMap<String, (Matrix, Rect)>,
+    ) {
+        let node = nodes[id];
+        let (b, rotation, _, visible) = node.common();
+        if !visible {
+            return;
+        }
+        let matrix = *parent * node_matrix(b, rotation) * affine_matrix(styles.iter().find(|s| s.node_id == id).and_then(|s| s.affine));
+        let rect = Rect::from_xywh(b.x as f32, b.y as f32, b.width as f32, b.height as f32);
+        let frame_matrix = if matches!(node, Node::Group { .. }) {
+            *parent * node_matrix(b, rotation)
+        } else {
+            matrix
+        };
+        world.insert(id.to_owned(), (matrix, frame_matrix.map_rect(rect).0));
+        if let Node::Group { child_ids, .. } = node {
+            for child in child_ids {
+                geometry(child, nodes, &matrix, styles, world);
+            }
+        }
+    }
+    let mut world = HashMap::new();
+    geometry(&doc.base_artboard.root_node_id, nodes, &Matrix::new_identity(), styles, &mut world);
+    for (id, (matrix, _)) in &world {
+        if !matrix.is_finite() {
+            issues.push(
+                Issue::error(
+                    Code::ResourceLimit,
+                    "combined node transform exceeds native precision",
+                    "Reduce nested scales.",
+                )
+                .node(id),
+            );
+        }
+    }
+    for node in nodes.values() {
+        let Node::Logo {
+            id,
+            bounds: b,
+            asset_id,
+            clear_space,
+            min_width,
+            ..
+        } = node
+        else {
+            continue;
+        };
+        let Some((matrix, _)) = world.get(id) else {
+            continue;
+        };
+        let (vw, vh) = match prepared.get(asset_id) {
+            Some(Prepared::Vector(v)) => (v.view_box.width, v.view_box.height),
+            Some(Prepared::Image(i)) => (i.width() as f64, i.height() as f64),
+            None => continue,
+        };
+        let scale = (b.width / vw).min(b.height / vh);
+        let (dw, dh) = (vw * scale, vh * scale);
+        let x_axis = matrix.map_vector((1.0, 0.0));
+        let y_axis = matrix.map_vector((0.0, 1.0));
+        let sx = f64::from(x_axis.x).hypot(f64::from(x_axis.y));
+        let sy = f64::from(y_axis.x).hypot(f64::from(y_axis.y));
+        let dot = f64::from(x_axis.x) * f64::from(y_axis.x) + f64::from(x_axis.y) * f64::from(y_axis.y);
+        if (sx - sy).abs() > 1e-5 * sx.max(sy) || dot.abs() > 1e-5 * sx * sy {
+            issues.push(
+                Issue::error(
+                    Code::DocumentInvalid,
+                    "a parent transform changes the logo's aspect ratio",
+                    "Use uniform group scaling or keep the logo outside that group.",
+                )
+                .node(id)
+                .asset(asset_id),
+            );
+        }
+        if dw * sx + 1e-9 < *min_width {
+            issues.push(
+                Issue::error(
+                    Code::LogoMinWidth,
+                    format!("transformed logo width {:.2} is below minimum {min_width}", dw * sx),
+                    "Enlarge the authored logo or group; the logo is never distorted.",
+                )
+                .node(id)
+                .asset(asset_id),
+            );
+        }
+        if *clear_space == 0.0 {
+            continue;
+        }
+        let local = Rect::from_xywh(
+            (b.x + (b.width - dw) / 2.0 - clear_space) as f32,
+            (b.y + (b.height - dh) / 2.0 - clear_space) as f32,
+            (dw + 2.0 * clear_space) as f32,
+            (dh + 2.0 * clear_space) as f32,
+        );
+        let protected = matrix.map_rect(local).0;
+        let outside = protected.left < -0.01
+            || protected.top < -0.01
+            || protected.right > width as f32 + 0.01
+            || protected.bottom > height as f32 + 0.01;
+        let targets = styles
+            .iter()
+            .find(|s| s.node_id == *id)
+            .map(|s| s.protected_from.as_slice())
+            .unwrap_or(&[]);
+        let intersects = targets.iter().find(|target| {
+            world.get(*target).is_some_and(|(_, r)| {
+                r.left < protected.right && r.right > protected.left && r.top < protected.bottom && r.bottom > protected.top
+            })
+        });
+        if outside || intersects.is_some() {
+            issues.push(
+                Issue::error(
+                    Code::LogoClearSpace,
+                    if let Some(target) = intersects {
+                        format!("logo clear space intersects author-protected node {target}")
+                    } else {
+                        "logo clear space extends outside the artboard".into()
+                    },
+                    "Move the specified layers or revise the author's logo clearance requirement.",
+                )
+                .node(id)
+                .asset(asset_id),
+            );
+        }
+    }
+}
+
 fn parse_hex(c: &str) -> [u8; 3] {
     let v = |i: usize| u8::from_str_radix(&c[i..i + 2], 16).expect("validated color");
     [v(1), v(3), v(5)]
@@ -396,6 +709,13 @@ fn parse_hex(c: &str) -> [u8; 3] {
 
 fn color4f(rgb: [u8; 3], alpha: f64) -> Color4f {
     Color4f::new(rgb[0] as f32 / 255.0, rgb[1] as f32 / 255.0, rgb[2] as f32 / 255.0, alpha as f32)
+}
+
+fn affine_matrix(affine: Option<[f64; 6]>) -> Matrix {
+    match affine {
+        Some([a, b, c, d, e, f]) => Matrix::new_all(a as f32, c as f32, e as f32, b as f32, d as f32, f as f32, 0.0, 0.0, 1.0),
+        None => Matrix::new_identity(),
+    }
 }
 
 /// Rotation about the centre of the node's bounds.
@@ -416,21 +736,58 @@ fn build_ops(
     text_reports: &mut Vec<TextReport>,
     issues: &mut Issues,
     warnings: &mut Issues,
+    styles: &[NodeStyle],
 ) {
     let n = nodes[id];
     let (b, rot, opacity, visible) = n.common();
     if !visible {
         return;
     }
+    let style = styles.iter().find(|s| s.node_id == id);
+    let (filter, clip, mask, stroke, blend) = match style {
+        Some(style) => (
+            effect_filter(&style.effects),
+            style.clip.as_ref().map(|c| model_path(&c.data, c.fill_rule)),
+            style
+                .mask
+                .as_ref()
+                .map(|m| (model_path(&m.data, m.fill_rule), m.opacity as f32, m.invert)),
+            style.stroke.clone(),
+            match style.blend_mode {
+                BlendMode::Normal => skia_safe::BlendMode::SrcOver,
+                BlendMode::Multiply => skia_safe::BlendMode::Multiply,
+                BlendMode::Screen => skia_safe::BlendMode::Screen,
+            },
+        ),
+        None => (None, None, None, None, skia_safe::BlendMode::SrcOver),
+    };
+    if let Some(style) = style
+        && !style.effects.is_empty()
+        && filter.is_none()
+    {
+        issues.push(
+            Issue::error(
+                Code::RenderFailed,
+                "effect filter allocation failed",
+                "Reduce effects or report an engine defect.",
+            )
+            .node(id),
+        );
+    }
+    let has_mask = mask.is_some();
     ops.push(Op::Push {
-        matrix: node_matrix(b, rot),
+        matrix: node_matrix(b, rot) * affine_matrix(style.and_then(|s| s.affine)),
         opacity: opacity as f32,
+        blend,
+        filter,
+        clip,
+        isolate: has_mask,
     });
     let rect = Rect::from_xywh(b.x as f32, b.y as f32, b.width as f32, b.height as f32);
     match n {
         Node::Group { child_ids, .. } => {
             for c in child_ids {
-                build_ops(c, nodes, fonts, prepared, ops, text_reports, issues, warnings);
+                build_ops(c, nodes, fonts, prepared, ops, text_reports, issues, warnings, styles);
             }
         }
         Node::Rect { fill, corner_radius, .. } => {
@@ -439,6 +796,23 @@ fn build_ops(
                 rect,
                 radius,
                 fill: paint_spec(fill, b),
+                stroke: stroke.clone(),
+            });
+        }
+        Node::Path {
+            data,
+            view_box,
+            fill,
+            fill_rule,
+            ..
+        } => {
+            let matrix = Matrix::translate((b.x as f32, b.y as f32))
+                * Matrix::scale(((b.width / view_box.width) as f32, (b.height / view_box.height) as f32))
+                * Matrix::translate((-view_box.x as f32, -view_box.y as f32));
+            ops.push(Op::Path {
+                path: model_path(data, *fill_rule).with_transform(&matrix),
+                fill: paint_spec(fill, b),
+                stroke: stroke.clone(),
             });
         }
         Node::Text {
@@ -466,15 +840,24 @@ fn build_ops(
             asset_id,
             fit,
             focal_point,
+            clip_to_bounds,
             ..
         } => {
             if let Some(Prepared::Image(img)) = prepared.get(asset_id) {
                 let (iw, ih) = (img.width() as f64, img.height() as f64);
-                let s = match fit {
-                    design_model::ImageFit::Cover => (b.width / iw).max(b.height / ih),
-                    design_model::ImageFit::Contain => (b.width / iw).min(b.height / ih),
+                let (sx, sy) = match fit {
+                    design_model::ImageFit::Cover => {
+                        let s = (b.width / iw).max(b.height / ih);
+                        (s, s)
+                    }
+                    design_model::ImageFit::Contain => {
+                        let s = (b.width / iw).min(b.height / ih);
+                        (s, s)
+                    }
+                    design_model::ImageFit::Stretch => (b.width / iw, b.height / ih),
                 };
-                let (dw, dh) = (iw * s, ih * s);
+                let s = sx.max(sy);
+                let (dw, dh) = (iw * sx, ih * sy);
                 let place = |box_pos: f64, box_len: f64, len: f64, focal: f64| {
                     let lo = (box_len - len).min(0.0);
                     let hi = (box_len - len).max(0.0);
@@ -482,6 +865,23 @@ fn build_ops(
                 };
                 let dx = place(b.x, b.width, dw, focal_point.x);
                 let dy = place(b.y, b.height, dh, focal_point.y);
+                if let Some(region) = style.and_then(|s| s.protected_region.as_ref())
+                    && *clip_to_bounds
+                    && (dx + region.x * dw < b.x - 0.01
+                        || dy + region.y * dh < b.y - 0.01
+                        || dx + (region.x + region.width) * dw > b.x + b.width + 0.01
+                        || dy + (region.y + region.height) * dh > b.y + b.height + 0.01)
+                {
+                    issues.push(
+                        Issue::error(
+                            Code::DocumentInvalid,
+                            "crop removes part of the author-protected image region",
+                            "Choose contain or adjust the focal point/box.",
+                        )
+                        .node(id)
+                        .asset(asset_id),
+                    );
+                }
                 if s > 1.0 + 1e-9 {
                     warnings.push(
                         Issue::warning(
@@ -496,11 +896,12 @@ fn build_ops(
                 ops.push(Op::Image {
                     image: img.clone(),
                     dst: Rect::from_xywh(dx as f32, dy as f32, dw as f32, dh as f32),
-                    clip: rect,
+                    clip: clip_to_bounds.then_some(rect),
+                    color_filter: style.and_then(|s| s.image_adjustments.as_ref()).map(adjustment_filter),
                 });
             }
         }
-        Node::Logo { asset_id, min_width, .. } => {
+        Node::Logo { asset_id, .. } => {
             let (vw, vh, vx, vy) = match prepared.get(asset_id) {
                 Some(Prepared::Vector(art)) => (art.view_box.width, art.view_box.height, art.view_box.x, art.view_box.y),
                 Some(Prepared::Image(img)) => (img.width() as f64, img.height() as f64, 0.0, 0.0),
@@ -512,17 +913,6 @@ fn build_ops(
             // contain, aspect preserved, centred (xMidYMid meet).
             let s = (b.width / vw).min(b.height / vh);
             let (dw, dh) = (vw * s, vh * s);
-            if dw + 1e-9 < *min_width {
-                issues.push(
-                    Issue::error(
-                        Code::LogoMinWidth,
-                        format!("logo would be drawn {dw:.2} du wide; minimum is {min_width}"),
-                        "Have the author enlarge the logo box; the logo is never distorted to fit.",
-                    )
-                    .node(id)
-                    .asset(asset_id),
-                );
-            }
             let ox = b.x + (b.width - dw) / 2.0;
             let oy = b.y + (b.height - dh) / 2.0;
             match &prepared[asset_id] {
@@ -540,13 +930,84 @@ fn build_ops(
                     ops.push(Op::Image {
                         image: img.clone(),
                         dst,
-                        clip: dst,
+                        clip: Some(dst),
+                        color_filter: None,
                     });
                 }
             }
         }
     }
+    if let Some((path, opacity, invert)) = mask {
+        ops.push(Op::Mask { path, opacity, invert });
+    }
     ops.push(Op::Pop);
+}
+
+fn model_path(data: &str, rule: PathRule) -> Path {
+    let segments = design_svg::parse_path(data).expect("document paths already validated");
+    segment_path(
+        &segments,
+        match rule {
+            PathRule::NonZero => PathFillType::Winding,
+            PathRule::EvenOdd => PathFillType::EvenOdd,
+        },
+    )
+}
+
+fn segment_path(segments: &[Segment], rule: PathFillType) -> Path {
+    let mut pb = PathBuilder::new();
+    let point = |p: design_svg::Point| (p.x as f32, p.y as f32);
+    for seg in segments {
+        match *seg {
+            Segment::MoveTo(p) => {
+                pb.move_to(point(p));
+            }
+            Segment::LineTo(p) => {
+                pb.line_to(point(p));
+            }
+            Segment::QuadTo(a, b) => {
+                pb.quad_to(point(a), point(b));
+            }
+            Segment::CubicTo(a, b, c) => {
+                pb.cubic_to(point(a), point(b), point(c));
+            }
+            Segment::Close => {
+                pb.close();
+            }
+        }
+    }
+    pb.set_fill_type(rule);
+    pb.detach()
+}
+
+fn effect_filter(effects: &[NodeEffect]) -> Option<ImageFilter> {
+    let mut filter = None;
+    for effect in effects {
+        filter = match effect {
+            NodeEffect::Blur { radius } => {
+                let sigma = (0.57735 * radius + 0.5) as f32;
+                image_filters::blur((sigma, sigma), TileMode::Decal, filter, None)
+            }
+            NodeEffect::Shadow {
+                color,
+                opacity,
+                offset_x,
+                offset_y,
+                blur,
+            } => {
+                let sigma = if *blur == 0.0 { 0.0 } else { (0.57735 * blur + 0.5) as f32 };
+                image_filters::drop_shadow(
+                    (*offset_x as f32, *offset_y as f32),
+                    (sigma, sigma),
+                    color4f(parse_hex(color), *opacity),
+                    ColorSpace::new_srgb(),
+                    filter,
+                    None,
+                )
+            }
+        };
+    }
+    filter
 }
 
 /// Gradient geometry: angle 0° runs left → right, 90° top → bottom (y down,
@@ -555,6 +1016,12 @@ fn build_ops(
 fn paint_spec(p: &Paint, b: &design_model::Bounds) -> PaintSpec {
     match p {
         Paint::Solid { color } => PaintSpec::Solid(color4f(parse_hex(color), 1.0)),
+        Paint::RadialGradient { center, radius, stops } => PaintSpec::Radial {
+            center: ((b.x + center.x * b.width) as f32, (b.y + center.y * b.height) as f32),
+            radius: (radius * b.width.max(b.height)) as f32,
+            colors: stops.iter().map(|s| color4f(parse_hex(&s.color), s.opacity)).collect(),
+            pos: stops.iter().map(|s| s.offset as f32).collect(),
+        },
         Paint::LinearGradient { angle_deg, stops } => {
             let (sin, cos) = angle_deg.to_radians().sin_cos();
             let half = (b.width * cos.abs() + b.height * sin.abs()) / 2.0;
@@ -586,6 +1053,19 @@ fn sk_paint(spec: &PaintSpec) -> Option<SkPaint> {
     let mut paint = SkPaint::default();
     paint.set_anti_alias(true).set_style(PaintStyle::Fill);
     match spec {
+        PaintSpec::Radial {
+            center,
+            radius,
+            colors,
+            pos,
+        } => {
+            let colors = gradient::Colors::new(colors, Some(pos), TileMode::Clamp, ColorSpace::new_srgb());
+            paint.set_shader(shaders::radial_gradient(
+                (*center, *radius),
+                &Gradient::new(colors, interpolation()),
+                None,
+            )?);
+        }
         PaintSpec::Solid(c) => {
             paint.set_color4f(*c, &ColorSpace::new_srgb());
         }
@@ -597,7 +1077,7 @@ fn sk_paint(spec: &PaintSpec) -> Option<SkPaint> {
     Some(paint)
 }
 
-fn draw(ops: &[Op], w: i32, h: i32) -> Result<Vec<u8>, Issue> {
+fn draw(ops: &[Op], w: i32, h: i32) -> Result<(Vec<u8>, Vec<u8>), Issue> {
     let fail = |what: &str| {
         Issue::error(
             Code::RenderFailed,
@@ -613,30 +1093,82 @@ fn draw(ops: &[Op], w: i32, h: i32) -> Result<Vec<u8>, Issue> {
 
     for op in ops {
         match op {
-            Op::Push { matrix, opacity } => {
-                if *opacity < 1.0 {
-                    canvas.save_layer_alpha_f(None, *opacity);
+            Op::Push {
+                matrix,
+                opacity,
+                blend,
+                filter,
+                clip,
+                isolate,
+            } => {
+                if *opacity < 1.0 || *blend != skia_safe::BlendMode::SrcOver || filter.is_some() || *isolate {
+                    let mut paint = SkPaint::default();
+                    paint.set_alpha_f(*opacity).set_blend_mode(*blend).set_image_filter(filter.clone());
+                    canvas.save_layer(&SaveLayerRec::default().paint(&paint));
                 } else {
                     canvas.save();
                 }
                 canvas.concat(matrix);
+                if let Some(path) = clip {
+                    canvas.clip_path(path, ClipOp::Intersect, true);
+                }
+            }
+            Op::Mask { path, opacity, invert } => {
+                let mut composite = SkPaint::default();
+                composite.set_blend_mode(if *invert {
+                    skia_safe::BlendMode::DstOut
+                } else {
+                    skia_safe::BlendMode::DstIn
+                });
+                canvas.save_layer(&SaveLayerRec::default().paint(&composite));
+                let mut paint = SkPaint::default();
+                paint.set_color(Color::WHITE).set_alpha_f(*opacity).set_anti_alias(true);
+                canvas.draw_path(path, &paint);
+                canvas.restore();
+            }
+            Op::Path { path, fill, stroke } => {
+                let paint = sk_paint(fill).ok_or_else(|| fail("gradient shader"))?;
+                canvas.draw_path(path, &paint);
+                if let Some(stroke) = stroke {
+                    canvas.draw_path(path, &stroke_paint(stroke));
+                }
             }
             Op::Pop => {
                 canvas.restore();
             }
-            Op::Rect { rect, radius, fill } => {
+            Op::Rect {
+                rect,
+                radius,
+                fill,
+                stroke,
+            } => {
                 let paint = sk_paint(fill).ok_or_else(|| fail("gradient shader"))?;
                 if *radius > 0.0 {
                     canvas.draw_rrect(RRect::new_rect_xy(*rect, *radius, *radius), &paint);
                 } else {
                     canvas.draw_rect(*rect, &paint);
                 }
+                if let Some(stroke) = stroke {
+                    let paint = stroke_paint(stroke);
+                    if *radius > 0.0 {
+                        canvas.draw_rrect(RRect::new_rect_xy(*rect, *radius, *radius), &paint);
+                    } else {
+                        canvas.draw_rect(*rect, &paint);
+                    }
+                }
             }
-            Op::Image { image, dst, clip } => {
+            Op::Image {
+                image,
+                dst,
+                clip,
+                color_filter,
+            } => {
                 canvas.save();
-                canvas.clip_rect(*clip, ClipOp::Intersect, true);
+                if let Some(clip) = clip {
+                    canvas.clip_rect(*clip, ClipOp::Intersect, true);
+                }
                 let mut paint = SkPaint::default();
-                paint.set_anti_alias(true);
+                paint.set_anti_alias(true).set_color_filter(color_filter.clone());
                 canvas.draw_image_rect_with_sampling_options(image, None, *dst, sampling, &paint);
                 canvas.restore();
             }
@@ -655,7 +1187,45 @@ fn draw(ops: &[Op], w: i32, h: i32) -> Result<Vec<u8>, Issue> {
     if !png_encoder::encode(&pixmap, &mut png, &png_encoder::Options::default()) {
         return Err(fail("PNG encoding"));
     }
-    Ok(png)
+    let straight_info = ImageInfo::new((w, h), ColorType::RGBA8888, AlphaType::Unpremul, ColorSpace::new_srgb());
+    let mut rgba = vec![0u8; w as usize * h as usize * 4];
+    if !image.read_pixels(
+        &straight_info,
+        &mut rgba,
+        w as usize * 4,
+        (0, 0),
+        skia_safe::image::CachingHint::Disallow,
+    ) {
+        return Err(fail("straight RGBA readback"));
+    }
+    Ok((png, rgba))
+}
+
+fn adjustment_filter(adjustments: &design_model::ImageAdjustments) -> skia_safe::ColorFilter {
+    // Explicit encoded-sRGB channel adjustment: saturation, then contrast about
+    // 0.5, then brightness. Alpha is unchanged; no inferred enhancement.
+    let sat = adjustments.saturation as f32;
+    let con = adjustments.contrast as f32;
+    let lum = [0.2126f32, 0.7152, 0.0722];
+    let mut matrix = [0f32; 20];
+    for row in 0..3 {
+        for column in 0..3 {
+            matrix[row * 5 + column] = con * ((1.0 - sat) * lum[column] + if row == column { sat } else { 0.0 });
+        }
+        matrix[row * 5 + 4] = 0.5 * (1.0 - con) + adjustments.brightness as f32;
+    }
+    matrix[18] = 1.0;
+    skia_safe::color_filters::matrix_row_major(&matrix, None)
+}
+
+fn stroke_paint(stroke: &Stroke) -> SkPaint {
+    let mut paint = SkPaint::default();
+    paint
+        .set_anti_alias(true)
+        .set_style(PaintStyle::Stroke)
+        .set_stroke_width(stroke.width as f32)
+        .set_color4f(color4f(parse_hex(&stroke.color), 1.0), &ColorSpace::new_srgb());
+    paint
 }
 
 fn draw_vector(canvas: &Canvas, art: &VectorArt, matrix: &Matrix) -> Result<(), ()> {

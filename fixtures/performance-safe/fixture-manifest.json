@@ -1,0 +1,73 @@
+{
+  "formatVersion": "1.0.0",
+  "purpose": "public-safe native performance measurement",
+  "width": 1080,
+  "height": 1350,
+  "drawableLayers": 120,
+  "totalNodes": 121,
+  "imageCount": 8,
+  "imageSizes": [
+    [
+      1600,
+      1000
+    ],
+    [
+      1600,
+      1000
+    ],
+    [
+      1600,
+      1000
+    ],
+    [
+      1600,
+      1000
+    ],
+    [
+      1600,
+      1000
+    ],
+    [
+      1600,
+      1000
+    ],
+    [
+      1600,
+      1000
+    ],
+    [
+      1600,
+      1000
+    ]
+  ],
+  "fontFaces": 3,
+  "gradientKinds": [
+    "linear-gradient",
+    "radial-gradient"
+  ],
+  "imageClips": 8,
+  "shadowCount": 8,
+  "datasetRows": 100,
+  "approvedVariants": [
+    "v1",
+    "v2",
+    "v3"
+  ],
+  "pngCodec": "native Skia PNG; profile reported by renderer",
+  "imageGenerator": "scripts/generate-performance-fixture.py; fixed pixel patterns; PNG zlib 1.2.12",
+  "resourceSha256": {
+    "resources/fonts/dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073.otf": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+    "resources/fonts/1b0edfb500b73a4fa8a4fcaae1bbbd403994e08e73e3e0da37e70d3853f42c5f.otf": "1b0edfb500b73a4fa8a4fcaae1bbbd403994e08e73e3e0da37e70d3853f42c5f",
+    "resources/fonts/3aa30b0956510f4205f759ab3079a5b658310ebcda2577f290466ea51c948819.otf": "3aa30b0956510f4205f759ab3079a5b658310ebcda2577f290466ea51c948819",
+    "resources/assets/ecd184b009c90c6a30fe9be1f01bbee032ea6514ed145c844de7e427a18236ac.png": "ecd184b009c90c6a30fe9be1f01bbee032ea6514ed145c844de7e427a18236ac",
+    "resources/assets/106dc90d59703bd41a7b5818014830eb3b54a882c2b0e64785d71fa3b4c5d410.png": "106dc90d59703bd41a7b5818014830eb3b54a882c2b0e64785d71fa3b4c5d410",
+    "resources/assets/bfa4cde6fb4f9fb05547d6c2f02b097b6581fe48ad02c45af2a096bf1ccdc979.png": "bfa4cde6fb4f9fb05547d6c2f02b097b6581fe48ad02c45af2a096bf1ccdc979",
+    "resources/assets/14c924ed69ce68d8f89cc0b556e80bb5ca2eb7c3f071eb4afc49db3d92550a3d.png": "14c924ed69ce68d8f89cc0b556e80bb5ca2eb7c3f071eb4afc49db3d92550a3d",
+    "resources/assets/73c1f1c85d7ad286edc39a65a28c062f38e7b9ca899f7d1cef3f8ca0c85c8994.png": "73c1f1c85d7ad286edc39a65a28c062f38e7b9ca899f7d1cef3f8ca0c85c8994",
+    "resources/assets/8662bf0a44bec180f013c65325de3380fed037858e0cabbeb51a0c2ff8aaeb1a.png": "8662bf0a44bec180f013c65325de3380fed037858e0cabbeb51a0c2ff8aaeb1a",
+    "resources/assets/05be53e7e23be42a6b18454007ea186a4b02d1d5c9b7759f865fa92adc2f3cb8.png": "05be53e7e23be42a6b18454007ea186a4b02d1d5c9b7759f865fa92adc2f3cb8",
+    "resources/assets/ebe33dbc5a788bb4928c2905648defc84f45017658645454c2aa760cf544f8f1.png": "ebe33dbc5a788bb4928c2905648defc84f45017658645454c2aa760cf544f8f1"
+  },
+  "documentSha256": "7d0deaf70c00e3ac2c7e701d852214cabd3eaf01c42e419c141f60e2e6eb8525",
+  "datasetSha256": "7fcebe9600af4b835b31da914d617fbf9e72b75ae64f268129b43e26f8781467"
+}

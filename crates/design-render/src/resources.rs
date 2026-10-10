@@ -102,6 +102,10 @@ impl ResourceStore {
         })
     }
 
+    pub fn snapshot_size(&self) -> u64 {
+        self.verified.lock().expect("cache lock").values().map(|b| b.len() as u64).sum()
+    }
+
     /// Read `<sub>/<sha>.<ext>` for the first extension that exists.
     pub fn read(&self, sub: &str, sha: &str, exts: &[&str], max: u64) -> Result<(Arc<Vec<u8>>, String), ReadError> {
         if !is_sha256_hex(sha) {
@@ -140,7 +144,7 @@ impl ResourceStore {
         if !meta.is_file() {
             return Err(ReadError::Denied("not a regular file".into()));
         }
-        if meta.len() > max {
+        if meta.len() > max || self.snapshot_size().saturating_add(meta.len()) > 512 * 1024 * 1024 {
             return Err(ReadError::TooLarge(meta.len()));
         }
         // Defence in depth: the resolved path must stay under the root.
@@ -159,10 +163,12 @@ impl ResourceStore {
             return Err(ReadError::Checksum);
         }
         let bytes = Arc::new(bytes);
-        self.verified
-            .lock()
-            .expect("cache lock")
-            .insert(format!("{sub}/{sha}.{ext}"), bytes.clone());
+        let mut cache = self.verified.lock().expect("cache lock");
+        let retained: u64 = cache.values().map(|b| b.len() as u64).sum();
+        if retained.saturating_add(bytes.len() as u64) > 512 * 1024 * 1024 {
+            return Err(ReadError::TooLarge(retained + bytes.len() as u64));
+        }
+        cache.insert(format!("{sub}/{sha}.{ext}"), bytes.clone());
         Ok((bytes, ext.to_owned()))
     }
 }
@@ -175,3 +181,6 @@ pub fn sha256_hex(bytes: &[u8]) -> String {
     }
     s
 }
+
+/// Deterministic, authored ICC v2 matrix/TRC sRGB profile (no external file access).
+pub const SRGB_ICC: &[u8] = include_bytes!("../resources/srgb.icc");

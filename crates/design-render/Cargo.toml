@@ -16,3 +16,11 @@ skia-safe = { workspace = true }
 sha2 = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+
+image-webp = { workspace = true }
+
+[build-dependencies]
+sha2 = { workspace = true }
+
+[dev-dependencies]
+design-edit = { workspace = true }

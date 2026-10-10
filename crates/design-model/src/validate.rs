@@ -186,7 +186,222 @@ pub fn validate(doc: &DesignDocument) -> Issues {
         }
     }
     for n in &doc.nodes {
-        check_node(&mut v, n, &fonts, &assets, doc.schema_version != "0.2.0-core");
+        check_node(
+            &mut v,
+            n,
+            &fonts,
+            &assets,
+            doc.schema_version != "0.2.0-core",
+            doc.schema_version == "0.4.0-core",
+        );
+    }
+
+    if doc.schema_version != "0.4.0-core"
+        && (doc.brand_snapshot.is_some()
+            || !doc.node_styles.is_empty()
+            || doc.nodes.iter().any(|n| match n {
+                Node::Path { .. } => true,
+                Node::Rect {
+                    fill: Paint::RadialGradient { .. },
+                    ..
+                } => true,
+                Node::Image {
+                    fit: ImageFit::Stretch, ..
+                } => true,
+                Node::Image { clip_to_bounds: false, .. } => true,
+                Node::Text { text, .. } => !text.features.is_empty() || !text.runs.is_empty() || text.kinsoku != KinsokuPolicy::Unicode,
+                _ => false,
+            }))
+    {
+        v.schema("paths and nodeStyles require schemaVersion 0.4.0-core".into());
+    }
+    v.count("nodeStyles", doc.node_styles.len(), 0, 2000);
+    let mut styled = HashSet::new();
+    for style in &doc.node_styles {
+        let start = v.issues.len();
+        if !nodes.contains_key(style.node_id.as_str()) || !styled.insert(style.node_id.as_str()) {
+            v.invalid(
+                format!("nodeStyles target {:?} is missing or repeated", style.node_id),
+                "Use one style for each existing node.",
+            );
+        }
+        if let Some(matrix) = style.affine {
+            check_affine(&mut v, &matrix);
+        }
+        if let Some(st) = &style.stroke {
+            v.color("stroke.color", &st.color);
+            v.range("stroke.width", st.width, 0.0, 200.0, true);
+            if !matches!(nodes.get(style.node_id.as_str()), Some(Node::Rect { .. } | Node::Path { .. })) {
+                v.invalid("strokes apply only to rect and path nodes".into(), "Use text outline for glyphs.");
+            }
+        }
+        v.count("effects", style.effects.len(), 0, 8);
+        for effect in &style.effects {
+            match effect {
+                NodeEffect::Blur { radius } => {
+                    v.range("blur.radius", *radius, 0.0, 200.0, true);
+                }
+                NodeEffect::Shadow {
+                    color,
+                    opacity,
+                    offset_x,
+                    offset_y,
+                    blur,
+                } => {
+                    v.color("shadow.color", color);
+                    v.range("shadow.opacity", *opacity, 0.0, 1.0, false);
+                    v.range("shadow.offsetX", *offset_x, -1000.0, 1000.0, false);
+                    v.range("shadow.offsetY", *offset_y, -1000.0, 1000.0, false);
+                    v.range("shadow.blur", *blur, 0.0, 200.0, false);
+                }
+            }
+        }
+        if (style.image_adjustments.is_some() || style.protected_region.is_some())
+            && !matches!(nodes.get(style.node_id.as_str()), Some(Node::Image { .. }))
+        {
+            v.invalid("image settings apply only to image nodes".into(), "Choose an image node.");
+        }
+        if let Some(a) = &style.image_adjustments {
+            v.range("brightness", a.brightness, -1.0, 1.0, false);
+            v.range("contrast", a.contrast, 0.0, 3.0, false);
+            v.range("saturation", a.saturation, 0.0, 3.0, false);
+        }
+        if let Some(r) = &style.protected_region {
+            v.range("protectedRegion.x", r.x, 0.0, 1.0, false);
+            v.range("protectedRegion.y", r.y, 0.0, 1.0, false);
+            v.range("protectedRegion.width", r.width, 0.0, 1.0, true);
+            v.range("protectedRegion.height", r.height, 0.0, 1.0, true);
+            if r.x + r.width > 1.0 || r.y + r.height > 1.0 {
+                v.invalid(
+                    "protectedRegion must fit inside the original image".into(),
+                    "Choose a normalized region within 0..1.",
+                );
+            }
+        }
+        if !style.protected_from.is_empty() && !matches!(nodes.get(style.node_id.as_str()), Some(Node::Logo { .. })) {
+            v.invalid(
+                "protectedFrom applies only to logo nodes".into(),
+                "Declare logo clear-space target layers.",
+            );
+        }
+        v.count("protectedFrom", style.protected_from.len(), 0, 100);
+        let mut targets = HashSet::new();
+        for target in &style.protected_from {
+            if target == &style.node_id || !nodes.contains_key(target.as_str()) || !targets.insert(target) {
+                v.invalid(
+                    "protectedFrom must contain unique other existing node IDs".into(),
+                    "Choose existing target layers.",
+                );
+            }
+        }
+        if let Some(clip) = &style.clip {
+            check_path(&mut v, &clip.data);
+        }
+        if let Some(mask) = &style.mask {
+            check_path(&mut v, &mask.data);
+            v.range("mask.opacity", mask.opacity, 0.0, 1.0, false);
+        }
+        for issue in &mut v.issues[start..] {
+            issue.location.node_id = Some(style.node_id.clone());
+        }
+    }
+
+    if let Some(brand) = &doc.brand_snapshot {
+        v.id("brandSnapshot", &brand.id);
+        v.count("brand.colors", brand.colors.len(), 0, 100);
+        v.count("brand.textStyles", brand.text_styles.len(), 0, 100);
+        v.count("brand.logoAssetIds", brand.logo_asset_ids.len(), 0, 100);
+        let mut ids = HashSet::new();
+        for color in &brand.colors {
+            v.id("brand.color", &color.id);
+            v.text_len("brand.color.name", &color.name, 200);
+            v.color("brand.color.color", &color.color);
+            if !ids.insert(&color.id) {
+                v.invalid("brand color IDs must be unique".into(), "Choose unique color IDs.");
+            }
+        }
+        ids.clear();
+        for style in &brand.text_styles {
+            v.id("brand.textStyle", &style.id);
+            v.text_len("brand.textStyle.name", &style.name, 200);
+            if !ids.insert(&style.id) {
+                v.invalid("brand text style IDs must be unique".into(), "Choose unique style IDs.");
+            }
+            let text_node = Node::Text {
+                id: style.id.clone(),
+                name: style.name.clone(),
+                bounds: Bounds {
+                    x: 0.0,
+                    y: 0.0,
+                    width: 1000.0,
+                    height: 1000.0,
+                },
+                rotation_deg: 0.0,
+                opacity: 1.0,
+                visible: false,
+                locked: false,
+                text: style.style.clone(),
+                fill: SolidFill {
+                    kind: SolidKind::Solid,
+                    color: "#000000".into(),
+                },
+                outline: None,
+                shadow: None,
+            };
+            let start = v.issues.len();
+            check_node(&mut v, &text_node, &fonts, &assets, true, true);
+            for issue in &mut v.issues[start..] {
+                issue.location.node_id = None;
+                issue.message = format!("brand text style {}: {}", style.name, issue.message);
+            }
+            for font_id in std::iter::once(style.style.font_id.as_str()).chain(style.style.runs.iter().map(|r| r.font_id.as_str())) {
+                if fonts
+                    .get(font_id)
+                    .is_some_and(|f| f.state != ResolveState::Resolved || f.sha256.is_none())
+                {
+                    v.err(
+                        Issue::error(
+                            Code::FontMissing,
+                            "brand text styles require a resolved hash-fixed local font",
+                            "Resolve the font before saving the brand snapshot.",
+                        )
+                        .font(font_id),
+                    );
+                }
+            }
+        }
+        for node in &doc.nodes {
+            if let Node::Logo { id, asset_id, .. } = node
+                && !brand.logo_asset_ids.contains(asset_id)
+            {
+                v.err(
+                    Issue::error(
+                        Code::AssetType,
+                        "logo asset is outside the approved brand snapshot",
+                        "Add this exact hash-fixed asset to the author's approved logo list.",
+                    )
+                    .node(id)
+                    .asset(asset_id),
+                );
+            }
+        }
+        let mut logos = HashSet::new();
+        for id in &brand.logo_asset_ids {
+            if !logos.insert(id)
+                || !assets
+                    .get(id.as_str())
+                    .is_some_and(|a| a.state == ResolveState::Resolved && a.sha256.is_some())
+            {
+                v.err(
+                    Issue::error(
+                        Code::AssetMissing,
+                        "brand logo IDs must be unique resolved hash-fixed assets",
+                        "Choose a resolved asset once.",
+                    )
+                    .asset(id),
+                );
+            }
+        }
     }
 
     // --- tree ---
@@ -278,6 +493,14 @@ pub fn validate(doc: &DesignDocument) -> Issues {
                 }
                 _ => {}
             }
+            if let Some(affine) = p.affine {
+                check_affine(&mut v, &affine);
+                if doc.schema_version != "0.4.0-core" || !matches!(nodes.get(p.node_id.as_str()), Some(Node::Group { .. })) {
+                    v.schema("nodePatch.affine requires 0.4 and a group node".into())
+                        .location
+                        .variant_id = Some(var.id.clone());
+                }
+            }
             if let Some(lh) = p.line_height {
                 v.range(&format!("variant {} patch {} lineHeight", var.id, p.node_id), lh, 0.0, 4000.0, true);
                 let is_text = matches!(nodes.get(p.node_id.as_str()), Some(Node::Text { .. }));
@@ -313,7 +536,7 @@ fn check_hash_state(v: &mut V, state: ResolveState, sha: Option<&str>, what: &st
     }
 }
 
-fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMap<&str, &Asset>, effects_allowed: bool) {
+fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMap<&str, &Asset>, effects_allowed: bool, extended: bool) {
     let id = n.id();
     let (bounds, rot, opacity, _) = n.common();
     let start = v.issues.len();
@@ -330,6 +553,18 @@ fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMa
         } => {
             v.text_len("node.name", name, 200);
             v.range(&format!("node {id} cornerRadius"), *corner_radius, 0.0, 8192.0, false);
+            check_paint(v, id, fill);
+        }
+        Node::Path {
+            name,
+            data,
+            view_box,
+            fill,
+            ..
+        } => {
+            v.text_len("node.name", name, 200);
+            v.bounds("path.viewBox", view_box);
+            check_path(v, data);
             check_paint(v, id, fill);
         }
         Node::Text {
@@ -379,6 +614,38 @@ fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMa
                     .font(&text.font_id),
                 );
             }
+            v.count("text.runs", text.runs.len(), 0, 100);
+            let mut previous_end = 0;
+            for run in &text.runs {
+                if run.start >= run.end
+                    || run.start < previous_end
+                    || run.end > text.value.len()
+                    || !text.value.is_char_boundary(run.start)
+                    || !text.value.is_char_boundary(run.end)
+                {
+                    v.invalid(
+                        "text run ranges must be ordered nonoverlapping UTF-8 character boundaries".into(),
+                        "Choose complete character ranges within the authored text.",
+                    );
+                }
+                previous_end = run.end;
+                if !fonts.contains_key(run.font_id.as_str()) {
+                    v.err(
+                        Issue::error(Code::FontMissing, "text run font is not declared", "Declare the exact local font.")
+                            .font(&run.font_id),
+                    );
+                }
+                if let Some(color) = &run.color {
+                    v.color("text.run.color", color);
+                }
+            }
+            v.count("text.features", text.features.len(), 0, 32);
+            let mut tags = HashSet::new();
+            for f in &text.features {
+                if f.tag.len() != 4 || !f.tag.bytes().all(|c| (0x20..=0x7e).contains(&c)) || !tags.insert(&f.tag) || f.value > 65535 {
+                    v.schema("OpenType features need unique four-byte printable ASCII tags and values <= 65535".into());
+                }
+            }
             check_fit_rules(v, id, text);
         }
         Node::Image {
@@ -391,7 +658,7 @@ fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMa
             v.text_len("node.name", name, 200);
             v.range(&format!("node {id} focalPoint.x"), focal_point.x, 0.0, 1.0, false);
             v.range(&format!("node {id} focalPoint.y"), focal_point.y, 0.0, 1.0, false);
-            if !clip_to_bounds {
+            if !clip_to_bounds && !extended {
                 v.schema(format!("node {id} clipToBounds must be true"));
             }
             match assets.get(asset_id.as_str()) {
@@ -452,11 +719,30 @@ fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMa
     }
 }
 
+fn check_path(v: &mut V, data: &str) {
+    if let Err(e) = design_svg::parse_path(data) {
+        v.invalid(
+            format!("invalid editable path: {}", e.message),
+            "Use bounded M/L/H/V/C/S/Q/T/Z commands; convert arcs to Bezier curves.",
+        );
+    }
+}
+
 fn check_paint(v: &mut V, id: &str, p: &Paint) {
     match p {
         Paint::Solid { color } => v.color(&format!("node {id} fill.color"), color),
-        Paint::LinearGradient { angle_deg, stops } => {
-            v.range(&format!("node {id} angleDeg"), *angle_deg, -360.0, 360.0, false);
+        Paint::LinearGradient { stops, .. } | Paint::RadialGradient { stops, .. } => {
+            match p {
+                Paint::LinearGradient { angle_deg, .. } => {
+                    v.range(&format!("node {id} angleDeg"), *angle_deg, -360.0, 360.0, false);
+                }
+                Paint::RadialGradient { center, radius, .. } => {
+                    v.range("radialGradient.center.x", center.x, 0.0, 1.0, false);
+                    v.range("radialGradient.center.y", center.y, 0.0, 1.0, false);
+                    v.range("radialGradient.radius", *radius, 0.0, 2.0, true);
+                }
+                _ => unreachable!(),
+            }
             v.count(&format!("node {id} gradient stops"), stops.len(), 2, 16);
             let mut prev = f64::NEG_INFINITY;
             for s in stops {
@@ -596,5 +882,24 @@ fn check_tree(v: &mut V, doc: &DesignDocument, nodes: &HashMap<&str, &Node>) {
             .location
             .node_id = Some(n.id().to_owned());
         }
+    }
+}
+
+fn check_affine(v: &mut V, matrix: &[f64; 6]) {
+    for (i, value) in matrix.iter().enumerate() {
+        v.range(
+            "affine component",
+            *value,
+            if i < 4 { -16384.0 } else { -1_000_000.0 },
+            if i < 4 { 16384.0 } else { 1_000_000.0 },
+            false,
+        );
+    }
+    let determinant = matrix[0] * matrix[3] - matrix[1] * matrix[2];
+    if !determinant.is_finite() || determinant.abs() < 1e-12 {
+        v.invalid(
+            "affine must be finite and invertible".into(),
+            "Choose a nonzero scale and finite affine transform.",
+        );
     }
 }

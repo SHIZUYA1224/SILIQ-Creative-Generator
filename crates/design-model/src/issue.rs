@@ -1,9 +1,9 @@
 //! Unified issue format (docs/05_DATA_MODEL_AND_CONTRACTS.md §9).
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::fmt;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Severity {
     Error,
@@ -12,7 +12,7 @@ pub enum Severity {
 
 /// Issue codes. The `E_*` names follow docs/05 §9. Codes marked "Phase 0
 /// addition" are not in that list yet and are recorded in docs/adr/0003.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Code {
     /// JSON syntax, unknown property, wrong type or out-of-range value.
     #[serde(rename = "E_SCHEMA")]
@@ -115,7 +115,7 @@ impl Code {
 }
 
 /// Where an issue applies. Never contains absolute file paths or text content.
-#[derive(Debug, Clone, Default, PartialEq, Serialize)]
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Location {
     /// Batch data row (the row's `rowId`).
@@ -129,9 +129,11 @@ pub struct Location {
     pub asset_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub font_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub export_format: Option<String>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Issue {
     pub severity: Severity,
     pub code: Code,
@@ -175,6 +177,11 @@ impl Issue {
 
     pub fn font(mut self, id: &str) -> Self {
         self.location.font_id = Some(id.to_owned());
+        self
+    }
+
+    pub fn export_format(mut self, format: &str) -> Self {
+        self.location.export_format = Some(format.to_owned());
         self
     }
 

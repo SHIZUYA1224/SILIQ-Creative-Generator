@@ -1,0 +1,576 @@
+{
+  "format": "siliq-creative-generator-core",
+  "colorSpace": "sRGB",
+  "schemaVersion": "0.4.0-core",
+  "documentId": "blog-summary",
+  "revision": 1,
+  "title": "ブログの図解｜3つのポイント",
+  "baseArtboard": {
+    "width": 1200,
+    "height": 800,
+    "rootNodeId": "root"
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "name": "ルート",
+      "type": "group",
+      "bounds": {
+        "width": 1200,
+        "height": 800,
+        "x": 0,
+        "y": 0
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "childIds": [
+        "background",
+        "eyebrow",
+        "title",
+        "subtitle",
+        "card-0",
+        "number-0",
+        "heading-0",
+        "body-0",
+        "card-1",
+        "number-1",
+        "heading-1",
+        "body-1",
+        "card-2",
+        "number-2",
+        "heading-2",
+        "body-2",
+        "footer"
+      ]
+    },
+    {
+      "id": "background",
+      "name": "背景",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1200,
+        "height": 800
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "rect",
+      "fill": {
+        "kind": "solid",
+        "color": "#F6F5EF"
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "eyebrow",
+      "name": "記事のカテゴリ",
+      "bounds": {
+        "x": 64,
+        "y": 45,
+        "width": 900,
+        "height": 40
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "ARTICLE NOTES / 情報を整理する",
+        "fontId": "noto-sans-jp",
+        "fontSize": 18,
+        "lineHeight": 29,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#648271"
+      }
+    },
+    {
+      "id": "title",
+      "name": "図解の見出し",
+      "bounds": {
+        "x": 64,
+        "y": 105,
+        "width": 1060,
+        "height": 150
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "伝わる情報整理の\n3つのポイント",
+        "fontId": "noto-sans-jp",
+        "fontSize": 42,
+        "lineHeight": 67,
+        "letterSpacing": 0,
+        "maxLines": 2,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#24392F"
+      }
+    },
+    {
+      "id": "subtitle",
+      "name": "補足説明",
+      "bounds": {
+        "x": 64,
+        "y": 270,
+        "width": 1050,
+        "height": 65
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "読者が迷わない説明を、ひとつの図解に。",
+        "fontId": "noto-sans-jp",
+        "fontSize": 24,
+        "lineHeight": 38,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#788A7D"
+      }
+    },
+    {
+      "id": "card-0",
+      "name": "カード 1",
+      "bounds": {
+        "x": 64,
+        "y": 380,
+        "width": 342,
+        "height": 270
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "rect",
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 18
+    },
+    {
+      "id": "number-0",
+      "name": "番号 1",
+      "bounds": {
+        "x": 89,
+        "y": 399,
+        "width": 260,
+        "height": 50
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "01",
+        "fontId": "noto-sans-jp",
+        "fontSize": 22,
+        "lineHeight": 35,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#739484"
+      }
+    },
+    {
+      "id": "heading-0",
+      "name": "ポイント 1",
+      "bounds": {
+        "x": 89,
+        "y": 466,
+        "width": 292,
+        "height": 70
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "目的を決める",
+        "fontId": "noto-sans-jp",
+        "fontSize": 30,
+        "lineHeight": 48,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#24392F"
+      }
+    },
+    {
+      "id": "body-0",
+      "name": "説明 1",
+      "bounds": {
+        "x": 89,
+        "y": 548,
+        "width": 292,
+        "height": 85
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "誰に、何を伝えるか。\nひとつの目的に絞る。",
+        "fontId": "noto-sans-jp",
+        "fontSize": 22,
+        "lineHeight": 35,
+        "letterSpacing": 0,
+        "maxLines": 2,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#7B877E"
+      }
+    },
+    {
+      "id": "card-1",
+      "name": "カード 2",
+      "bounds": {
+        "x": 429,
+        "y": 380,
+        "width": 342,
+        "height": 270
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "rect",
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 18
+    },
+    {
+      "id": "number-1",
+      "name": "番号 2",
+      "bounds": {
+        "x": 454,
+        "y": 399,
+        "width": 260,
+        "height": 50
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "02",
+        "fontId": "noto-sans-jp",
+        "fontSize": 22,
+        "lineHeight": 35,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#739484"
+      }
+    },
+    {
+      "id": "heading-1",
+      "name": "ポイント 2",
+      "bounds": {
+        "x": 454,
+        "y": 466,
+        "width": 292,
+        "height": 70
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "構造を見せる",
+        "fontId": "noto-sans-jp",
+        "fontSize": 30,
+        "lineHeight": 48,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#24392F"
+      }
+    },
+    {
+      "id": "body-1",
+      "name": "説明 2",
+      "bounds": {
+        "x": 454,
+        "y": 548,
+        "width": 292,
+        "height": 85
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "情報の順番と関係を\nわかりやすく示す。",
+        "fontId": "noto-sans-jp",
+        "fontSize": 22,
+        "lineHeight": 35,
+        "letterSpacing": 0,
+        "maxLines": 2,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#7B877E"
+      }
+    },
+    {
+      "id": "card-2",
+      "name": "カード 3",
+      "bounds": {
+        "x": 794,
+        "y": 380,
+        "width": 342,
+        "height": 270
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "rect",
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 18
+    },
+    {
+      "id": "number-2",
+      "name": "番号 3",
+      "bounds": {
+        "x": 819,
+        "y": 399,
+        "width": 260,
+        "height": 50
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "03",
+        "fontId": "noto-sans-jp",
+        "fontSize": 22,
+        "lineHeight": 35,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#739484"
+      }
+    },
+    {
+      "id": "heading-2",
+      "name": "ポイント 3",
+      "bounds": {
+        "x": 819,
+        "y": 466,
+        "width": 292,
+        "height": 70
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "行動につなげる",
+        "fontId": "noto-sans-jp",
+        "fontSize": 30,
+        "lineHeight": 48,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#24392F"
+      }
+    },
+    {
+      "id": "body-2",
+      "name": "説明 3",
+      "bounds": {
+        "x": 819,
+        "y": 548,
+        "width": 292,
+        "height": 85
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "次に何をすればよいか。\n具体的な一歩を添える。",
+        "fontId": "noto-sans-jp",
+        "fontSize": 22,
+        "lineHeight": 35,
+        "letterSpacing": 0,
+        "maxLines": 2,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#7B877E"
+      }
+    },
+    {
+      "id": "footer",
+      "name": "記事・資料の出典",
+      "bounds": {
+        "x": 64,
+        "y": 714,
+        "width": 1060,
+        "height": 45
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "type": "text",
+      "text": {
+        "value": "出典・記事名をここに記載 / 自由に編集できます",
+        "fontId": "noto-sans-jp",
+        "fontSize": 17,
+        "lineHeight": 27,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left",
+        "kinsoku": "strict-japanese"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#859185"
+      }
+    }
+  ],
+  "fonts": [
+    {
+      "id": "noto-sans-jp",
+      "nameHint": "Noto Sans JP Regular (SubsetOTF, noto-cjk Sans2.004)",
+      "state": "resolved",
+      "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    }
+  ],
+  "assets": [],
+  "slots": [
+    {
+      "id": "headline",
+      "type": "text",
+      "required": true,
+      "nodeId": "title",
+      "target": "text.value",
+      "maxLength": 60
+    }
+  ],
+  "variants": [
+    {
+      "id": "wide",
+      "label": "ブログ・資料 横長",
+      "width": 1200,
+      "height": 800,
+      "approvalStatus": "approved",
+      "nodePatches": []
+    }
+  ]
+}

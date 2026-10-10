@@ -1,5 +1,7 @@
 # cargo-deny policy (development-time audit; see docs/DEPENDENCIES.md).
-# Run: cargo deny check
+# Run: cargo deny --target aarch64-apple-darwin check
+# Runtime feature checks remain mandatory in scripts/offline-desktop-audit.sh:
+# Cargo metadata can merge build-only and runtime feature contexts.
 
 [graph]
 all-features = false
@@ -20,6 +22,9 @@ allow = [
     "Zlib",
     "Unlicense",
 ]
+# Tauri's CSS selector implementation is unchanged MPL source. Its published
+# source archive and license text are bundled; this exception is version-scoped.
+exceptions = [{ crate = "selectors@0.38.0", allow = ["MPL-2.0"] }]
 # Workspace crates are proprietary/unpublished.
 [licenses.private]
 ignore = true
@@ -29,12 +34,15 @@ multiple-versions = "warn"
 wildcards = "deny"
 # Workspace-internal path dependencies (all crates are publish = false).
 allow-wildcard-paths = true
-# Network clients, async runtimes, TLS and AI / ML runtimes must not enter the
-# graph at all (runtime or build time).
+# Network clients, TLS and AI / ML runtimes must not enter the graph.
+# Only pinned Tauri may directly depend on Tokio for local IPC/CPU tasks.
+# Core runtime audit still prohibits every async runtime, including Tokio.
 deny = [
     { crate = "reqwest" }, { crate = "hyper" }, { crate = "h2" }, { crate = "ureq" },
     { crate = "curl" }, { crate = "curl-sys" }, { crate = "isahc" }, { crate = "surf" },
-    { crate = "attohttpc" }, { crate = "tokio" }, { crate = "async-std" }, { crate = "rustls" },
+    { crate = "attohttpc" },
+    { crate = "tokio", wrappers = ["tauri@2.12.2"], reason = "local Tauri IPC; release net/process features are separately forbidden" },
+    { crate = "async-std" }, { crate = "rustls" },
     { crate = "native-tls" }, { crate = "openssl" }, { crate = "openssl-sys" },
     { crate = "tungstenite" }, { crate = "quinn" }, { crate = "hickory-resolver" },
     { crate = "ort" }, { crate = "onnxruntime" }, { crate = "tch" }, { crate = "candle-core" },

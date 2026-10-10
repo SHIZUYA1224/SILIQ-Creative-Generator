@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "SILIQ Creative Generator",
+  "version": "0.1.0",
+  "identifier": "jp.siliq.creative-generator",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [{"label": "main", "title": "SILIQ Creative Generator", "create": false, "width": 1440, "height": 960, "minWidth": 1000, "minHeight": 700}],
+    "security": {
+      "csp": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src ipc: http://ipc.localhost; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'",
+      "capabilities": ["main"]
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "dmg"],
+    "icon": ["icons/icon.icns", "icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png"],
+    "resources": {
+      "../../../fixtures/public-safe/": "public-safe/",
+      "../../../third_party/NOTICE": "NOTICE",
+      "../../../third_party/licenses/": "licenses/",
+      "../../../third_party/sources/": "sources/",
+      "../../../third_party/sbom-aarch64-apple-darwin.json": "sbom.json",
+      "../../../third_party/license-inventory.json": "license-inventory.json",
+      "../../../third_party/upstream-license-sources.json": "upstream-license-sources.json",
+      "../../../third_party/native-license-sources.json": "native-license-sources.json"
+    },
+    "macOS": {"minimumSystemVersion": "12.0", "entitlements": "Entitlements.plist"}
+  }
+}

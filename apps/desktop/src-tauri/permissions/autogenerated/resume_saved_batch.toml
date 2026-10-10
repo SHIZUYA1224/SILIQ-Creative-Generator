@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-resume-saved-batch"
+description = "Enables the resume_saved_batch command without any pre-configured scope."
+commands.allow = ["resume_saved_batch"]
+
+[[permission]]
+identifier = "deny-resume-saved-batch"
+description = "Denies the resume_saved_batch command without any pre-configured scope."
+commands.deny = ["resume_saved_batch"]

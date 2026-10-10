@@ -94,7 +94,7 @@ fn logo_aspect_distortion_rejected() {
 #[test]
 fn unknown_schema_version_rejected() {
     let mut v = sample();
-    v["schemaVersion"] = json!("0.4.0-core");
+    v["schemaVersion"] = json!("0.5.0-core");
     assert_eq!(codes(&v), vec![Code::Schema]);
 }
 
@@ -356,4 +356,57 @@ mod binding {
                 .all(|i| i.code == Code::DataInvalid && i.location.row_id.as_deref() == Some("r9"))
         );
     }
+}
+
+#[test]
+fn advanced_styles_require_0_4_and_validate_references_and_limits() {
+    let mut v = fixture();
+    v["nodeStyles"] = json!([{"nodeId":"background","stroke":{"color":"#ffffff","width":2}}]);
+    assert!(codes(&v).contains(&Code::Schema));
+    v["schemaVersion"] = json!("0.4.0-core");
+    assert!(codes(&v).is_empty());
+    v["nodeStyles"][0]["nodeId"] = json!("missing");
+    assert!(codes(&v).contains(&Code::DocumentInvalid));
+    v["nodeStyles"][0]["nodeId"] = json!("headline");
+    assert!(codes(&v).contains(&Code::DocumentInvalid));
+    v["nodeStyles"][0] = json!({"nodeId":"background","blendMode":"overlay"});
+    assert!(codes(&v).contains(&Code::Schema));
+}
+#[test]
+fn text_run_ranges_use_utf8_boundaries_and_declared_fonts() {
+    let mut v = fixture();
+    v["schemaVersion"] = json!("0.4.0-core");
+    let font = v["fonts"][0]["id"].clone();
+    let n = node_mut(&mut v, "headline");
+    n["text"]["value"] = json!("日本語ABC");
+    n["text"]["runs"] = json!([{"start":0,"end":6,"fontId":font,"color":"#ff0000"}]);
+    assert!(codes(&v).is_empty());
+    node_mut(&mut v, "headline")["text"]["runs"][0]["start"] = json!(1);
+    assert!(codes(&v).contains(&Code::DocumentInvalid));
+    node_mut(&mut v, "headline")["text"]["runs"][0]["start"] = json!(0);
+    node_mut(&mut v, "headline")["text"]["runs"][0]["fontId"] = json!("missing");
+    assert!(codes(&v).contains(&Code::FontMissing));
+}
+#[test]
+fn editable_path_parser_bounds_expanded_relative_coordinates() {
+    assert!(design_svg::parse_path("M0 0 C10 20 30 40 50 60 Q60 70 80 90 Z").is_ok());
+    assert!(design_svg::parse_path("M0 0 A10 10 0 0 0 20 20").is_err());
+    assert!(design_svg::parse_path("M0 0 l1000000 0 l1000000 0").is_err());
+    assert!(design_svg::parse_path("MNaN 0").is_err());
+}
+
+#[test]
+fn brand_snapshot_preserves_named_styles_and_restricts_logo_choices() {
+    let mut v = fixture();
+    v["schemaVersion"] = json!("0.4.0-core");
+    let text = node_mut(&mut v, "headline")["text"].clone();
+    let logo = node_mut(&mut v, "brand-logo")["assetId"].clone();
+    v["brandSnapshot"] = json!({"id":"test-brand","revision":1,"colors":[{"id":"accent","name":"Accent","color":"#39735b"}],"textStyles":[{"id":"headline","name":"Headline","style":text}],"logoAssetIds":[logo]});
+    let doc = load_document(v.to_string().as_bytes()).unwrap();
+    assert_eq!(doc.brand_snapshot.as_ref().unwrap().colors[0].name, "Accent");
+    assert_eq!(load_document(&serde_json::to_vec(&doc).unwrap()).unwrap(), doc);
+    v["brandSnapshot"]["logoAssetIds"] = json!([]);
+    assert!(codes(&v).contains(&Code::AssetType));
+    v["brandSnapshot"]["logoAssetIds"] = json!(["missing"]);
+    assert!(codes(&v).contains(&Code::AssetMissing));
 }

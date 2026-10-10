@@ -13,6 +13,7 @@ pub struct ResolvedVariant {
     pub approval_status: ApprovalStatus,
     /// Nodes with this variant's patches applied, in document order.
     pub nodes: Vec<Node>,
+    pub node_styles: Vec<NodeStyle>,
 }
 
 /// Resolve `variant_id` against a document that already passed `validate`.
@@ -27,10 +28,18 @@ pub fn resolve_variant(doc: &DesignDocument, variant_id: &str) -> Result<Resolve
     })?;
 
     let mut nodes = doc.nodes.clone();
+    let mut node_styles = doc.node_styles.clone();
     for p in &var.node_patches {
         // validate() guarantees the node exists and that fontSize targets text.
         let node = nodes.iter_mut().find(|n| n.id() == p.node_id).expect("validated patch target");
         *node.bounds_mut() = p.bounds;
+        if let Some(affine) = p.affine {
+            let index = node_styles.iter().position(|s| s.node_id == p.node_id).unwrap_or_else(|| {
+                node_styles.push(NodeStyle::new(&p.node_id));
+                node_styles.len() - 1
+            });
+            node_styles[index].affine = Some(affine);
+        }
         if let Node::Text { text, .. } = &mut *node {
             if let Some(fs) = p.font_size {
                 text.font_size = fs;
@@ -47,6 +56,7 @@ pub fn resolve_variant(doc: &DesignDocument, variant_id: &str) -> Result<Resolve
         height: var.height,
         approval_status: var.approval_status,
         nodes,
+        node_styles,
     })
 }
 

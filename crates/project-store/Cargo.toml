@@ -1,0 +1,24 @@
+[package]
+name = "project-store"
+version = "0.0.1"
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+design-model = { workspace = true }
+design-render = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+# Stored ZIP only: content is already compressed; no codecs, crypto, or network.
+zip = { version = "=8.6.0", default-features = false }
+rustix = { version = "=1.1.5", default-features = false, features = ["std", "fs"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Darwin metadata-only checks and no-follow lookup of an exact Sandbox grant.
+libc = "=0.2.190"

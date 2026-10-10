@@ -12,5 +12,7 @@ workspace = true
 [dependencies]
 design-model = { workspace = true }
 design-render = { workspace = true }
+design-export = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+rustix = { version = "=1.1.5", default-features = false, features = ["std", "fs"] }
