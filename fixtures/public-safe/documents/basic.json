@@ -1,0 +1,377 @@
+{
+  "format": "siliq-creative-generator-core",
+  "schemaVersion": "0.2.0-core",
+  "documentId": "fixture-basic",
+  "revision": 1,
+  "title": "Phase 0 fixture — public-safe synthetic assets",
+  "colorSpace": "sRGB",
+  "baseArtboard": {
+    "width": 1080,
+    "height": 1080,
+    "rootNodeId": "root"
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "name": "root",
+      "type": "group",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1080
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "childIds": [
+        "background",
+        "photo",
+        "accent-group",
+        "headline",
+        "caption",
+        "brand-logo"
+      ]
+    },
+    {
+      "id": "background",
+      "name": "background",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1080
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "linear-gradient",
+        "angleDeg": 90,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#F4F4F4",
+            "opacity": 1
+          },
+          {
+            "offset": 1,
+            "color": "#D0D4DC",
+            "opacity": 1
+          }
+        ]
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "photo",
+      "name": "photo",
+      "type": "image",
+      "bounds": {
+        "x": 60,
+        "y": 60,
+        "width": 960,
+        "height": 560
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "photo",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.65,
+        "y": 0.4
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "accent-group",
+      "name": "accent",
+      "type": "group",
+      "bounds": {
+        "x": 820,
+        "y": 560,
+        "width": 200,
+        "height": 120
+      },
+      "rotationDeg": -8,
+      "opacity": 0.85,
+      "visible": true,
+      "locked": false,
+      "childIds": [
+        "accent"
+      ]
+    },
+    {
+      "id": "accent",
+      "name": "accent bar",
+      "type": "rect",
+      "bounds": {
+        "x": 820,
+        "y": 560,
+        "width": 200,
+        "height": 120
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "linear-gradient",
+        "angleDeg": 0,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#F5C83C",
+            "opacity": 1
+          },
+          {
+            "offset": 1,
+            "color": "#E8590C",
+            "opacity": 0.6
+          }
+        ]
+      },
+      "cornerRadius": 24
+    },
+    {
+      "id": "headline",
+      "name": "headline",
+      "type": "text",
+      "bounds": {
+        "x": 60,
+        "y": 660,
+        "width": 960,
+        "height": 180
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "品質を、崩さず量産する。Quality at scale, without drift.",
+        "fontId": "noto-sans-jp",
+        "fontSize": 64,
+        "lineHeight": 80,
+        "letterSpacing": 0,
+        "maxLines": 2,
+        "overflowPolicy": "fit-approved-sizes",
+        "allowedFontSizes": [
+          64,
+          63,
+          62,
+          61,
+          60,
+          59,
+          58,
+          57,
+          56
+        ],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#171717"
+      }
+    },
+    {
+      "id": "caption",
+      "name": "caption",
+      "type": "text",
+      "bounds": {
+        "x": 60,
+        "y": 860,
+        "width": 960,
+        "height": 40
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "テスト用の合成素材のみ・顧客素材なし",
+        "fontId": "noto-sans-jp",
+        "fontSize": 28,
+        "lineHeight": 40,
+        "letterSpacing": 1,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#4A4F57"
+      }
+    },
+    {
+      "id": "brand-logo",
+      "name": "logo",
+      "type": "logo",
+      "bounds": {
+        "x": 60,
+        "y": 930,
+        "width": 240,
+        "height": 80
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": true,
+      "assetId": "logo",
+      "fit": "contain",
+      "preserveAspectRatio": true,
+      "minWidth": 120,
+      "clearSpace": 24
+    }
+  ],
+  "fonts": [
+    {
+      "id": "noto-sans-jp",
+      "nameHint": "Noto Sans JP Regular (SubsetOTF, noto-cjk Sans2.004)",
+      "state": "resolved",
+      "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    }
+  ],
+  "assets": [
+    {
+      "id": "photo",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "f2f5342afd08ccb89ec325245f75069eb1936bd9fc3fdf9d3d9a1995bde5cda0",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "logo",
+      "kind": "vector",
+      "state": "resolved",
+      "sha256": "08317af1678409f3a1dcf29b651f12b439d311bcddefdffd3580cd4b0067c96c",
+      "mimeHint": "image/svg+xml"
+    }
+  ],
+  "slots": [
+    {
+      "id": "headline-slot",
+      "type": "text",
+      "required": true,
+      "nodeId": "headline",
+      "target": "text.value",
+      "maxLength": 80
+    },
+    {
+      "id": "photo-slot",
+      "type": "image",
+      "required": true,
+      "nodeId": "photo",
+      "target": "assetId"
+    }
+  ],
+  "variants": [
+    {
+      "id": "square",
+      "label": "square 1080x1080",
+      "width": 1080,
+      "height": 1080,
+      "approvalStatus": "approved",
+      "nodePatches": []
+    },
+    {
+      "id": "portrait",
+      "label": "portrait 1080x1350",
+      "width": 1080,
+      "height": 1350,
+      "approvalStatus": "approved",
+      "nodePatches": [
+        {
+          "nodeId": "root",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1350
+          }
+        },
+        {
+          "nodeId": "background",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1350
+          }
+        },
+        {
+          "nodeId": "photo",
+          "bounds": {
+            "x": 60,
+            "y": 60,
+            "width": 960,
+            "height": 800
+          }
+        },
+        {
+          "nodeId": "accent-group",
+          "bounds": {
+            "x": 820,
+            "y": 800,
+            "width": 200,
+            "height": 120
+          }
+        },
+        {
+          "nodeId": "accent",
+          "bounds": {
+            "x": 820,
+            "y": 800,
+            "width": 200,
+            "height": 120
+          }
+        },
+        {
+          "nodeId": "headline",
+          "bounds": {
+            "x": 60,
+            "y": 900,
+            "width": 960,
+            "height": 180
+          },
+          "fontSize": 60
+        },
+        {
+          "nodeId": "caption",
+          "bounds": {
+            "x": 60,
+            "y": 1110,
+            "width": 960,
+            "height": 40
+          }
+        },
+        {
+          "nodeId": "brand-logo",
+          "bounds": {
+            "x": 60,
+            "y": 1220,
+            "width": 240,
+            "height": 80
+          }
+        }
+      ]
+    },
+    {
+      "id": "wide-draft",
+      "label": "wide 1200x628 (draft, not approved)",
+      "width": 1200,
+      "height": 628,
+      "approvalStatus": "draft",
+      "nodePatches": []
+    }
+  ]
+}

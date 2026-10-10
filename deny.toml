@@ -1,0 +1,48 @@
+# cargo-deny policy (development-time audit; see docs/DEPENDENCIES.md).
+# Run: cargo deny check
+
+[graph]
+all-features = false
+
+[advisories]
+# RustSec advisory database (fetched at audit time, never by the product).
+yanked = "deny"
+
+[licenses]
+confidence-threshold = 0.9
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Zlib",
+    "Unlicense",
+]
+# Workspace crates are proprietary/unpublished.
+[licenses.private]
+ignore = true
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# Workspace-internal path dependencies (all crates are publish = false).
+allow-wildcard-paths = true
+# Network clients, async runtimes, TLS and AI / ML runtimes must not enter the
+# graph at all (runtime or build time).
+deny = [
+    { crate = "reqwest" }, { crate = "hyper" }, { crate = "h2" }, { crate = "ureq" },
+    { crate = "curl" }, { crate = "curl-sys" }, { crate = "isahc" }, { crate = "surf" },
+    { crate = "attohttpc" }, { crate = "tokio" }, { crate = "async-std" }, { crate = "rustls" },
+    { crate = "native-tls" }, { crate = "openssl" }, { crate = "openssl-sys" },
+    { crate = "tungstenite" }, { crate = "quinn" }, { crate = "hickory-resolver" },
+    { crate = "ort" }, { crate = "onnxruntime" }, { crate = "tch" }, { crate = "candle-core" },
+    { crate = "tract-core" }, { crate = "burn" }, { crate = "tensorflow" }, { crate = "rust-bert" },
+    { crate = "tokenizers" }, { crate = "async-openai" }, { crate = "llama-cpp-2" },
+]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

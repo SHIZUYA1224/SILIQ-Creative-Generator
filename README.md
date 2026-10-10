@@ -35,5 +35,31 @@
 
 ## このリポジトリの現状（2026-10-10）
 
-- 設計パッケージ v0.2 を配置した。**製品コードはまだない。**
-- Phase 0 の環境確認結果・リスク・縦切り計画は `docs/PHASE0_PLAN.md`（承認待ち）。
+- 設計パッケージ v0.2 を配置した。
+- **Phase 0 Step A（headlessのRust CPU描画エンジンとCLI）を実装した。** 結果は `reports/G0-step-a.md`。GUI、macOS実機検証（Step B）は未着手で、G0は未判定。
+- 計画：`docs/PHASE0_PLAN.md`。依存と採用理由：`docs/DEPENDENCIES.md`。設計判断：`docs/adr/`。
+
+## Build／test（Step A。Linux x86_64で実行確認済み）
+
+Skiaの配布binaryは `scripts/cargo-verified.sh` 経由で取得する。公式URLから取得し、`third_party/skia-binaries.lock` のSHA-256と照合してからbuildへ渡す（開発時だけ通信する。製品は通信しない）。
+
+```sh
+scripts/cargo-verified.sh test --workspace
+scripts/cargo-verified.sh clippy --workspace --all-targets -- -D warnings
+scripts/cargo-verified.sh build --release -p render-cli
+scripts/repeat-render.sh 10 square          # 10回生成してhashを比較
+tests/offline/check-deps.sh                 # runtime依存とimportに通信・AI系が無いこと
+cargo deny check                            # license / advisory / ban（cargo-denyが必要）
+
+./target/release/siliq-render render \
+  --doc fixtures/public-safe/documents/basic.json --variant square \
+  --resources fixtures/public-safe/resources \
+  --out-dir out --name basic-square.png --report basic-square.report.json
+```
+
+| crate | 役割 |
+|---|---|
+| `crates/design-model` | 文書型、厳格な読み込み、意味検証、variant解決、issue形式 |
+| `crates/design-svg` | SVG安全サブセット→独自path |
+| `crates/design-render` | 資源読み込み、文字組み、RenderPlan、Skia CPU描画、PNG |
+| `crates/render-cli` | `siliq-render`（check／render） |

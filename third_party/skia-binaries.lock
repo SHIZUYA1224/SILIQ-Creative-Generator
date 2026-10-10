@@ -1,0 +1,6 @@
+# Official rust-skia prebuilt Skia binaries used for development builds.
+# Source: https://github.com/rust-skia/skia-binaries/releases (tag = skia-bindings version)
+# Fields: <rust target triple> <tag> <key> <sha256 of the .tar.gz>
+# The key encodes the rust-skia repository hash, target and Skia feature set.
+x86_64-unknown-linux-gnu 0.153.3 b7f043e0b1e2a850e702-x86_64-unknown-linux-gnu-jpegd-jpege-pdf-textlayout a23d6b205b630690e5f3c86ceaa5e3b6a1a3cb487bab18b8f27af0d2e3eef870
+aarch64-apple-darwin 0.153.3 b7f043e0b1e2a850e702-aarch64-apple-darwin-jpegd-jpege-pdf-textlayout 75e65a6e374581d59b00519719db1ff4064c256aeac9c4df977366fbcf1ec047
