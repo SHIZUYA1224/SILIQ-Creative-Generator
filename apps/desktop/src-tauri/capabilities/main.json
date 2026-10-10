@@ -1,0 +1,12 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "Local bundled editor, typed session commands and native file pickers only.",
+  "windows": ["main"],
+  "local": true,
+  "permissions": [
+    "allow-open-fixture", "allow-new-document", "allow-read-session", "allow-apply-edit", "allow-undo-edit", "allow-redo-edit", "allow-set-mode",
+    "allow-request-preview", "allow-preview-metadata", "allow-run-preflight", "allow-open-project", "allow-save-project", "allow-recover-project",
+    "allow-import-asset", "allow-resolve-font", "allow-export-png", "allow-export-design", "allow-select-dataset", "allow-preflight-batch", "allow-request-batch-preview", "allow-start-batch", "allow-batch-status", "allow-cancel-batch", "allow-resume-batch", "allow-list-saved-batches", "allow-resume-saved-batch", "allow-close-session", "allow-storage-status", "allow-cleanup-storage"
+  ]
+}

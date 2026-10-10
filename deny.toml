@@ -1,0 +1,56 @@
+# cargo-deny policy (development-time audit; see docs/DEPENDENCIES.md).
+# Run: cargo deny --target aarch64-apple-darwin check
+# Runtime feature checks remain mandatory in scripts/offline-desktop-audit.sh:
+# Cargo metadata can merge build-only and runtime feature contexts.
+
+[graph]
+all-features = false
+
+[advisories]
+# RustSec advisory database (fetched at audit time, never by the product).
+yanked = "deny"
+
+[licenses]
+confidence-threshold = 0.9
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Zlib",
+    "Unlicense",
+]
+# Tauri's CSS selector implementation is unchanged MPL source. Its published
+# source archive and license text are bundled; this exception is version-scoped.
+exceptions = [{ crate = "selectors@0.38.0", allow = ["MPL-2.0"] }]
+# Workspace crates are proprietary/unpublished.
+[licenses.private]
+ignore = true
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# Workspace-internal path dependencies (all crates are publish = false).
+allow-wildcard-paths = true
+# Network clients, TLS and AI / ML runtimes must not enter the graph.
+# Only pinned Tauri may directly depend on Tokio for local IPC/CPU tasks.
+# Core runtime audit still prohibits every async runtime, including Tokio.
+deny = [
+    { crate = "reqwest" }, { crate = "hyper" }, { crate = "h2" }, { crate = "ureq" },
+    { crate = "curl" }, { crate = "curl-sys" }, { crate = "isahc" }, { crate = "surf" },
+    { crate = "attohttpc" },
+    { crate = "tokio", wrappers = ["tauri@2.12.2"], reason = "local Tauri IPC; release net/process features are separately forbidden" },
+    { crate = "async-std" }, { crate = "rustls" },
+    { crate = "native-tls" }, { crate = "openssl" }, { crate = "openssl-sys" },
+    { crate = "tungstenite" }, { crate = "quinn" }, { crate = "hickory-resolver" },
+    { crate = "ort" }, { crate = "onnxruntime" }, { crate = "tch" }, { crate = "candle-core" },
+    { crate = "tract-core" }, { crate = "burn" }, { crate = "tensorflow" }, { crate = "rust-bert" },
+    { crate = "tokenizers" }, { crate = "async-openai" }, { crate = "llama-cpp-2" },
+]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

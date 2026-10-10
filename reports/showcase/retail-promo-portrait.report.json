@@ -1,0 +1,799 @@
+{
+  "documentId": "fixture-retail-promo",
+  "revision": 1,
+  "variantId": "portrait",
+  "width": 1080,
+  "height": 1350,
+  "renderProfile": {
+    "engine": "siliq design-render 0.0.1 (CPU raster)",
+    "skiaBindings": "0.153.3",
+    "surface": "RGBA8888, premultiplied alpha, transparent initial pixels",
+    "colorSpace": "sRGB",
+    "antiAlias": true,
+    "imageSampling": "linear filter, linear mipmaps",
+    "gradientInterpolation": "unpremultiplied, destination (sRGB) space, clamp",
+    "text": "SkParagraph, hinting off, rounding hack off, forced strut, half leading, no fallback",
+    "pngEncoder": "Skia libpng, all filters, zlib level 6, no text chunks"
+  },
+  "fontBackend": "freetype-custom-empty",
+  "fonts": [
+    {
+      "id": "black",
+      "sha256": "3aa30b0956510f4205f759ab3079a5b658310ebcda2577f290466ea51c948819",
+      "faceIndex": 0
+    },
+    {
+      "id": "bold",
+      "sha256": "1b0edfb500b73a4fa8a4fcaae1bbbd403994e08e73e3e0da37e70d3853f42c5f",
+      "faceIndex": 0
+    }
+  ],
+  "assets": [
+    {
+      "id": "rays",
+      "sha256": "8b22c0f334584eab6614a6a27d8ca18f25c29863166b7c2643251d86f177490a",
+      "kind": "vector"
+    },
+    {
+      "id": "shield",
+      "sha256": "b84df47d1cd018341b0ad214d4109fcb592f926e460b8590c57600606ca7aa6f",
+      "kind": "vector"
+    },
+    {
+      "id": "star",
+      "sha256": "cc74312320acb82634fc1a8c906b7ab3b21fa3b275a849a912f6cf1e0bd3f8c9",
+      "kind": "vector"
+    }
+  ],
+  "text": [
+    {
+      "nodeId": "shop",
+      "fontId": "black",
+      "requestedFontSize": 50.0,
+      "appliedFontSize": 50.0,
+      "triedFontSizes": [
+        50.0
+      ],
+      "lineCount": 1,
+      "height": 62.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 28,
+          "hardBreak": true,
+          "width": 471.44952392578125
+        }
+      ]
+    },
+    {
+      "nodeId": "shop-sub",
+      "fontId": "bold",
+      "requestedFontSize": 22.0,
+      "appliedFontSize": 22.0,
+      "triedFontSizes": [
+        22.0
+      ],
+      "lineCount": 1,
+      "height": 34.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 42,
+          "hardBreak": true,
+          "width": 308.00103759765625
+        }
+      ]
+    },
+    {
+      "nodeId": "tag-text",
+      "fontId": "black",
+      "requestedFontSize": 30.0,
+      "appliedFontSize": 30.0,
+      "triedFontSizes": [
+        30.0
+      ],
+      "lineCount": 1,
+      "height": 62.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 9,
+          "hardBreak": true,
+          "width": 127.79986572265625
+        }
+      ]
+    },
+    {
+      "nodeId": "catch",
+      "fontId": "black",
+      "requestedFontSize": 68.0,
+      "appliedFontSize": 68.0,
+      "triedFontSizes": [
+        68.0
+      ],
+      "lineCount": 1,
+      "height": 104.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 29,
+          "hardBreak": true,
+          "width": 687.144775390625
+        }
+      ]
+    },
+    {
+      "nodeId": "label-shaken",
+      "fontId": "black",
+      "requestedFontSize": 168.0,
+      "appliedFontSize": 168.0,
+      "triedFontSizes": [
+        168.0
+      ],
+      "lineCount": 1,
+      "height": 190.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 6,
+          "hardBreak": true,
+          "width": 323.9999694824219
+        }
+      ]
+    },
+    {
+      "nodeId": "label-box-text",
+      "fontId": "black",
+      "requestedFontSize": 44.0,
+      "appliedFontSize": 44.0,
+      "triedFontSizes": [
+        44.0
+      ],
+      "lineCount": 1,
+      "height": 74.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 12,
+          "hardBreak": true,
+          "width": 183.9996337890625
+        }
+      ]
+    },
+    {
+      "nodeId": "label-car",
+      "fontId": "bold",
+      "requestedFontSize": 30.0,
+      "appliedFontSize": 30.0,
+      "triedFontSizes": [
+        30.0
+      ],
+      "lineCount": 1,
+      "height": 56.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 24,
+          "hardBreak": true,
+          "width": 239.999755859375
+        }
+      ]
+    },
+    {
+      "nodeId": "price-shadow",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price-outline-0",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price-outline-1",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price-outline-2",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price-outline-3",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price-outline-4",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price-outline-5",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price-outline-6",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price-outline-7",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "price",
+      "fontId": "black",
+      "requestedFontSize": 250.0,
+      "appliedFontSize": 250.0,
+      "triedFontSizes": [
+        250.0
+      ],
+      "lineCount": 1,
+      "height": 260.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 656.75
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-shadow",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-outline-0",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-outline-1",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-outline-2",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-outline-3",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-outline-4",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-outline-5",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-outline-6",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen-outline-7",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "yen",
+      "fontId": "black",
+      "requestedFontSize": 96.0,
+      "appliedFontSize": 96.0,
+      "triedFontSizes": [
+        96.0
+      ],
+      "lineCount": 1,
+      "height": 110.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 3,
+          "hardBreak": true,
+          "width": 95.99995422363281
+        }
+      ]
+    },
+    {
+      "nodeId": "tax",
+      "fontId": "bold",
+      "requestedFontSize": 28.0,
+      "appliedFontSize": 28.0,
+      "triedFontSizes": [
+        28.0
+      ],
+      "lineCount": 1,
+      "height": 44.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 8,
+          "hardBreak": true,
+          "width": 77.1683349609375
+        }
+      ]
+    },
+    {
+      "nodeId": "note",
+      "fontId": "bold",
+      "requestedFontSize": 22.0,
+      "appliedFontSize": 22.0,
+      "triedFontSizes": [
+        22.0
+      ],
+      "lineCount": 1,
+      "height": 36.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 87,
+          "hardBreak": true,
+          "width": 635.802001953125
+        }
+      ]
+    },
+    {
+      "nodeId": "badge-top",
+      "fontId": "black",
+      "requestedFontSize": 40.0,
+      "appliedFontSize": 40.0,
+      "triedFontSizes": [
+        40.0
+      ],
+      "lineCount": 1,
+      "height": 50.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 6,
+          "hardBreak": true,
+          "width": 79.99993896484375
+        }
+      ]
+    },
+    {
+      "nodeId": "badge-main",
+      "fontId": "black",
+      "requestedFontSize": 76.0,
+      "appliedFontSize": 76.0,
+      "triedFontSizes": [
+        76.0
+      ],
+      "lineCount": 1,
+      "height": 96.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 162.56793212890625
+        }
+      ]
+    },
+    {
+      "nodeId": "card-0-text",
+      "fontId": "black",
+      "requestedFontSize": 48.0,
+      "appliedFontSize": 48.0,
+      "triedFontSizes": [
+        48.0
+      ],
+      "lineCount": 1,
+      "height": 80.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 12,
+          "hardBreak": true,
+          "width": 192.0003662109375
+        }
+      ]
+    },
+    {
+      "nodeId": "card-1-text",
+      "fontId": "black",
+      "requestedFontSize": 48.0,
+      "appliedFontSize": 48.0,
+      "triedFontSizes": [
+        48.0
+      ],
+      "lineCount": 1,
+      "height": 80.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 11,
+          "hardBreak": true,
+          "width": 215.71241760253906
+        }
+      ]
+    },
+    {
+      "nodeId": "card-2-text",
+      "fontId": "black",
+      "requestedFontSize": 48.0,
+      "appliedFontSize": 48.0,
+      "triedFontSizes": [
+        48.0
+      ],
+      "lineCount": 1,
+      "height": 80.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 12,
+          "hardBreak": true,
+          "width": 192.0003662109375
+        }
+      ]
+    },
+    {
+      "nodeId": "tel-label",
+      "fontId": "bold",
+      "requestedFontSize": 32.0,
+      "appliedFontSize": 32.0,
+      "triedFontSizes": [
+        32.0
+      ],
+      "lineCount": 1,
+      "height": 48.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 45,
+          "hardBreak": true,
+          "width": 510.00091552734375
+        }
+      ]
+    },
+    {
+      "nodeId": "tel-free",
+      "fontId": "black",
+      "requestedFontSize": 40.0,
+      "appliedFontSize": 40.0,
+      "triedFontSizes": [
+        40.0
+      ],
+      "lineCount": 2,
+      "height": 104.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 6,
+          "hardBreak": true,
+          "width": 79.99993896484375
+        },
+        {
+          "start": 7,
+          "end": 13,
+          "hardBreak": true,
+          "width": 79.99993896484375
+        }
+      ]
+    },
+    {
+      "nodeId": "tel",
+      "fontId": "black",
+      "requestedFontSize": 104.0,
+      "appliedFontSize": 104.0,
+      "triedFontSizes": [
+        104.0
+      ],
+      "lineCount": 1,
+      "height": 126.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 12,
+          "hardBreak": true,
+          "width": 677.024658203125
+        }
+      ]
+    },
+    {
+      "nodeId": "hours",
+      "fontId": "bold",
+      "requestedFontSize": 30.0,
+      "appliedFontSize": 30.0,
+      "triedFontSizes": [
+        30.0
+      ],
+      "lineCount": 1,
+      "height": 44.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 36,
+          "hardBreak": true,
+          "width": 423.82958984375
+        }
+      ]
+    },
+    {
+      "nodeId": "fiction",
+      "fontId": "bold",
+      "requestedFontSize": 18.0,
+      "appliedFontSize": 18.0,
+      "triedFontSizes": [
+        18.0
+      ],
+      "lineCount": 1,
+      "height": 30.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 96,
+          "hardBreak": true,
+          "width": 573.656494140625
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "outputSha256": "e5cd68a12df66f0340f4f3affaf221487151de64a1100945d17c5254d9907465"
+}

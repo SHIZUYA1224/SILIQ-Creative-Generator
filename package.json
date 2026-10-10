@@ -1,0 +1,41 @@
+{
+  "name": "siliq-creative-generator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "vite --config apps/desktop/vite.config.ts",
+    "build": "tsc --noEmit && vite build --config apps/desktop/vite.config.ts",
+    "typecheck": "tsc --noEmit",
+    "test:ui": "vitest run",
+    "desktop": "node scripts/run-macos.mjs",
+    "desktop:build": "python3 scripts/build-macos.py",
+    "contracts": "node scripts/generate-contracts.mjs",
+    "macos:build": "python3 scripts/build-macos.py",
+    "macos:test": "bash scripts/test-macos-editor.sh",
+    "macos:typecheck": "xcrun swiftc -swift-version 5 -target arm64-apple-macos13.0 -import-objc-header crates/native-bridge/include/siliq_native.h -typecheck apps/macos/Sources/*.swift",
+    "desktop:tauri": "node scripts/desktop.mjs dev",
+    "desktop:tauri:build": "node scripts/desktop.mjs build"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "2.12.2",
+    "lucide-react": "1.55.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.12.1",
+    "@testing-library/react": "16.3.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "jsdom": "27.4.0",
+    "json-schema-to-typescript": "16.0.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.4",
+    "vitest": "4.1.11"
+  }
+}

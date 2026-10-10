@@ -1,0 +1,696 @@
+{
+  "format": "siliq-creative-generator-core",
+  "schemaVersion": "0.2.0-core",
+  "documentId": "fixture-showcase",
+  "revision": 1,
+  "title": "Showcase fixture — fictional brand, synthetic assets (approval set for fixture use only)",
+  "colorSpace": "sRGB",
+  "baseArtboard": {
+    "width": 1080,
+    "height": 1350,
+    "rootNodeId": "root"
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "name": "artboard",
+      "type": "group",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1350
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "childIds": [
+        "bg",
+        "backdrop",
+        "fade",
+        "mark",
+        "brand",
+        "pill",
+        "pill-text",
+        "kicker",
+        "headline",
+        "rule",
+        "body",
+        "card",
+        "dates",
+        "venue",
+        "price",
+        "price-note"
+      ]
+    },
+    {
+      "id": "bg",
+      "name": "espresso background",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1350
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#140C08"
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "backdrop",
+      "name": "key visual",
+      "type": "image",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 900
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "backdrop",
+      "fit": "cover",
+      "focalPoint": {
+        "x": 0.62,
+        "y": 0.35
+      },
+      "clipToBounds": true
+    },
+    {
+      "id": "fade",
+      "name": "fade to background",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 480,
+        "width": 1080,
+        "height": 421
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "linear-gradient",
+        "angleDeg": 90,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#140C08",
+            "opacity": 0
+          },
+          {
+            "offset": 0.65,
+            "color": "#140C08",
+            "opacity": 0.82
+          },
+          {
+            "offset": 1,
+            "color": "#140C08",
+            "opacity": 1
+          }
+        ]
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "mark",
+      "name": "brand mark",
+      "type": "logo",
+      "bounds": {
+        "x": 72,
+        "y": 68,
+        "width": 56,
+        "height": 56
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": true,
+      "assetId": "bean",
+      "fit": "contain",
+      "preserveAspectRatio": true,
+      "minWidth": 40,
+      "clearSpace": 12
+    },
+    {
+      "id": "brand",
+      "name": "brand name",
+      "type": "text",
+      "bounds": {
+        "x": 144,
+        "y": 68,
+        "width": 520,
+        "height": 56
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "KOHAKU COFFEE ROASTERS",
+        "fontId": "bold",
+        "fontSize": 22,
+        "lineHeight": 56,
+        "letterSpacing": 4,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "en",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#F6EBDD"
+      }
+    },
+    {
+      "id": "pill",
+      "name": "season pill",
+      "type": "rect",
+      "bounds": {
+        "x": 812,
+        "y": 74,
+        "width": 196,
+        "height": 44
+      },
+      "rotationDeg": 0,
+      "opacity": 0.14,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 22
+    },
+    {
+      "id": "pill-text",
+      "name": "season label",
+      "type": "text",
+      "bounds": {
+        "x": 812,
+        "y": 74,
+        "width": 196,
+        "height": 44
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "AUTUMN 2026",
+        "fontId": "bold",
+        "fontSize": 17,
+        "lineHeight": 44,
+        "letterSpacing": 3,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "en",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#F6EBDD"
+      }
+    },
+    {
+      "id": "kicker",
+      "name": "kicker",
+      "type": "text",
+      "bounds": {
+        "x": 72,
+        "y": 604,
+        "width": 936,
+        "height": 36
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "SEASONAL DARK ROAST",
+        "fontId": "bold",
+        "fontSize": 22,
+        "lineHeight": 36,
+        "letterSpacing": 6,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "en",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#F2B544"
+      }
+    },
+    {
+      "id": "headline",
+      "name": "headline",
+      "type": "text",
+      "bounds": {
+        "x": 72,
+        "y": 652,
+        "width": 936,
+        "height": 264
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "秋の深煎り、\nはじまる。",
+        "fontId": "bold",
+        "fontSize": 104,
+        "lineHeight": 128,
+        "letterSpacing": -4,
+        "maxLines": 2,
+        "overflowPolicy": "fit-approved-sizes",
+        "allowedFontSizes": [
+          104,
+          96,
+          88
+        ],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFF7EC"
+      }
+    },
+    {
+      "id": "rule",
+      "name": "accent rule",
+      "type": "rect",
+      "bounds": {
+        "x": 72,
+        "y": 944,
+        "width": 64,
+        "height": 4
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#F2B544"
+      },
+      "cornerRadius": 2
+    },
+    {
+      "id": "body",
+      "name": "body copy",
+      "type": "text",
+      "bounds": {
+        "x": 72,
+        "y": 976,
+        "width": 936,
+        "height": 104
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "焙煎士が選んだ、3種のシングルオリジン。\n琥珀色の甘さと、長く続く余韻を。",
+        "fontId": "regular",
+        "fontSize": 30,
+        "lineHeight": 52,
+        "letterSpacing": 1,
+        "maxLines": 2,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#D9C9B6"
+      }
+    },
+    {
+      "id": "card",
+      "name": "info card",
+      "type": "rect",
+      "bounds": {
+        "x": 72,
+        "y": 1124,
+        "width": 936,
+        "height": 154
+      },
+      "rotationDeg": 0,
+      "opacity": 0.07,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 24
+    },
+    {
+      "id": "dates",
+      "name": "campaign dates",
+      "type": "text",
+      "bounds": {
+        "x": 108,
+        "y": 1150,
+        "width": 560,
+        "height": 44
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "10.10 FRI — 11.30 SUN",
+        "fontId": "bold",
+        "fontSize": 30,
+        "lineHeight": 44,
+        "letterSpacing": 2,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "en",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#F6EBDD"
+      }
+    },
+    {
+      "id": "venue",
+      "name": "venue",
+      "type": "text",
+      "bounds": {
+        "x": 108,
+        "y": 1202,
+        "width": 560,
+        "height": 40
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "全国のKOHAKU各店・公式アプリにて",
+        "fontId": "regular",
+        "fontSize": 22,
+        "lineHeight": 40,
+        "letterSpacing": 1,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#BFAE9A"
+      }
+    },
+    {
+      "id": "price",
+      "name": "price",
+      "type": "text",
+      "bounds": {
+        "x": 668,
+        "y": 1138,
+        "width": 304,
+        "height": 92
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "¥680",
+        "fontId": "bold",
+        "fontSize": 76,
+        "lineHeight": 92,
+        "letterSpacing": -1,
+        "maxLines": 1,
+        "overflowPolicy": "fit-approved-sizes",
+        "allowedFontSizes": [
+          76,
+          64
+        ],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#F2B544"
+      }
+    },
+    {
+      "id": "price-note",
+      "name": "price note",
+      "type": "text",
+      "bounds": {
+        "x": 668,
+        "y": 1230,
+        "width": 304,
+        "height": 36
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "税込 / Tallサイズ",
+        "fontId": "regular",
+        "fontSize": 20,
+        "lineHeight": 36,
+        "letterSpacing": 1,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#BFAE9A"
+      }
+    }
+  ],
+  "fonts": [
+    {
+      "id": "regular",
+      "nameHint": "Noto Sans JP Regular (SubsetOTF, noto-cjk Sans2.004)",
+      "state": "resolved",
+      "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    },
+    {
+      "id": "bold",
+      "nameHint": "Noto Sans JP Bold (SubsetOTF, noto-cjk Sans2.004)",
+      "state": "resolved",
+      "sha256": "1b0edfb500b73a4fa8a4fcaae1bbbd403994e08e73e3e0da37e70d3853f42c5f",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    }
+  ],
+  "assets": [
+    {
+      "id": "backdrop",
+      "kind": "raster",
+      "state": "resolved",
+      "sha256": "d8ffb441e45dfca1da06544988dcd71d4886242df50798fbbc45784ecc2bc432",
+      "mimeHint": "image/png"
+    },
+    {
+      "id": "bean",
+      "kind": "vector",
+      "state": "resolved",
+      "sha256": "a1c4ee0188b416e60f10fdd9a47d92fb194209448592949344fd3595232ab316",
+      "mimeHint": "image/svg+xml"
+    }
+  ],
+  "slots": [
+    {
+      "id": "headline-slot",
+      "type": "text",
+      "required": true,
+      "nodeId": "headline",
+      "target": "text.value",
+      "maxLength": 30
+    },
+    {
+      "id": "price-slot",
+      "type": "text",
+      "required": true,
+      "nodeId": "price",
+      "target": "text.value",
+      "maxLength": 10
+    },
+    {
+      "id": "dates-slot",
+      "type": "text",
+      "required": true,
+      "nodeId": "dates",
+      "target": "text.value",
+      "maxLength": 40
+    },
+    {
+      "id": "visual-slot",
+      "type": "image",
+      "required": true,
+      "nodeId": "backdrop",
+      "target": "assetId"
+    }
+  ],
+  "variants": [
+    {
+      "id": "portrait",
+      "label": "Instagram portrait 1080x1350",
+      "width": 1080,
+      "height": 1350,
+      "approvalStatus": "approved",
+      "nodePatches": []
+    },
+    {
+      "id": "square",
+      "label": "square 1080x1080",
+      "width": 1080,
+      "height": 1080,
+      "approvalStatus": "approved",
+      "nodePatches": [
+        {
+          "nodeId": "root",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080
+          }
+        },
+        {
+          "nodeId": "bg",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080
+          }
+        },
+        {
+          "nodeId": "backdrop",
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 660
+          }
+        },
+        {
+          "nodeId": "fade",
+          "bounds": {
+            "x": 0,
+            "y": 300,
+            "width": 1080,
+            "height": 361
+          }
+        },
+        {
+          "nodeId": "kicker",
+          "bounds": {
+            "x": 72,
+            "y": 372,
+            "width": 936,
+            "height": 36
+          }
+        },
+        {
+          "nodeId": "headline",
+          "bounds": {
+            "x": 72,
+            "y": 416,
+            "width": 936,
+            "height": 256
+          }
+        },
+        {
+          "nodeId": "rule",
+          "bounds": {
+            "x": 72,
+            "y": 708,
+            "width": 64,
+            "height": 4
+          }
+        },
+        {
+          "nodeId": "body",
+          "bounds": {
+            "x": 72,
+            "y": 736,
+            "width": 936,
+            "height": 104
+          }
+        },
+        {
+          "nodeId": "card",
+          "bounds": {
+            "x": 72,
+            "y": 868,
+            "width": 936,
+            "height": 148
+          }
+        },
+        {
+          "nodeId": "dates",
+          "bounds": {
+            "x": 108,
+            "y": 892,
+            "width": 560,
+            "height": 44
+          }
+        },
+        {
+          "nodeId": "venue",
+          "bounds": {
+            "x": 108,
+            "y": 942,
+            "width": 560,
+            "height": 40
+          }
+        },
+        {
+          "nodeId": "price",
+          "bounds": {
+            "x": 668,
+            "y": 876,
+            "width": 304,
+            "height": 92
+          }
+        },
+        {
+          "nodeId": "price-note",
+          "bounds": {
+            "x": 668,
+            "y": 968,
+            "width": 304,
+            "height": 36
+          }
+        }
+      ]
+    }
+  ]
+}

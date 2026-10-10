@@ -1,0 +1,45 @@
+[workspace]
+resolver = "3"
+members = [
+  "crates/native-bridge",
+    "crates/design-model",
+    "crates/design-edit",
+    "crates/design-svg",
+    "crates/design-render",
+    "crates/render-cli",
+    "crates/job-runner",
+    "apps/desktop/src-tauri",
+    "crates/project-store",
+    "crates/design-export",
+]
+
+[workspace.package]
+edition = "2024"
+license = "UNLICENSED"
+publish = false
+rust-version = "1.97"
+
+[workspace.lints.clippy]
+# Issues are returned on the cold error path and carry structured location
+# data on purpose; boxing them would only add noise.
+result_large_err = "allow"
+
+[workspace.dependencies]
+# Versions are pinned exactly; see docs/DEPENDENCIES.md for the rationale.
+# skia-safe: these features match the only official prebuilt Skia binary set
+# that includes textlayout ("jpegd-jpege-pdf-textlayout"). pdf / jpeg-encode are
+# compiled into that binary but are not used by Phase 0 code.
+skia-safe = { version = "=0.153.3", default-features = false, features = ["binary-cache", "embed-icudtl", "pdf", "jpeg", "textlayout"] }
+serde = { version = "=1.0.229", default-features = false, features = ["std", "derive"] }
+serde_json = { version = "=1.0.151", default-features = false, features = ["std"] }
+sha2 = { version = "=0.11.0", default-features = false }
+roxmltree = { version = "=0.21.1", default-features = false, features = ["std"] }
+
+design-model = { path = "crates/design-model" }
+design-edit = { path = "crates/design-edit" }
+design-svg = { path = "crates/design-svg" }
+design-render = { path = "crates/design-render" }
+job-runner = { path = "crates/job-runner" }
+project-store = { path = "crates/project-store" }
+design-export = { path = "crates/design-export" }
+image-webp = { version = "=0.2.4", default-features = false }

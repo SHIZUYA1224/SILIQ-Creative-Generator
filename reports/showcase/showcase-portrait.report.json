@@ -1,0 +1,235 @@
+{
+  "documentId": "fixture-showcase",
+  "revision": 1,
+  "variantId": "portrait",
+  "width": 1080,
+  "height": 1350,
+  "renderProfile": {
+    "engine": "siliq design-render 0.0.1 (CPU raster)",
+    "skiaBindings": "0.153.3",
+    "surface": "RGBA8888, premultiplied alpha, transparent initial pixels",
+    "colorSpace": "sRGB",
+    "antiAlias": true,
+    "imageSampling": "linear filter, linear mipmaps",
+    "gradientInterpolation": "unpremultiplied, destination (sRGB) space, clamp",
+    "text": "SkParagraph, hinting off, rounding hack off, forced strut, half leading, no fallback",
+    "pngEncoder": "Skia libpng, all filters, zlib level 6, no text chunks"
+  },
+  "fontBackend": "freetype-custom-empty",
+  "fonts": [
+    {
+      "id": "bold",
+      "sha256": "1b0edfb500b73a4fa8a4fcaae1bbbd403994e08e73e3e0da37e70d3853f42c5f",
+      "faceIndex": 0
+    },
+    {
+      "id": "regular",
+      "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+      "faceIndex": 0
+    }
+  ],
+  "assets": [
+    {
+      "id": "backdrop",
+      "sha256": "d8ffb441e45dfca1da06544988dcd71d4886242df50798fbbc45784ecc2bc432",
+      "kind": "raster",
+      "raster": {
+        "width": 1600,
+        "height": 1400,
+        "sourceColor": "sRGB"
+      }
+    },
+    {
+      "id": "bean",
+      "sha256": "a1c4ee0188b416e60f10fdd9a47d92fb194209448592949344fd3595232ab316",
+      "kind": "vector"
+    }
+  ],
+  "text": [
+    {
+      "nodeId": "brand",
+      "fontId": "bold",
+      "requestedFontSize": 22.0,
+      "appliedFontSize": 22.0,
+      "triedFontSizes": [
+        22.0
+      ],
+      "lineCount": 1,
+      "height": 56.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 22,
+          "hardBreak": true,
+          "width": 389.24700927734375
+        }
+      ]
+    },
+    {
+      "nodeId": "pill-text",
+      "fontId": "bold",
+      "requestedFontSize": 17.0,
+      "appliedFontSize": 17.0,
+      "triedFontSizes": [
+        17.0
+      ],
+      "lineCount": 1,
+      "height": 44.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 11,
+          "hardBreak": true,
+          "width": 150.92874145507812
+        }
+      ]
+    },
+    {
+      "nodeId": "kicker",
+      "fontId": "bold",
+      "requestedFontSize": 22.0,
+      "appliedFontSize": 22.0,
+      "triedFontSizes": [
+        22.0
+      ],
+      "lineCount": 1,
+      "height": 36.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 19,
+          "hardBreak": true,
+          "width": 371.7088623046875
+        }
+      ]
+    },
+    {
+      "nodeId": "headline",
+      "fontId": "bold",
+      "requestedFontSize": 104.0,
+      "appliedFontSize": 104.0,
+      "triedFontSizes": [
+        104.0
+      ],
+      "lineCount": 2,
+      "height": 256.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 18,
+          "hardBreak": true,
+          "width": 595.840576171875
+        },
+        {
+          "start": 19,
+          "end": 34,
+          "hardBreak": true,
+          "width": 500.00054931640625
+        }
+      ]
+    },
+    {
+      "nodeId": "body",
+      "fontId": "regular",
+      "requestedFontSize": 30.0,
+      "appliedFontSize": 30.0,
+      "triedFontSizes": [
+        30.0
+      ],
+      "lineCount": 2,
+      "height": 104.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 58,
+          "hardBreak": true,
+          "width": 603.949462890625
+        },
+        {
+          "start": 59,
+          "end": 107,
+          "hardBreak": true,
+          "width": 494.7995300292969
+        }
+      ]
+    },
+    {
+      "nodeId": "dates",
+      "fontId": "bold",
+      "requestedFontSize": 30.0,
+      "appliedFontSize": 30.0,
+      "triedFontSizes": [
+        30.0
+      ],
+      "lineCount": 1,
+      "height": 44.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 23,
+          "hardBreak": true,
+          "width": 369.11968994140625
+        }
+      ]
+    },
+    {
+      "nodeId": "venue",
+      "fontId": "regular",
+      "requestedFontSize": 22.0,
+      "appliedFontSize": 22.0,
+      "triedFontSizes": [
+        22.0
+      ],
+      "lineCount": 1,
+      "height": 40.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 45,
+          "hardBreak": true,
+          "width": 394.189208984375
+        }
+      ]
+    },
+    {
+      "nodeId": "price",
+      "fontId": "bold",
+      "requestedFontSize": 76.0,
+      "appliedFontSize": 76.0,
+      "triedFontSizes": [
+        76.0
+      ],
+      "lineCount": 1,
+      "height": 92.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 5,
+          "hardBreak": true,
+          "width": 175.35992431640625
+        }
+      ]
+    },
+    {
+      "nodeId": "price-note",
+      "fontId": "regular",
+      "requestedFontSize": 20.0,
+      "appliedFontSize": 20.0,
+      "triedFontSizes": [
+        20.0
+      ],
+      "lineCount": 1,
+      "height": 36.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 22,
+          "hardBreak": true,
+          "width": 161.1798858642578
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "outputSha256": "aa12c09609bb301a0a7f71afda550cb4db50a538b06c5805a0c49270d3214f5a"
+}

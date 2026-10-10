@@ -1,0 +1,90 @@
+{
+  "documentId": "fixture-basic",
+  "revision": 1,
+  "variantId": "square",
+  "width": 1080,
+  "height": 1080,
+  "renderProfile": {
+    "engine": "siliq design-render 0.0.1 (CPU raster)",
+    "skiaBindings": "0.153.3",
+    "surface": "RGBA8888, premultiplied alpha, transparent initial pixels",
+    "colorSpace": "sRGB",
+    "antiAlias": true,
+    "imageSampling": "linear filter, linear mipmaps",
+    "gradientInterpolation": "unpremultiplied, destination (sRGB) space, clamp",
+    "text": "SkParagraph, hinting off, rounding hack off, forced strut, half leading, no fallback",
+    "pngEncoder": "Skia libpng, all filters, zlib level 6, no text chunks"
+  },
+  "fonts": [
+    {
+      "id": "noto-sans-jp",
+      "sha256": "dff723ba59d57d136764a04b9b2d03205544f7cd785a711442d6d2d085ac5073",
+      "faceIndex": 0
+    }
+  ],
+  "assets": [
+    {
+      "id": "logo",
+      "sha256": "08317af1678409f3a1dcf29b651f12b439d311bcddefdffd3580cd4b0067c96c",
+      "kind": "vector"
+    },
+    {
+      "id": "photo",
+      "sha256": "f2f5342afd08ccb89ec325245f75069eb1936bd9fc3fdf9d3d9a1995bde5cda0",
+      "kind": "raster",
+      "raster": {
+        "width": 1600,
+        "height": 1000,
+        "sourceColor": "sRGB"
+      }
+    }
+  ],
+  "text": [
+    {
+      "nodeId": "headline",
+      "fontId": "noto-sans-jp",
+      "requestedFontSize": 64.0,
+      "appliedFontSize": 64.0,
+      "triedFontSizes": [
+        64.0
+      ],
+      "lineCount": 2,
+      "height": 160.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 36,
+          "hardBreak": false,
+          "width": 767.9986572265625
+        },
+        {
+          "start": 36,
+          "end": 68,
+          "hardBreak": true,
+          "width": 880.4464111328125
+        }
+      ]
+    },
+    {
+      "nodeId": "caption",
+      "fontId": "noto-sans-jp",
+      "requestedFontSize": 28.0,
+      "appliedFontSize": 28.0,
+      "triedFontSizes": [
+        28.0
+      ],
+      "lineCount": 1,
+      "height": 40.0,
+      "lines": [
+        {
+          "start": 0,
+          "end": 54,
+          "hardBreak": true,
+          "width": 522.002197265625
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "outputSha256": "01aadcd32973630e0b6a997668923a6b7ef4c0b8902113c28a4904cfa59348c7"
+}

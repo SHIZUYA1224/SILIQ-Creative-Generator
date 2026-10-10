@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-resolve-font"
+description = "Enables the resolve_font command without any pre-configured scope."
+commands.allow = ["resolve_font"]
+
+[[permission]]
+identifier = "deny-resolve-font"
+description = "Denies the resolve_font command without any pre-configured scope."
+commands.deny = ["resolve_font"]

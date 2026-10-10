@@ -1,0 +1,2 @@
+# Preserve upstream license snapshots byte-for-byte, including their spacing.
+third_party/licenses/** -whitespace

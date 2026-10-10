@@ -1,0 +1,38 @@
+[package]
+name = "siliq-desktop"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+rust-version.workspace = true
+
+[lib]
+name = "siliq_desktop"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[lints]
+workspace = true
+
+[features]
+default = []
+custom-protocol = ["tauri/custom-protocol"]
+
+[build-dependencies]
+tauri-build = { version = "=2.7.1", features = [] }
+
+[dependencies]
+tauri = { version = "=2.12.2", default-features = false, features = ["wry", "compression"] }
+tauri-plugin-dialog = { version = "=2.8.1", default-features = false }
+serde.workspace = true
+serde_json.workspace = true
+base64 = "=0.22.1"
+skia-safe.workspace = true
+design-model.workspace = true
+design-edit.workspace = true
+design-render.workspace = true
+design-export.workspace = true
+design-svg.workspace = true
+job-runner.workspace = true
+project-store.workspace = true
+libc = "=0.2.190"
+rustix = { version = "=1.1.5", default-features = false, features = ["std", "fs"] }

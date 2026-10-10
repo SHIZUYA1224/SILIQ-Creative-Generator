@@ -1,0 +1,36 @@
+{
+  "status": "illustrative-unexecutable",
+  "note": "素材・フォント未解決、variant未承認。実行時preflightで停止すること。",
+  "documentId": "sample-campaign",
+  "documentRevision": 0,
+  "variantIds": [
+    "square",
+    "portrait"
+  ],
+  "dataset": [
+    {
+      "rowId": "store-001",
+      "values": {
+        "headline-slot": "店舗001の見出し",
+        "photo-slot": "image-placeholder"
+      }
+    },
+    {
+      "rowId": "store-002",
+      "values": {
+        "headline-slot": "店舗002の見出し",
+        "photo-slot": "image-placeholder"
+      }
+    }
+  ],
+  "exportRecipe": {
+    "format": "png",
+    "colorSpace": "sRGB",
+    "scale": 1,
+    "fileNamePattern": "{rowId}_{variantId}.png",
+    "errorPolicy": "block-all",
+    "overwritePolicy": "deny"
+  },
+  "outputGrant": "UNRESOLVED_USER_SELECTION",
+  "renderProfile": "UNRESOLVED_PHASE_0"
+}

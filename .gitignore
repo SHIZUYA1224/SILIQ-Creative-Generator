@@ -1,0 +1,9 @@
+/target
+/.skia-cache
+/out
+/node_modules
+/apps/desktop/dist
+/apps/desktop/src-tauri/gen
+/test-results
+/playwright-report
+*.DS_Store

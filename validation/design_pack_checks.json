@@ -1,0 +1,111 @@
+{
+  "packageVersion": "0.2",
+  "date": "2026-10-10",
+  "scope": "design-package-only",
+  "checks": [
+    {
+      "name": "JSON Schema valid (2020-12)",
+      "passed": true
+    },
+    {
+      "name": "core sample structure valid",
+      "passed": true
+    },
+    {
+      "name": "sample reference, tree, slot and font-size semantics checked",
+      "passed": true
+    },
+    {
+      "name": "unknown root property rejected",
+      "passed": true
+    },
+    {
+      "name": "negative canvas size rejected",
+      "passed": true
+    },
+    {
+      "name": "oversized canvas dimension rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid opacity rejected",
+      "passed": true
+    },
+    {
+      "name": "unsupported node type rejected",
+      "passed": true
+    },
+    {
+      "name": "arbitrary slot property rejected",
+      "passed": true
+    },
+    {
+      "name": "logo aspect distortion rejected",
+      "passed": true
+    },
+    {
+      "name": "unknown schema version rejected",
+      "passed": true
+    },
+    {
+      "name": "font network property rejected",
+      "passed": true
+    },
+    {
+      "name": "resolved font without hash rejected",
+      "passed": true
+    },
+    {
+      "name": "resolved asset without hash rejected",
+      "passed": true
+    },
+    {
+      "name": "zero text lines rejected",
+      "passed": true
+    },
+    {
+      "name": "duplicate node IDs rejected semantically",
+      "passed": true
+    },
+    {
+      "name": "missing node reference rejected semantically",
+      "passed": true
+    },
+    {
+      "name": "cycle rejected semantically",
+      "passed": true
+    },
+    {
+      "name": "wrong slot-node typing rejected semantically",
+      "passed": true
+    },
+    {
+      "name": "missing font reference rejected semantically",
+      "passed": true
+    },
+    {
+      "name": "all 40 requirement IDs mapped to acceptance plan",
+      "passed": true
+    },
+    {
+      "name": "all in-document source markers resolve",
+      "passed": true
+    }
+  ],
+  "summary": {
+    "passed": 22,
+    "failed": 0,
+    "requirementIds": 40,
+    "negativeCases": 17
+  },
+  "notPerformed": [
+    "native app implementation/build",
+    "macOS release launch",
+    "network/sandbox tests",
+    "Skia/typography/IME tests",
+    "rendering and image comparison",
+    "performance benchmarks",
+    "SVG/PDF export tests"
+  ],
+  "fixturesNote": "No actual font, image or logo bytes are bundled. Draft variants and unresolved assets must block production export."
+}
