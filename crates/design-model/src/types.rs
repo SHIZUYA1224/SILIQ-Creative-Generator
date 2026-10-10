@@ -365,6 +365,68 @@ impl Node {
         }
     }
 
+    /// Mutable access to the fields every node type shares.
+    pub fn common_mut(&mut self) -> CommonMut<'_> {
+        match self {
+            Node::Group {
+                bounds,
+                rotation_deg,
+                opacity,
+                visible,
+                locked,
+                ..
+            }
+            | Node::Rect {
+                bounds,
+                rotation_deg,
+                opacity,
+                visible,
+                locked,
+                ..
+            }
+            | Node::Text {
+                bounds,
+                rotation_deg,
+                opacity,
+                visible,
+                locked,
+                ..
+            }
+            | Node::Image {
+                bounds,
+                rotation_deg,
+                opacity,
+                visible,
+                locked,
+                ..
+            }
+            | Node::Logo {
+                bounds,
+                rotation_deg,
+                opacity,
+                visible,
+                locked,
+                ..
+            } => CommonMut {
+                bounds,
+                rotation_deg,
+                opacity,
+                visible,
+                locked,
+            },
+        }
+    }
+
+    pub fn is_locked(&self) -> bool {
+        match self {
+            Node::Group { locked, .. }
+            | Node::Rect { locked, .. }
+            | Node::Text { locked, .. }
+            | Node::Image { locked, .. }
+            | Node::Logo { locked, .. } => *locked,
+        }
+    }
+
     pub fn bounds_mut(&mut self) -> &mut Bounds {
         match self {
             Node::Group { bounds, .. }
@@ -374,6 +436,14 @@ impl Node {
             | Node::Logo { bounds, .. } => bounds,
         }
     }
+}
+
+pub struct CommonMut<'a> {
+    pub bounds: &'a mut Bounds,
+    pub rotation_deg: &'a mut f64,
+    pub opacity: &'a mut f64,
+    pub visible: &'a mut bool,
+    pub locked: &'a mut bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

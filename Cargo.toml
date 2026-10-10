@@ -2,9 +2,10 @@
 resolver = "3"
 members = [
     "crates/design-model",
+    "crates/design-edit",
     "crates/design-svg",
     "crates/design-render",
-    "crates/render-cli", "crates/job-runner",
+    "crates/render-cli", "crates/job-runner", "crates/design-edit",
 ]
 
 [workspace.package]
@@ -30,6 +31,7 @@ sha2 = { version = "=0.11.0", default-features = false }
 roxmltree = { version = "=0.21.1", default-features = false, features = ["std"] }
 
 design-model = { path = "crates/design-model" }
+design-edit = { path = "crates/design-edit" }
 design-svg = { path = "crates/design-svg" }
 design-render = { path = "crates/design-render" }
 job-runner = { path = "crates/job-runner" }

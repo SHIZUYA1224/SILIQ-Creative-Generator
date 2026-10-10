@@ -56,6 +56,23 @@ pub enum Code {
     /// Phase 0 addition (warning): image drawn larger than its pixel size.
     #[serde(rename = "W_IMAGE_UPSCALED")]
     ImageUpscaled,
+    /// The edit was based on an outdated document revision.
+    #[serde(rename = "E_REVISION_CONFLICT")]
+    RevisionConflict,
+    /// The edit is not allowed (locked node, production mode, unknown target).
+    #[serde(rename = "E_EDIT_FORBIDDEN")]
+    EditForbidden,
+    /// Saving or reading the project package / journal failed.
+    #[serde(rename = "E_SAVE_FAILED")]
+    SaveFailed,
+    /// A project package is malformed or unsafe.
+    #[serde(rename = "E_PACKAGE_INVALID")]
+    PackageInvalid,
+    /// Author-declared spacing rule violated (logo clear space, no-overlap).
+    #[serde(rename = "E_LOGO_CLEARSPACE")]
+    LogoClearSpace,
+    #[serde(rename = "E_OVERLAP")]
+    Overlap,
     /// Batch data (CSV) is malformed, or a row does not fit the template's slots.
     #[serde(rename = "E_DATA_INVALID")]
     DataInvalid,
@@ -86,6 +103,12 @@ impl Code {
             Code::ResourceLimit => "E_RESOURCE_LIMIT",
             Code::ImageUpscaled => "W_IMAGE_UPSCALED",
             Code::DataInvalid => "E_DATA_INVALID",
+            Code::RevisionConflict => "E_REVISION_CONFLICT",
+            Code::EditForbidden => "E_EDIT_FORBIDDEN",
+            Code::SaveFailed => "E_SAVE_FAILED",
+            Code::PackageInvalid => "E_PACKAGE_INVALID",
+            Code::LogoClearSpace => "E_LOGO_CLEARSPACE",
+            Code::Overlap => "E_OVERLAP",
             Code::RenderFailed => "E_RENDER_FAILED",
         }
     }
