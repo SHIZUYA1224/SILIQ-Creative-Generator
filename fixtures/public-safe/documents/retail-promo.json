@@ -1,0 +1,1703 @@
+{
+  "format": "siliq-creative-generator-core",
+  "schemaVersion": "0.2.0-core",
+  "documentId": "fixture-retail-promo",
+  "revision": 1,
+  "title": "Retail promo showcase — fictional car-inspection shop (approval set for fixture use only)",
+  "colorSpace": "sRGB",
+  "baseArtboard": {
+    "width": 1080,
+    "height": 1350,
+    "rootNodeId": "root"
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "name": "root",
+      "type": "group",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1350
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "childIds": [
+        "bg",
+        "rays",
+        "header",
+        "logo",
+        "shop",
+        "shop-sub",
+        "tag",
+        "tag-text",
+        "catch-band",
+        "catch",
+        "label-shaken",
+        "label-box",
+        "label-box-text",
+        "label-car",
+        "price-shadow",
+        "price-outline-0",
+        "price-outline-1",
+        "price-outline-2",
+        "price-outline-3",
+        "price-outline-4",
+        "price-outline-5",
+        "price-outline-6",
+        "price-outline-7",
+        "price",
+        "yen-shadow",
+        "yen-outline-0",
+        "yen-outline-1",
+        "yen-outline-2",
+        "yen-outline-3",
+        "yen-outline-4",
+        "yen-outline-5",
+        "yen-outline-6",
+        "yen-outline-7",
+        "yen",
+        "tax",
+        "note",
+        "badge",
+        "card-0-bar",
+        "card-0",
+        "card-0-text",
+        "card-1-bar",
+        "card-1",
+        "card-1-text",
+        "card-2-bar",
+        "card-2",
+        "card-2-text",
+        "footer",
+        "tel-label",
+        "tel-box",
+        "tel-free",
+        "tel",
+        "hours",
+        "fiction"
+      ]
+    },
+    {
+      "id": "bg",
+      "name": "bg",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1350
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#FFD400"
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "rays",
+      "name": "rays",
+      "type": "logo",
+      "bounds": {
+        "x": -210,
+        "y": -60,
+        "width": 1500,
+        "height": 1500
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "rays",
+      "fit": "contain",
+      "preserveAspectRatio": true,
+      "minWidth": 10,
+      "clearSpace": 0
+    },
+    {
+      "id": "header",
+      "name": "header",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 150
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "logo",
+      "name": "logo",
+      "type": "logo",
+      "bounds": {
+        "x": 48,
+        "y": 27,
+        "width": 96,
+        "height": 96
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": true,
+      "assetId": "shield",
+      "fit": "contain",
+      "preserveAspectRatio": true,
+      "minWidth": 10,
+      "clearSpace": 0
+    },
+    {
+      "id": "shop",
+      "name": "shop",
+      "type": "text",
+      "bounds": {
+        "x": 160,
+        "y": 30,
+        "width": 620,
+        "height": 62
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "スピード車検 ハヤテ",
+        "fontId": "black",
+        "fontSize": 50,
+        "lineHeight": 62,
+        "letterSpacing": 1,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "shop-sub",
+      "name": "shop-sub",
+      "type": "text",
+      "bounds": {
+        "x": 160,
+        "y": 92,
+        "width": 620,
+        "height": 34
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "国家認証整備工場（架空店舗）",
+        "fontId": "bold",
+        "fontSize": 22,
+        "lineHeight": 34,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#C9D6F2"
+      }
+    },
+    {
+      "id": "tag",
+      "name": "tag",
+      "type": "rect",
+      "bounds": {
+        "x": 812,
+        "y": 44,
+        "width": 224,
+        "height": 62
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#E60012"
+      },
+      "cornerRadius": 31
+    },
+    {
+      "id": "tag-text",
+      "name": "tag-text",
+      "type": "text",
+      "bounds": {
+        "x": 812,
+        "y": 44,
+        "width": 224,
+        "height": 62
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "WEB予約",
+        "fontId": "black",
+        "fontSize": 30,
+        "lineHeight": 62,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "catch-band",
+      "name": "catch-band",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 178,
+        "width": 1080,
+        "height": 104
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#E60012"
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "catch",
+      "name": "catch",
+      "type": "text",
+      "bounds": {
+        "x": 0,
+        "y": 178,
+        "width": 1080,
+        "height": 104
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "早い！ 安い！ 安心！",
+        "fontId": "black",
+        "fontSize": 68,
+        "lineHeight": 104,
+        "letterSpacing": 4,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "label-shaken",
+      "name": "label-shaken",
+      "type": "text",
+      "bounds": {
+        "x": 60,
+        "y": 312,
+        "width": 420,
+        "height": 190
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "車検",
+        "fontId": "black",
+        "fontSize": 168,
+        "lineHeight": 190,
+        "letterSpacing": -6,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "label-box",
+      "name": "label-box",
+      "type": "rect",
+      "bounds": {
+        "x": 470,
+        "y": 350,
+        "width": 300,
+        "height": 74
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      },
+      "cornerRadius": 10
+    },
+    {
+      "id": "label-box-text",
+      "name": "label-box-text",
+      "type": "text",
+      "bounds": {
+        "x": 470,
+        "y": 350,
+        "width": 300,
+        "height": 74
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "基本料金",
+        "fontId": "black",
+        "fontSize": 44,
+        "lineHeight": 74,
+        "letterSpacing": 2,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "label-car",
+      "name": "label-car",
+      "type": "text",
+      "bounds": {
+        "x": 470,
+        "y": 428,
+        "width": 320,
+        "height": 56
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "軽自動車〜普通車",
+        "fontId": "bold",
+        "fontSize": 30,
+        "lineHeight": 56,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "price-shadow",
+      "name": "price-shadow",
+      "type": "text",
+      "bounds": {
+        "x": 54,
+        "y": 514,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "price-outline-0",
+      "name": "price-outline-0",
+      "type": "text",
+      "bounds": {
+        "x": 33,
+        "y": 500,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "price-outline-1",
+      "name": "price-outline-1",
+      "type": "text",
+      "bounds": {
+        "x": 47,
+        "y": 500,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "price-outline-2",
+      "name": "price-outline-2",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 493,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "price-outline-3",
+      "name": "price-outline-3",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 507,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "price-outline-4",
+      "name": "price-outline-4",
+      "type": "text",
+      "bounds": {
+        "x": 35,
+        "y": 495,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "price-outline-5",
+      "name": "price-outline-5",
+      "type": "text",
+      "bounds": {
+        "x": 45,
+        "y": 495,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "price-outline-6",
+      "name": "price-outline-6",
+      "type": "text",
+      "bounds": {
+        "x": 35,
+        "y": 505,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "price-outline-7",
+      "name": "price-outline-7",
+      "type": "text",
+      "bounds": {
+        "x": 45,
+        "y": 505,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "price",
+      "name": "price",
+      "type": "text",
+      "bounds": {
+        "x": 40,
+        "y": 500,
+        "width": 760,
+        "height": 260
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "9,800",
+        "fontId": "black",
+        "fontSize": 250,
+        "lineHeight": 260,
+        "letterSpacing": -8,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#E60012"
+      }
+    },
+    {
+      "id": "yen-shadow",
+      "name": "yen-shadow",
+      "type": "text",
+      "bounds": {
+        "x": 808,
+        "y": 640,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "yen-outline-0",
+      "name": "yen-outline-0",
+      "type": "text",
+      "bounds": {
+        "x": 795,
+        "y": 632,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "yen-outline-1",
+      "name": "yen-outline-1",
+      "type": "text",
+      "bounds": {
+        "x": 805,
+        "y": 632,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "yen-outline-2",
+      "name": "yen-outline-2",
+      "type": "text",
+      "bounds": {
+        "x": 800,
+        "y": 627,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "yen-outline-3",
+      "name": "yen-outline-3",
+      "type": "text",
+      "bounds": {
+        "x": 800,
+        "y": 637,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "yen-outline-4",
+      "name": "yen-outline-4",
+      "type": "text",
+      "bounds": {
+        "x": 796,
+        "y": 628,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "yen-outline-5",
+      "name": "yen-outline-5",
+      "type": "text",
+      "bounds": {
+        "x": 804,
+        "y": 628,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "yen-outline-6",
+      "name": "yen-outline-6",
+      "type": "text",
+      "bounds": {
+        "x": 796,
+        "y": 636,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "yen-outline-7",
+      "name": "yen-outline-7",
+      "type": "text",
+      "bounds": {
+        "x": 804,
+        "y": 636,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "yen",
+      "name": "yen",
+      "type": "text",
+      "bounds": {
+        "x": 800,
+        "y": 632,
+        "width": 140,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "円",
+        "fontId": "black",
+        "fontSize": 96,
+        "lineHeight": 110,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#E60012"
+      }
+    },
+    {
+      "id": "tax",
+      "name": "tax",
+      "type": "text",
+      "bounds": {
+        "x": 816,
+        "y": 586,
+        "width": 200,
+        "height": 44
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "(税込)",
+        "fontId": "bold",
+        "fontSize": 28,
+        "lineHeight": 44,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "note",
+      "name": "note",
+      "type": "text",
+      "bounds": {
+        "x": 60,
+        "y": 770,
+        "width": 960,
+        "height": 36
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "※法定費用（重量税・自賠責保険・印紙代）は別途かかります。",
+        "fontId": "bold",
+        "fontSize": 22,
+        "lineHeight": 36,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "right"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#1A1A1A"
+      }
+    },
+    {
+      "id": "badge",
+      "name": "badge",
+      "type": "group",
+      "bounds": {
+        "x": 790,
+        "y": 300,
+        "width": 250,
+        "height": 250
+      },
+      "rotationDeg": 12,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "childIds": [
+        "badge-star",
+        "badge-top",
+        "badge-main"
+      ]
+    },
+    {
+      "id": "badge-star",
+      "name": "badge-star",
+      "type": "logo",
+      "bounds": {
+        "x": 790,
+        "y": 300,
+        "width": 250,
+        "height": 250
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "assetId": "star",
+      "fit": "contain",
+      "preserveAspectRatio": true,
+      "minWidth": 10,
+      "clearSpace": 0
+    },
+    {
+      "id": "badge-top",
+      "name": "badge-top",
+      "type": "text",
+      "bounds": {
+        "x": 790,
+        "y": 352,
+        "width": 250,
+        "height": 50
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "最短",
+        "fontId": "black",
+        "fontSize": 40,
+        "lineHeight": 50,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "badge-main",
+      "name": "badge-main",
+      "type": "text",
+      "bounds": {
+        "x": 790,
+        "y": 398,
+        "width": 250,
+        "height": 96
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "45分",
+        "fontId": "black",
+        "fontSize": 76,
+        "lineHeight": 96,
+        "letterSpacing": -2,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFE766"
+      }
+    },
+    {
+      "id": "card-0-bar",
+      "name": "card-0-bar",
+      "type": "rect",
+      "bounds": {
+        "x": 60,
+        "y": 836,
+        "width": 300,
+        "height": 128
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#E60012"
+      },
+      "cornerRadius": 20
+    },
+    {
+      "id": "card-0",
+      "name": "card-0",
+      "type": "rect",
+      "bounds": {
+        "x": 60,
+        "y": 848,
+        "width": 300,
+        "height": 116
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 20
+    },
+    {
+      "id": "card-0-text",
+      "name": "card-0-text",
+      "type": "text",
+      "bounds": {
+        "x": 60,
+        "y": 872,
+        "width": 300,
+        "height": 80
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "代車無料",
+        "fontId": "black",
+        "fontSize": 48,
+        "lineHeight": 80,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "card-1-bar",
+      "name": "card-1-bar",
+      "type": "rect",
+      "bounds": {
+        "x": 390,
+        "y": 836,
+        "width": 300,
+        "height": 128
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      },
+      "cornerRadius": 20
+    },
+    {
+      "id": "card-1",
+      "name": "card-1",
+      "type": "rect",
+      "bounds": {
+        "x": 390,
+        "y": 848,
+        "width": 300,
+        "height": 116
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 20
+    },
+    {
+      "id": "card-1-text",
+      "name": "card-1-text",
+      "type": "text",
+      "bounds": {
+        "x": 390,
+        "y": 872,
+        "width": 300,
+        "height": 80
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "土日祝OK",
+        "fontId": "black",
+        "fontSize": 48,
+        "lineHeight": 80,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "card-2-bar",
+      "name": "card-2-bar",
+      "type": "rect",
+      "bounds": {
+        "x": 720,
+        "y": 836,
+        "width": 300,
+        "height": 128
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#E60012"
+      },
+      "cornerRadius": 20
+    },
+    {
+      "id": "card-2",
+      "name": "card-2",
+      "type": "rect",
+      "bounds": {
+        "x": 720,
+        "y": 848,
+        "width": 300,
+        "height": 116
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 20
+    },
+    {
+      "id": "card-2-text",
+      "name": "card-2-text",
+      "type": "text",
+      "bounds": {
+        "x": 720,
+        "y": 872,
+        "width": 300,
+        "height": 80
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "ネット割",
+        "fontId": "black",
+        "fontSize": 48,
+        "lineHeight": 80,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "footer",
+      "name": "footer",
+      "type": "rect",
+      "bounds": {
+        "x": 0,
+        "y": 1000,
+        "width": 1080,
+        "height": 350
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      },
+      "cornerRadius": 0
+    },
+    {
+      "id": "tel-label",
+      "name": "tel-label",
+      "type": "text",
+      "bounds": {
+        "x": 0,
+        "y": 1030,
+        "width": 1080,
+        "height": 48
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "ご予約・お問い合わせはお気軽に",
+        "fontId": "bold",
+        "fontSize": 32,
+        "lineHeight": 48,
+        "letterSpacing": 2,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "tel-box",
+      "name": "tel-box",
+      "type": "rect",
+      "bounds": {
+        "x": 90,
+        "y": 1092,
+        "width": 900,
+        "height": 150
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      },
+      "cornerRadius": 24
+    },
+    {
+      "id": "tel-free",
+      "name": "tel-free",
+      "type": "text",
+      "bounds": {
+        "x": 120,
+        "y": 1112,
+        "width": 180,
+        "height": 110
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "通話\n無料",
+        "fontId": "black",
+        "fontSize": 40,
+        "lineHeight": 52,
+        "letterSpacing": 0,
+        "maxLines": 2,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#E60012"
+      }
+    },
+    {
+      "id": "tel",
+      "name": "tel",
+      "type": "text",
+      "bounds": {
+        "x": 290,
+        "y": 1104,
+        "width": 680,
+        "height": 126
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "0120-000-000",
+        "fontId": "black",
+        "fontSize": 104,
+        "lineHeight": 126,
+        "letterSpacing": -3,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "left"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#002B7F"
+      }
+    },
+    {
+      "id": "hours",
+      "name": "hours",
+      "type": "text",
+      "bounds": {
+        "x": 0,
+        "y": 1262,
+        "width": 1080,
+        "height": 44
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "受付 9:00〜19:00 ／ 年中無休",
+        "fontId": "bold",
+        "fontSize": 30,
+        "lineHeight": 44,
+        "letterSpacing": 1,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "id": "fiction",
+      "name": "fiction",
+      "type": "text",
+      "bounds": {
+        "x": 0,
+        "y": 1306,
+        "width": 1080,
+        "height": 30
+      },
+      "rotationDeg": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "text": {
+        "value": "※この広告は見本用の架空店舗です。電話番号・価格は実在しません。",
+        "fontId": "bold",
+        "fontSize": 18,
+        "lineHeight": 30,
+        "letterSpacing": 0,
+        "maxLines": 1,
+        "overflowPolicy": "error",
+        "allowedFontSizes": [],
+        "language": "ja",
+        "align": "center"
+      },
+      "fill": {
+        "kind": "solid",
+        "color": "#9FB2DA"
+      }
+    }
+  ],
+  "fonts": [
+    {
+      "id": "black",
+      "nameHint": "Noto Sans JP Black (SubsetOTF, noto-cjk Sans2.004)",
+      "state": "resolved",
+      "sha256": "3aa30b0956510f4205f759ab3079a5b658310ebcda2577f290466ea51c948819",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    },
+    {
+      "id": "bold",
+      "nameHint": "Noto Sans JP Bold (SubsetOTF, noto-cjk Sans2.004)",
+      "state": "resolved",
+      "sha256": "1b0edfb500b73a4fa8a4fcaae1bbbd403994e08e73e3e0da37e70d3853f42c5f",
+      "faceIndex": 0,
+      "packagePolicy": "embed-confirmed"
+    }
+  ],
+  "assets": [
+    {
+      "id": "rays",
+      "kind": "vector",
+      "state": "resolved",
+      "sha256": "8b22c0f334584eab6614a6a27d8ca18f25c29863166b7c2643251d86f177490a",
+      "mimeHint": "image/svg+xml"
+    },
+    {
+      "id": "star",
+      "kind": "vector",
+      "state": "resolved",
+      "sha256": "cc74312320acb82634fc1a8c906b7ab3b21fa3b275a849a912f6cf1e0bd3f8c9",
+      "mimeHint": "image/svg+xml"
+    },
+    {
+      "id": "shield",
+      "kind": "vector",
+      "state": "resolved",
+      "sha256": "b84df47d1cd018341b0ad214d4109fcb592f926e460b8590c57600606ca7aa6f",
+      "mimeHint": "image/svg+xml"
+    }
+  ],
+  "slots": [
+    {
+      "id": "price-slot",
+      "type": "text",
+      "required": true,
+      "nodeId": "price",
+      "target": "text.value",
+      "maxLength": 8
+    },
+    {
+      "id": "tel-slot",
+      "type": "text",
+      "required": true,
+      "nodeId": "tel",
+      "target": "text.value",
+      "maxLength": 16
+    }
+  ],
+  "variants": [
+    {
+      "id": "portrait",
+      "label": "flyer / SNS portrait 1080x1350",
+      "width": 1080,
+      "height": 1350,
+      "approvalStatus": "approved",
+      "nodePatches": []
+    }
+  ]
+}
