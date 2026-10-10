@@ -254,6 +254,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
 
 [[package]]
+name = "job-runner"
+version = "0.0.1"
+dependencies = [
+ "design-model",
+ "design-render",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.190"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -382,6 +392,7 @@ version = "0.0.1"
 dependencies = [
  "design-model",
  "design-render",
+ "job-runner",
  "serde_json",
 ]
 

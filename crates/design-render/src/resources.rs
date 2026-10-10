@@ -11,9 +11,11 @@
 
 use design_model::{Code, Issue, validate::is_sha256_hex};
 use sha2::{Digest, Sha256};
+use std::collections::HashMap;
 use std::fs;
 use std::io::Read;
 use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex};
 
 pub const MAX_IMAGE_BYTES: u64 = 100 * 1024 * 1024;
 pub const MAX_FONT_BYTES: u64 = 64 * 1024 * 1024;
@@ -21,6 +23,10 @@ pub const MAX_FONT_BYTES: u64 = 64 * 1024 * 1024;
 #[derive(Debug, Clone)]
 pub struct ResourceStore {
     root: PathBuf,
+    /// Verified bytes by `<sub>/<sha>.<ext>`. A store instance therefore acts
+    /// as a snapshot: once a file has been read and verified, later changes
+    /// on disk do not reach renders made with this instance (BAT-003).
+    verified: Arc<Mutex<HashMap<String, Arc<Vec<u8>>>>>,
 }
 
 /// Why a resource could not be read. Converted to an [`Issue`] by callers
@@ -90,13 +96,24 @@ impl ResourceStore {
                 "Choose an accessible directory.",
             )
         })?;
-        Ok(ResourceStore { root })
+        Ok(ResourceStore {
+            root,
+            verified: Arc::default(),
+        })
     }
 
     /// Read `<sub>/<sha>.<ext>` for the first extension that exists.
-    pub fn read(&self, sub: &str, sha: &str, exts: &[&str], max: u64) -> Result<(Vec<u8>, String), ReadError> {
+    pub fn read(&self, sub: &str, sha: &str, exts: &[&str], max: u64) -> Result<(Arc<Vec<u8>>, String), ReadError> {
         if !is_sha256_hex(sha) {
             return Err(ReadError::Denied("invalid content hash".into()));
+        }
+        {
+            let cache = self.verified.lock().expect("cache lock");
+            for ext in exts {
+                if let Some(b) = cache.get(&format!("{sub}/{sha}.{ext}")) {
+                    return Ok((b.clone(), (*ext).to_owned()));
+                }
+            }
         }
         let dir = self.root.join(sub);
         match fs::symlink_metadata(&dir) {
@@ -141,6 +158,11 @@ impl ResourceStore {
         if sha256_hex(&bytes) != sha {
             return Err(ReadError::Checksum);
         }
+        let bytes = Arc::new(bytes);
+        self.verified
+            .lock()
+            .expect("cache lock")
+            .insert(format!("{sub}/{sha}.{ext}"), bytes.clone());
         Ok((bytes, ext.to_owned()))
     }
 }

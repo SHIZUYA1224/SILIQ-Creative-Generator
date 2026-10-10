@@ -12,6 +12,7 @@ workspace = true
 [dependencies]
 design-model = { workspace = true }
 design-render = { workspace = true }
+job-runner = { workspace = true }
 serde_json = { workspace = true }
 
 [[bin]]

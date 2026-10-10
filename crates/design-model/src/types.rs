@@ -6,7 +6,10 @@
 use serde::{Deserialize, Deserializer, Serialize};
 
 pub const FORMAT: &str = "siliq-creative-generator-core";
-pub const SCHEMA_VERSION: &str = "0.2.0-core";
+/// Newest schema version this engine writes and reads.
+pub const SCHEMA_VERSION: &str = "0.3.0-core";
+/// Every version this engine reads. 0.3.0-core adds text `outline` / `shadow`.
+pub const SUPPORTED_SCHEMA_VERSIONS: &[&str] = &["0.2.0-core", "0.3.0-core"];
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -71,6 +74,25 @@ pub struct SolidFill {
 pub enum SolidKind {
     #[serde(rename = "solid")]
     Solid,
+}
+
+/// Text outline. `width` is the visible thickness outside the glyph edge in du.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TextOutline {
+    pub color: String,
+    pub width: f64,
+}
+
+/// Text shadow. `blur` is a radius in du (0 = hard shadow).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TextShadow {
+    pub color: String,
+    pub opacity: f64,
+    pub offset_x: f64,
+    pub offset_y: f64,
+    pub blur: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -246,6 +268,12 @@ pub enum Node {
         locked: bool,
         text: TextSpec,
         fill: SolidFill,
+        /// 0.3.0-core: outline (フチ) drawn behind the glyph fill.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        outline: Option<TextOutline>,
+        /// 0.3.0-core: shadow of the glyphs (including the outline).
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        shadow: Option<TextShadow>,
     },
     #[serde(rename_all = "camelCase")]
     Image {
@@ -401,6 +429,9 @@ pub struct NodePatch {
     pub bounds: Bounds,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub font_size: Option<f64>,
+    /// 0.3.0-core: line height for this variant (text nodes only).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub line_height: Option<f64>,
 }
 
 /// Deserializes `Option<T>` while keeping the key mandatory: serde treats a

@@ -186,3 +186,40 @@ fn usage_errors_exit_with_1() {
     assert_eq!(cli(&["render", "--bogus", "x"]).status.code(), Some(1));
     assert_eq!(cli(&["render", "--doc", "a", "--doc", "b"]).status.code(), Some(1));
 }
+
+#[test]
+fn batch_command_publishes_all_or_nothing() {
+    let d = temp_dir();
+    let template = format!("{FIXTURES}/documents/retail-promo-template.json");
+    let data = format!("{FIXTURES}/data/retail-promo-stores.csv");
+    let args = |data: &str, out: &Path| {
+        cli(&[
+            "batch",
+            "--doc",
+            &template,
+            "--data",
+            data,
+            "--variants",
+            "portrait,square",
+            "--resources",
+            &resources(),
+            "--out-dir",
+            out.to_str().unwrap(),
+        ])
+    };
+    let o = args(&data, &d);
+    assert!(o.status.success(), "{}", String::from_utf8_lossy(&o.stderr));
+    assert_eq!(entries(&d).len(), 21);
+
+    let bad = d.join("bad.csv");
+    fs::write(
+        &bad,
+        "rowId,branch,price,fastest,tel,hours\nok-1,a,\"9,800\",45分,0120,x\nbad-1,b,\"9,800\",45分,,x\n",
+    )
+    .unwrap();
+    let out2 = temp_dir();
+    let o = args(bad.to_str().unwrap(), &out2);
+    assert_eq!(o.status.code(), Some(2));
+    assert_eq!(stdout_code(&o), "E_DATA_INVALID");
+    assert!(entries(&out2).is_empty());
+}

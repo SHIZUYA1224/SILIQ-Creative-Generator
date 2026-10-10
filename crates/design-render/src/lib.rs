@@ -104,12 +104,31 @@ pub struct RenderOutput {
 // ---------------------------------------------------------------- plan --
 
 enum Op {
-    Push { matrix: Matrix, opacity: f32 },
+    Push {
+        matrix: Matrix,
+        opacity: f32,
+    },
     Pop,
-    Rect { rect: Rect, radius: f32, fill: PaintSpec },
-    Image { image: Image, dst: Rect, clip: Rect },
-    Text { paragraph: Paragraph, x: f32, y: f32 },
-    Vector { art: VectorArt, matrix: Matrix },
+    Rect {
+        rect: Rect,
+        radius: f32,
+        fill: PaintSpec,
+    },
+    Image {
+        image: Image,
+        dst: Rect,
+        clip: Rect,
+    },
+    /// Paragraph passes in paint order (shadow, outline, fill), each with its offset.
+    Text {
+        layers: Vec<(Paragraph, f32, f32)>,
+        x: f32,
+        y: f32,
+    },
+    Vector {
+        art: VectorArt,
+        matrix: Matrix,
+    },
 }
 
 enum PaintSpec {
@@ -148,7 +167,26 @@ pub fn render(doc_bytes: &[u8], variant_id: &str, store: &ResourceStore) -> Resu
 
 pub fn render_with(doc_bytes: &[u8], variant_id: &str, store: &ResourceStore, options: RenderOptions) -> Result<RenderOutput, Issues> {
     let doc = load_document(doc_bytes)?;
-    let variant = resolve_variant(&doc, variant_id).map_err(|i| vec![i])?;
+    render_validated(&doc, variant_id, store, options)
+}
+
+/// Render an in-memory document (e.g. a template with a data row bound).
+/// The document is validated again before anything is drawn.
+pub fn render_document(
+    doc: &DesignDocument,
+    variant_id: &str,
+    store: &ResourceStore,
+    options: RenderOptions,
+) -> Result<RenderOutput, Issues> {
+    let issues = design_model::validate(doc);
+    if has_errors(&issues) {
+        return Err(issues);
+    }
+    render_validated(doc, variant_id, store, options)
+}
+
+fn render_validated(doc: &DesignDocument, variant_id: &str, store: &ResourceStore, options: RenderOptions) -> Result<RenderOutput, Issues> {
+    let variant = resolve_variant(doc, variant_id).map_err(|i| vec![i])?;
     require_approved(&variant).map_err(|i| vec![i])?;
 
     let (w, h) = (variant.width, variant.height);
@@ -174,7 +212,7 @@ pub fn render_with(doc_bytes: &[u8], variant_id: &str, store: &ResourceStore, op
     }
 
     let nodes: HashMap<&str, &Node> = variant.nodes.iter().map(|n| (n.id(), n)).collect();
-    let order = draw_order(&doc, &nodes);
+    let order = draw_order(doc, &nodes);
 
     let mut issues: Issues = Vec::new();
     let mut warnings: Issues = Vec::new();
@@ -208,7 +246,7 @@ pub fn render_with(doc_bytes: &[u8], variant_id: &str, store: &ResourceStore, op
         if prepared.contains_key(asset_id) || issues.iter().any(|i| i.location.asset_id.as_deref() == Some(asset_id)) {
             continue;
         }
-        match prepare_asset(&doc, asset_id, store) {
+        match prepare_asset(doc, asset_id, store) {
             Ok((p, u)) => {
                 prepared.insert(asset_id.clone(), p);
                 asset_uses.push(u);
@@ -403,11 +441,21 @@ fn build_ops(
                 fill: paint_spec(fill, b),
             });
         }
-        Node::Text { text, fill, .. } => match layout_text(id, text, parse_hex(&fill.color), b.width, b.height, fonts) {
-            Ok(laid) => {
+        Node::Text {
+            text,
+            fill,
+            outline,
+            shadow,
+            ..
+        } => match layout_text(id, text, parse_hex(&fill.color), b.width, b.height, fonts)
+            .and_then(|laid| text::effect_layers(id, text, &laid, b.width, outline.as_ref(), shadow.as_ref(), fonts).map(|fx| (laid, fx)))
+        {
+            Ok((laid, fx)) => {
+                let mut layers: Vec<(Paragraph, f32, f32)> = fx.into_iter().map(|l| (l.paragraph, l.dx, l.dy)).collect();
                 text_reports.push(laid.report);
+                layers.push((laid.paragraph, 0.0, 0.0));
                 ops.push(Op::Text {
-                    paragraph: laid.paragraph,
+                    layers,
                     x: b.x as f32,
                     y: b.y as f32,
                 });
@@ -592,8 +640,10 @@ fn draw(ops: &[Op], w: i32, h: i32) -> Result<Vec<u8>, Issue> {
                 canvas.draw_image_rect_with_sampling_options(image, None, *dst, sampling, &paint);
                 canvas.restore();
             }
-            Op::Text { paragraph, x, y } => {
-                paragraph.paint(canvas, (*x, *y));
+            Op::Text { layers, x, y } => {
+                for (paragraph, dx, dy) in layers {
+                    paragraph.paint(canvas, (*x + *dx, *y + *dy));
+                }
             }
             Op::Vector { art, matrix } => draw_vector(canvas, art, matrix).map_err(|_| fail("vector shader"))?,
         }

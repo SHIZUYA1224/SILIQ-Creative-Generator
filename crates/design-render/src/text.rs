@@ -13,11 +13,12 @@
 
 use crate::resources::{MAX_FONT_BYTES, ResourceStore};
 use design_model::{Align, Code, Font, Issue, OverflowPolicy, ResolveState, TextSpec};
+use design_model::{TextOutline, TextShadow};
 use serde::Serialize;
 use skia_safe::textlayout::{
     FontCollection, Paragraph, ParagraphBuilder, ParagraphStyle, StrutStyle, TextAlign, TextStyle, TypefaceFontProvider,
 };
-use skia_safe::{Color, Data, FontMgr, FontStyle, Typeface};
+use skia_safe::{BlurStyle, Color, Color4f, ColorSpace, Data, FontMgr, FontStyle, MaskFilter, Paint, PaintJoin, PaintStyle, Typeface};
 use std::collections::HashMap;
 
 /// Tolerance for comparing layout extents with the text box, in du.
@@ -304,7 +305,104 @@ pub fn layout_text(
     .font(&spec.font_id))
 }
 
+/// One extra paint pass of a text node (shadow or outline), drawn before the
+/// glyph fill at an offset from the node origin.
+pub struct EffectLayer {
+    pub paragraph: Paragraph,
+    pub dx: f32,
+    pub dy: f32,
+}
+
+fn hex_rgb(c: &str) -> [u8; 3] {
+    let v = |i: usize| u8::from_str_radix(&c[i..i + 2], 16).expect("validated color");
+    [v(1), v(3), v(5)]
+}
+
+fn effect_paint(rgb: [u8; 3], alpha: f64, outline_width: Option<f64>) -> Paint {
+    let mut p = Paint::new(
+        Color4f::new(rgb[0] as f32 / 255.0, rgb[1] as f32 / 255.0, rgb[2] as f32 / 255.0, alpha as f32),
+        &ColorSpace::new_srgb(),
+    );
+    p.set_anti_alias(true);
+    match outline_width {
+        // The stroke is centred on the glyph edge; twice the visible width
+        // puts `width` du outside the edge (the inside half is under the fill).
+        Some(w) => {
+            p.set_style(PaintStyle::StrokeAndFill)
+                .set_stroke_width((2.0 * w) as f32)
+                .set_stroke_join(PaintJoin::Round);
+        }
+        None => {
+            p.set_style(PaintStyle::Fill);
+        }
+    }
+    p
+}
+
+/// Build the shadow and outline passes for a laid-out text node, in paint
+/// order. Each pass is laid out independently with the same style, size and
+/// width; its line breaks must match the fill pass exactly or rendering stops.
+pub fn effect_layers(
+    node_id: &str,
+    spec: &TextSpec,
+    laid: &LaidOutText,
+    box_w: f64,
+    outline: Option<&TextOutline>,
+    shadow: Option<&TextShadow>,
+    fonts: &FontSet,
+) -> Result<Vec<EffectLayer>, Issue> {
+    let font = fonts.get(&spec.font_id).expect("layout_text succeeded");
+    let size = laid.report.applied_font_size;
+    let outline_w = outline.map(|o| o.width);
+    let mut passes: Vec<(Paint, f32, f32)> = Vec::new();
+    if let Some(sh) = shadow {
+        let mut p = effect_paint(hex_rgb(&sh.color), sh.opacity, outline_w);
+        if sh.blur > 0.0 {
+            // Skia's radius → sigma convention.
+            let sigma = (0.577_35 * sh.blur + 0.5) as f32;
+            p.set_mask_filter(MaskFilter::blur(BlurStyle::Normal, sigma, false));
+        }
+        passes.push((p, sh.offset_x as f32, sh.offset_y as f32));
+    }
+    if let Some(o) = outline {
+        passes.push((effect_paint(hex_rgb(&o.color), 1.0, Some(o.width)), 0.0, 0.0));
+    }
+    let reference = line_signature(&laid.paragraph);
+    let mut layers = Vec::new();
+    for (paint, dx, dy) in passes {
+        let mut p = build_paragraph_with(spec, size, Foreground::Paint(&paint), font, fonts);
+        p.layout(box_w as f32);
+        if line_signature(&p) != reference {
+            return Err(Issue::error(
+                Code::RenderFailed,
+                "an outline/shadow pass did not lay out identically to the text",
+                "Report this as an engine defect.",
+            )
+            .node(node_id));
+        }
+        layers.push(EffectLayer { paragraph: p, dx, dy });
+    }
+    Ok(layers)
+}
+
+fn line_signature(p: &Paragraph) -> Vec<(usize, usize, u64)> {
+    p.get_line_metrics()
+        .iter()
+        .map(|m| (m.start_index, m.end_index, m.width.to_bits()))
+        .collect()
+}
+
+/// How the glyphs of one paragraph pass are painted.
+enum Foreground<'a> {
+    Color([u8; 3]),
+    Paint(&'a Paint),
+}
+
 fn build_paragraph(spec: &TextSpec, size: f64, rgb: [u8; 3], font: &LoadedFont, fonts: &FontSet) -> Paragraph {
+    build_paragraph_with(spec, size, Foreground::Color(rgb), font, fonts)
+}
+
+fn build_paragraph_with(spec: &TextSpec, size: f64, fg: Foreground, font: &LoadedFont, fonts: &FontSet) -> Paragraph {
     let families = [font.family_alias.as_str()];
     // lineHeight is an absolute distance in du; it is kept as authored even
     // when an approved smaller font size is applied.
@@ -318,8 +416,15 @@ fn build_paragraph(spec: &TextSpec, size: f64, rgb: [u8; 3], font: &LoadedFont, 
         .set_height(height_multiplier)
         .set_height_override(true)
         .set_half_leading(true)
-        .set_locale(spec.language.bcp47())
-        .set_color(Color::from_rgb(rgb[0], rgb[1], rgb[2]));
+        .set_locale(spec.language.bcp47());
+    match fg {
+        Foreground::Color(rgb) => {
+            ts.set_color(Color::from_rgb(rgb[0], rgb[1], rgb[2]));
+        }
+        Foreground::Paint(p) => {
+            ts.set_foreground_paint(p);
+        }
+    }
 
     // A forced strut gives every line exactly `lineHeight`, independent of
     // which glyphs the line contains.

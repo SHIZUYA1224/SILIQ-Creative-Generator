@@ -31,8 +31,13 @@ pub fn resolve_variant(doc: &DesignDocument, variant_id: &str) -> Result<Resolve
         // validate() guarantees the node exists and that fontSize targets text.
         let node = nodes.iter_mut().find(|n| n.id() == p.node_id).expect("validated patch target");
         *node.bounds_mut() = p.bounds;
-        if let (Some(fs), Node::Text { text, .. }) = (p.font_size, &mut *node) {
-            text.font_size = fs;
+        if let Node::Text { text, .. } = &mut *node {
+            if let Some(fs) = p.font_size {
+                text.font_size = fs;
+            }
+            if let Some(lh) = p.line_height {
+                text.line_height = lh;
+            }
         }
     }
 

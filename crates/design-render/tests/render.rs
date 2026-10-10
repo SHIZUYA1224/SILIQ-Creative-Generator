@@ -558,3 +558,53 @@ fn showcase_fixtures_render_cleanly() {
         }
     }
 }
+
+// ---------------------------------------------------- text effects --
+
+#[test]
+fn outline_and_shadow_are_drawn_around_the_glyphs() {
+    let base: Value =
+        serde_json::from_str(&fs::read_to_string(format!("{FIXTURES}/documents/retail-promo-template.json")).unwrap()).unwrap();
+    let with = run(&base, "portrait", &store()).unwrap();
+
+    let mut without = base.clone();
+    let price = node_mut(&mut without, "price");
+    price.as_object_mut().unwrap().remove("outline");
+    price.as_object_mut().unwrap().remove("shadow");
+    let plain = run(&without, "portrait", &store()).unwrap();
+    assert_ne!(with.png, plain.png);
+    // Effects do not change layout: same applied size and line breaks.
+    let lines = |o: &RenderOutput| {
+        let t = o.report.text.iter().find(|t| t.node_id == "price").unwrap();
+        (t.applied_font_size, t.lines.iter().map(|l| (l.start, l.end)).collect::<Vec<_>>())
+    };
+    assert_eq!(lines(&with), lines(&plain));
+
+    // Count white and navy pixels in the price box: the outline adds white,
+    // the shadow adds navy.
+    let count = |o: &RenderOutput, rgb: [u8; 3]| {
+        let p = pixels(&o.png);
+        let mut n = 0;
+        for y in 540..800 {
+            for x in 40..820 {
+                let c = px(&p, x, y);
+                if close(c, [rgb[0], rgb[1], rgb[2], 255], 8) {
+                    n += 1;
+                }
+            }
+        }
+        n
+    };
+    assert!(count(&with, [255, 255, 255]) > count(&plain, [255, 255, 255]) + 5000);
+    assert!(count(&with, [0x00, 0x2B, 0x7F]) > count(&plain, [0x00, 0x2B, 0x7F]) + 5000);
+}
+
+#[test]
+fn blurred_shadow_renders_deterministically() {
+    let mut doc: Value =
+        serde_json::from_str(&fs::read_to_string(format!("{FIXTURES}/documents/retail-promo-template.json")).unwrap()).unwrap();
+    node_mut(&mut doc, "price")["shadow"]["blur"] = json!(12);
+    let a = run(&doc, "portrait", &store()).unwrap();
+    let b = run(&doc, "portrait", &store()).unwrap();
+    assert_eq!(a.png, b.png);
+}

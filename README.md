@@ -37,6 +37,7 @@
 
 - 設計パッケージ v0.2 を配置した。
 - **Phase 0 Step A（headlessのRust CPU描画エンジンとCLI）を実装した。** 結果は `reports/G0-step-a.md`。GUI、macOS実機検証（Step B）は未着手で、G0は未判定。
+- 文字のフチ・影（schema 0.3.0-core）と、CSV一括生成の最小版を追加した。結果は `reports/batch-slice-1.md`。
 - 計画：`docs/PHASE0_PLAN.md`。依存と採用理由：`docs/DEPENDENCIES.md`。設計判断：`docs/adr/`。
 
 ## Build／test（Step A。Linux x86_64で実行確認済み）
@@ -55,6 +56,12 @@ cargo deny check                            # license / advisory / ban（cargo-d
   --doc fixtures/public-safe/documents/basic.json --variant square \
   --resources fixtures/public-safe/resources \
   --out-dir out --name basic-square.png --report basic-square.report.json
+
+# CSV一括生成（1行でも不正があれば何も出力しない）
+./target/release/siliq-render batch \
+  --doc fixtures/public-safe/documents/retail-promo-template.json \
+  --data fixtures/public-safe/data/retail-promo-stores.csv \
+  --variants portrait,square --resources fixtures/public-safe/resources --out-dir out/batch
 ```
 
 | crate | 役割 |
@@ -62,4 +69,5 @@ cargo deny check                            # license / advisory / ban（cargo-d
 | `crates/design-model` | 文書型、厳格な読み込み、意味検証、variant解決、issue形式 |
 | `crates/design-svg` | SVG安全サブセット→独自path |
 | `crates/design-render` | 資源読み込み、文字組み、RenderPlan、Skia CPU描画、PNG |
-| `crates/render-cli` | `siliq-render`（check／render） |
+| `crates/job-runner` | CSV読み込み、差し込み、一括生成、manifest |
+| `crates/render-cli` | `siliq-render`（check／render／batch） |

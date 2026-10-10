@@ -3,11 +3,13 @@
 //! Mirrors `schemas/design.core.schema.json` and adds the semantic checks the
 //! schema cannot express. No I/O, no rendering.
 
+pub mod binding;
 pub mod issue;
 pub mod types;
 pub mod validate;
 pub mod variant;
 
+pub use binding::bind_row;
 pub use issue::{Code, Issue, Issues, Location, Severity, has_errors};
 pub use types::*;
 pub use validate::{parse_document, validate};

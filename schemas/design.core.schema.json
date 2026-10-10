@@ -5,7 +5,10 @@
       "const": "siliq-creative-generator-core"
     },
     "schemaVersion": {
-      "const": "0.2.0-core"
+      "enum": [
+        "0.2.0-core",
+        "0.3.0-core"
+      ]
     },
     "documentId": {
       "type": "string",
@@ -104,7 +107,7 @@
   ],
   "additionalProperties": false,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "SILIQ Phase 0 core document contract — draft, not full v1",
+  "title": "SILIQ core document contract 0.3.0-core (reads 0.2.0-core) — draft, not full v1",
   "$defs": {
     "bounds": {
       "type": "object",
@@ -500,6 +503,12 @@
           "type": "number",
           "exclusiveMinimum": 0,
           "maximum": 2000
+        },
+        "lineHeight": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 4000,
+          "description": "0.3.0-core, text nodes only."
         }
       },
       "required": [
@@ -704,6 +713,12 @@
         },
         "fill": {
           "$ref": "#/$defs/solid"
+        },
+        "outline": {
+          "$ref": "#/$defs/textOutline"
+        },
+        "shadow": {
+          "$ref": "#/$defs/textShadow"
         }
       },
       "required": [
@@ -892,6 +907,64 @@
           "$ref": "#/$defs/logoNode"
         }
       ]
+    },
+    "textOutline": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 200
+        }
+      },
+      "required": [
+        "color",
+        "width"
+      ],
+      "additionalProperties": false,
+      "description": "0.3.0-core. Visible outline thickness outside the glyph edge, in du."
+    },
+    "textShadow": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "offsetX": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000
+        },
+        "offsetY": {
+          "type": "number",
+          "minimum": -1000,
+          "maximum": 1000
+        },
+        "blur": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 200
+        }
+      },
+      "required": [
+        "color",
+        "opacity",
+        "offsetX",
+        "offsetY",
+        "blur"
+      ],
+      "additionalProperties": false,
+      "description": "0.3.0-core. Shadow of the glyphs including the outline; blur is a radius in du."
     }
   }
 }

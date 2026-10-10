@@ -115,11 +115,11 @@ pub fn validate(doc: &DesignDocument) -> Issues {
     if doc.format != FORMAT {
         v.schema(format!("format must be {FORMAT:?}"));
     }
-    if doc.schema_version != SCHEMA_VERSION {
+    if !SUPPORTED_SCHEMA_VERSIONS.contains(&doc.schema_version.as_str()) {
         v.err(Issue::error(
             Code::Schema,
             format!(
-                "schemaVersion {:?} is not supported (this engine reads {SCHEMA_VERSION:?})",
+                "schemaVersion {:?} is not supported (this engine reads {SUPPORTED_SCHEMA_VERSIONS:?})",
                 doc.schema_version
             ),
             "Open the document with an engine that supports this schema version.",
@@ -186,7 +186,7 @@ pub fn validate(doc: &DesignDocument) -> Issues {
         }
     }
     for n in &doc.nodes {
-        check_node(&mut v, n, &fonts, &assets);
+        check_node(&mut v, n, &fonts, &assets, doc.schema_version != "0.2.0-core");
     }
 
     // --- tree ---
@@ -278,6 +278,17 @@ pub fn validate(doc: &DesignDocument) -> Issues {
                 }
                 _ => {}
             }
+            if let Some(lh) = p.line_height {
+                v.range(&format!("variant {} patch {} lineHeight", var.id, p.node_id), lh, 0.0, 4000.0, true);
+                let is_text = matches!(nodes.get(p.node_id.as_str()), Some(Node::Text { .. }));
+                if doc.schema_version == "0.2.0-core" || !is_text {
+                    let i = v.schema(format!(
+                        "variant {:?} patch {:?}: lineHeight needs schemaVersion 0.3.0-core and a text node",
+                        var.id, p.node_id
+                    ));
+                    i.location.variant_id = Some(var.id.clone());
+                }
+            }
         }
     }
 
@@ -302,7 +313,7 @@ fn check_hash_state(v: &mut V, state: ResolveState, sha: Option<&str>, what: &st
     }
 }
 
-fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMap<&str, &Asset>) {
+fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMap<&str, &Asset>, effects_allowed: bool) {
     let id = n.id();
     let (bounds, rot, opacity, _) = n.common();
     let start = v.issues.len();
@@ -321,9 +332,30 @@ fn check_node(v: &mut V, n: &Node, fonts: &HashMap<&str, &Font>, assets: &HashMa
             v.range(&format!("node {id} cornerRadius"), *corner_radius, 0.0, 8192.0, false);
             check_paint(v, id, fill);
         }
-        Node::Text { name, text, fill, .. } => {
+        Node::Text {
+            name,
+            text,
+            fill,
+            outline,
+            shadow,
+            ..
+        } => {
             v.text_len("node.name", name, 200);
             v.color(&format!("node {id} fill.color"), &fill.color);
+            if (outline.is_some() || shadow.is_some()) && !effects_allowed {
+                v.schema(format!("node {id}: outline / shadow need schemaVersion 0.3.0-core"));
+            }
+            if let Some(o) = outline {
+                v.color(&format!("node {id} outline.color"), &o.color);
+                v.range(&format!("node {id} outline.width"), o.width, 0.0, 200.0, true);
+            }
+            if let Some(sh) = shadow {
+                v.color(&format!("node {id} shadow.color"), &sh.color);
+                v.range(&format!("node {id} shadow.opacity"), sh.opacity, 0.0, 1.0, false);
+                v.range(&format!("node {id} shadow.offsetX"), sh.offset_x, -1000.0, 1000.0, false);
+                v.range(&format!("node {id} shadow.offsetY"), sh.offset_y, -1000.0, 1000.0, false);
+                v.range(&format!("node {id} shadow.blur"), sh.blur, 0.0, 200.0, false);
+            }
             v.text_len(&format!("node {id} text.value"), &text.value, 10000);
             v.range(&format!("node {id} fontSize"), text.font_size, 0.0, 2000.0, true);
             v.range(&format!("node {id} lineHeight"), text.line_height, 0.0, 4000.0, true);

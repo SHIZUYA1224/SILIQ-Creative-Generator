@@ -56,6 +56,9 @@ pub enum Code {
     /// Phase 0 addition (warning): image drawn larger than its pixel size.
     #[serde(rename = "W_IMAGE_UPSCALED")]
     ImageUpscaled,
+    /// Batch data (CSV) is malformed, or a row does not fit the template's slots.
+    #[serde(rename = "E_DATA_INVALID")]
+    DataInvalid,
     /// Phase 0 addition: the render engine itself failed (Skia returned null).
     #[serde(rename = "E_RENDER_FAILED")]
     RenderFailed,
@@ -82,6 +85,7 @@ impl Code {
             Code::PathDenied => "E_PATH_DENIED",
             Code::ResourceLimit => "E_RESOURCE_LIMIT",
             Code::ImageUpscaled => "W_IMAGE_UPSCALED",
+            Code::DataInvalid => "E_DATA_INVALID",
             Code::RenderFailed => "E_RENDER_FAILED",
         }
     }
@@ -91,6 +95,9 @@ impl Code {
 #[derive(Debug, Clone, Default, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Location {
+    /// Batch data row (the row's `rowId`).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub row_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub node_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -147,6 +154,11 @@ impl Issue {
         self.location.font_id = Some(id.to_owned());
         self
     }
+
+    pub fn row(mut self, id: &str) -> Self {
+        self.location.row_id = Some(id.to_owned());
+        self
+    }
 }
 
 impl fmt::Display for Issue {
@@ -154,6 +166,7 @@ impl fmt::Display for Issue {
         write!(f, "{}: {}", self.code.as_str(), self.message)?;
         let l = &self.location;
         for (k, v) in [
+            ("row", &l.row_id),
             ("node", &l.node_id),
             ("variant", &l.variant_id),
             ("asset", &l.asset_id),

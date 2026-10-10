@@ -4,6 +4,9 @@
 //! siliq-render check  --doc <file.json>
 //! siliq-render render --doc <file.json> --variant <id> --resources <dir>
 //!                     --out-dir <dir> --name <file.png> [--report <file.json>]
+//! siliq-render batch  --doc <template.json> --data <rows.csv> --variants <id,id>
+//!                     --resources <dir> --out-dir <dir>
+//!                     [--name-pattern "{rowId}_{variantId}.png"] [--manifest manifest.json]
 //! ```
 //!
 //! `--resources` and `--out-dir` stand in for the user's read / write grants:
@@ -22,7 +25,8 @@ use std::process::ExitCode;
 
 const USAGE: &str = "usage:
   siliq-render check  --doc <file.json>
-  siliq-render render --doc <file.json> --variant <id> --resources <dir> --out-dir <dir> --name <file.png> [--report <file.json>]";
+  siliq-render render --doc <file.json> --variant <id> --resources <dir> --out-dir <dir> --name <file.png> [--report <file.json>]
+  siliq-render batch  --doc <template.json> --data <rows.csv> --variants <id,id> --resources <dir> --out-dir <dir> [--name-pattern \"{rowId}_{variantId}.png\"] [--manifest manifest.json]";
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
@@ -40,6 +44,7 @@ fn main() -> ExitCode {
     let result = match cmd.as_str() {
         "check" => cmd_check(&opts),
         "render" => cmd_render(&opts),
+        "batch" => cmd_batch(&opts),
         _ => {
             eprintln!("{USAGE}");
             return ExitCode::from(1);
@@ -78,7 +83,20 @@ fn parse_opts(rest: &[String]) -> Result<HashMap<String, String>, String> {
     let mut it = rest.iter();
     while let Some(k) = it.next() {
         let key = k.strip_prefix("--").ok_or_else(|| format!("unexpected argument {k:?}"))?;
-        if !["doc", "variant", "resources", "out-dir", "name", "report"].contains(&key) {
+        if ![
+            "doc",
+            "variant",
+            "resources",
+            "out-dir",
+            "name",
+            "report",
+            "data",
+            "variants",
+            "name-pattern",
+            "manifest",
+        ]
+        .contains(&key)
+        {
             return Err(format!("unknown option --{key}"));
         }
         let v = it.next().ok_or_else(|| format!("--{key} needs a value"))?;
@@ -160,6 +178,63 @@ fn cmd_render(o: &HashMap<String, String>) -> Result<(), Failure> {
     Ok(())
 }
 
+fn cmd_batch(o: &HashMap<String, String>) -> Result<(), Failure> {
+    let template = read_document(req(o, "doc")?)?;
+    let data = read_limited(req(o, "data")?, job_runner::csv::MAX_CSV_BYTES as u64, "data file")?;
+    let variants: Vec<String> = req(o, "variants")?.split(',').map(str::to_owned).collect();
+    let store = ResourceStore::open(Path::new(req(o, "resources")?))?;
+    let out_dir = open_output_dir(Path::new(req(o, "out-dir")?))?;
+    let pattern = o.get("name-pattern").map(String::as_str).unwrap_or("{rowId}_{variantId}.png");
+    let manifest_name = o.get("manifest").map(String::as_str).unwrap_or("manifest.json");
+    let started = std::time::Instant::now();
+    let manifest = job_runner::run_batch(&job_runner::BatchRequest {
+        template: &template,
+        data: &data,
+        variants: &variants,
+        name_pattern: pattern,
+        manifest_name,
+        store: &store,
+        out_dir: &out_dir,
+        options: Default::default(),
+    })
+    .map_err(Failure::Blocked)?;
+    let json = serde_json::json!({
+        "status": manifest.status,
+        "rows": manifest.rows,
+        "variants": manifest.variants,
+        "outputs": manifest.total,
+        "manifest": manifest_name,
+        "seconds": (started.elapsed().as_secs_f64() * 100.0).round() / 100.0,
+    });
+    println!("{}", serde_json::to_string_pretty(&json).expect("serializable"));
+    Ok(())
+}
+
+fn read_limited(path: &str, max: u64, what: &str) -> Result<Vec<u8>, Failure> {
+    let p = Path::new(path);
+    let meta = fs::symlink_metadata(p)
+        .map_err(|_| Issue::error(Code::PathDenied, format!("{what} does not exist"), "Choose an existing file."))?;
+    if !meta.is_file() {
+        return Err(Issue::error(
+            Code::PathDenied,
+            format!("{what} is not a regular file (symlinks are refused)"),
+            "Choose a regular file.",
+        )
+        .into());
+    }
+    if meta.len() > max {
+        return Err(Issue::error(Code::ResourceLimit, format!("{what} is too large"), "Use a smaller file.").into());
+    }
+    fs::read(p).map_err(|e| {
+        Issue::error(
+            Code::PathDenied,
+            format!("{what} cannot be read: {}", e.kind()),
+            "Check permissions.",
+        )
+        .into()
+    })
+}
+
 fn open_output_dir(dir: &Path) -> Result<PathBuf, Failure> {
     let meta = fs::symlink_metadata(dir).map_err(|_| {
         Issue::error(
@@ -188,38 +263,7 @@ fn open_output_dir(dir: &Path) -> Result<PathBuf, Failure> {
 
 /// Output names are plain file names inside the granted directory.
 fn output_path(dir: &Path, name: &str, ext: &str) -> Result<PathBuf, Failure> {
-    let deny = |why: &str| -> Failure {
-        Issue::error(
-            Code::PathDenied,
-            format!("output name rejected: {why}"),
-            "Use a plain file name made of A-Z a-z 0-9 . _ - with the right extension.",
-        )
-        .into()
-    };
-    if name.len() > 128 {
-        return Err(deny("longer than 128 bytes"));
-    }
-    let b = name.as_bytes();
-    if b.is_empty() || !b[0].is_ascii_alphanumeric() {
-        return Err(deny("must start with a letter or digit"));
-    }
-    if !b.iter().all(|c| c.is_ascii_alphanumeric() || matches!(c, b'.' | b'_' | b'-')) {
-        return Err(deny("contains a character outside A-Z a-z 0-9 . _ -"));
-    }
-    if name.contains("..") {
-        return Err(deny("contains '..'"));
-    }
-    let Some(stem) = name.strip_suffix(&format!(".{ext}")) else {
-        return Err(deny(&format!("must end with .{ext}")));
-    };
-    let base = stem.split('.').next().unwrap_or("").to_ascii_uppercase();
-    const RESERVED: [&str; 22] = [
-        "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4",
-        "LPT5", "LPT6", "LPT7", "LPT8", "LPT9",
-    ];
-    if RESERVED.contains(&base.as_str()) {
-        return Err(deny("reserved device name"));
-    }
+    job_runner::naming::validate_output_name(name, ext)?;
     let path = dir.join(name);
     if fs::symlink_metadata(&path).is_ok() {
         return Err(Issue::error(

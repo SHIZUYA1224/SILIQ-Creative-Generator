@@ -7,7 +7,9 @@ resources/assets/<sha256>.<ext>   # 内容ハッシュで命名（.siliqcg packa
 resources/fonts/<sha256>.<ext>
 documents/basic.json              # 機能検査用fixture文書（square / portrait は承認済み、wide-draft は未承認）
 documents/showcase.json           # 見本デザイン（架空ブランド。承認状態はfixture用の設定）
-documents/retail-promo.json       # 売り出し型チラシの見本（架空の車検店。同上）
+documents/retail-promo.json       # 売り出し型チラシの見本（架空の車検店。同上。0.2.0-core、重ね文字でフチを代用）
+documents/retail-promo-template.json  # 上を量産用テンプレートにしたもの（0.3.0-core、正式なフチ・影、差し替え欄5つ、縦長＋正方形）
+data/retail-promo-stores.csv      # 架空10店舗の差し込みデータ（UTF-8）
 licenses/                         # 同梱フォントのライセンス
 ```
 
@@ -45,3 +47,10 @@ Noto Sans JPはSIL Open Font License 1.1で、ソフトウェアへの同梱・�
 - 価格の白フチ：同じ文字を8方向に7du（「円」は5du）ずらした白い文字で囲んでいる（線の描画は未実装）。
 - 価格の影：紺の文字を右下にずらして置いている（影の効果は未実装）。
 - 集中線・星形バッジ：`logo` ノードでSVGを描いている（汎用のpathノードは未実装）。
+
+## retail-promo-template.json と data/
+
+量産（CSV一括生成）の見本。`retail-promo.json` の価格の重ね文字18個を、0.3.0-coreの `outline`／`shadow` に置き換えた。差し替え欄は `branch`、`price`、`fastest`、`tel`、`hours` の5つ。
+
+- 価格はfit対象で、承認済みサイズは250→230→210→190。正方形版は210から始める。
+- 店舗名・電話番号（0120-000-1xx）・価格はすべて架空。

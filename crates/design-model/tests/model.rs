@@ -94,7 +94,7 @@ fn logo_aspect_distortion_rejected() {
 #[test]
 fn unknown_schema_version_rejected() {
     let mut v = sample();
-    v["schemaVersion"] = json!("0.3.0-core");
+    v["schemaVersion"] = json!("0.4.0-core");
     assert_eq!(codes(&v), vec![Code::Schema]);
 }
 
@@ -261,4 +261,99 @@ fn variant_patches_apply_only_declared_fields() {
     // Everything else is untouched.
     assert_eq!(fill.color, "#171717");
     assert_eq!(text.line_height, 80.0);
+}
+
+// ------------------------------------------------- 0.3.0-core additions --
+
+fn template() -> Value {
+    serde_json::from_str(include_str!("../../../fixtures/public-safe/documents/retail-promo-template.json")).unwrap()
+}
+
+#[test]
+fn template_is_valid_0_3() {
+    assert_eq!(codes(&template()), vec![]);
+}
+
+#[test]
+fn effects_require_schema_0_3() {
+    let mut v = template();
+    v["schemaVersion"] = json!("0.2.0-core");
+    let c = codes(&v);
+    assert!(c.contains(&Code::Schema), "{c:?}");
+}
+
+#[test]
+fn effect_values_are_range_checked() {
+    let mut v = template();
+    node_mut(&mut v, "price")["outline"]["width"] = json!(0);
+    assert!(codes(&v).contains(&Code::Schema));
+    let mut v = template();
+    node_mut(&mut v, "price")["shadow"]["opacity"] = json!(2);
+    assert!(codes(&v).contains(&Code::Schema));
+    let mut v = template();
+    node_mut(&mut v, "price")["outline"]["dash"] = json!(3);
+    assert!(codes(&v).contains(&Code::Schema));
+}
+
+#[test]
+fn line_height_patch_only_on_text_in_0_3() {
+    let mut v = template();
+    v["variants"][1]["nodePatches"][0]["lineHeight"] = json!(40); // root group
+    assert!(codes(&v).contains(&Code::Schema));
+}
+
+mod binding {
+    use super::*;
+    use std::collections::BTreeMap;
+
+    fn doc() -> DesignDocument {
+        load_document(template().to_string().as_bytes()).unwrap()
+    }
+
+    fn row(pairs: &[(&str, &str)]) -> BTreeMap<String, String> {
+        pairs.iter().map(|(k, v)| (k.to_string(), v.to_string())).collect()
+    }
+
+    fn full() -> BTreeMap<String, String> {
+        row(&[
+            ("branch", "北町店"),
+            ("price", "09,800"),
+            ("fastest", "60分"),
+            ("tel", "0120-000-101"),
+            ("hours", "受付"),
+        ])
+    }
+
+    fn text_of<'a>(d: &'a DesignDocument, id: &str) -> &'a str {
+        match d.nodes.iter().find(|n| n.id() == id).unwrap() {
+            Node::Text { text, .. } => &text.value,
+            _ => panic!(),
+        }
+    }
+
+    #[test]
+    fn binds_only_declared_targets_verbatim() {
+        let d = doc();
+        let b = bind_row(&d, "r1", &full()).unwrap();
+        assert_eq!(text_of(&b, "price"), "09,800"); // leading zero kept
+        assert_eq!(text_of(&b, "tel"), "0120-000-101");
+        // Everything that is not a slot target is unchanged.
+        let changed: Vec<&str> = d.nodes.iter().zip(&b.nodes).filter(|(a, b)| a != b).map(|(a, _)| a.id()).collect();
+        assert_eq!(changed, vec!["shop-sub", "price", "badge-main", "tel", "hours"]);
+    }
+
+    #[test]
+    fn required_empty_unknown_and_too_long_are_refused() {
+        let d = doc();
+        let mut r = full();
+        r.insert("tel".into(), String::new());
+        r.insert("colour".into(), "red".into());
+        r.insert("price".into(), "123,456,789".into());
+        let e = bind_row(&d, "r9", &r).unwrap_err();
+        assert_eq!(e.len(), 3, "{e:?}");
+        assert!(
+            e.iter()
+                .all(|i| i.code == Code::DataInvalid && i.location.row_id.as_deref() == Some("r9"))
+        );
+    }
 }

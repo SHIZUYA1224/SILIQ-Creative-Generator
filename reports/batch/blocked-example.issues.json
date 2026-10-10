@@ -1,0 +1,73 @@
+{
+  "issues": [
+    {
+      "code": "E_GLYPH_MISSING",
+      "location": {
+        "fontId": "bold",
+        "nodeId": "shop-sub",
+        "rowId": "store-011",
+        "variantId": "portrait"
+      },
+      "message": "font \"bold\" has no glyph for U+0E20, U+0E29, U+0E32",
+      "remedy": "Change the text, or have the author choose a font that covers these characters. No fallback font is used.",
+      "severity": "error"
+    },
+    {
+      "code": "E_GLYPH_MISSING",
+      "location": {
+        "fontId": "bold",
+        "nodeId": "shop-sub",
+        "rowId": "store-011",
+        "variantId": "square"
+      },
+      "message": "font \"bold\" has no glyph for U+0E20, U+0E29, U+0E32",
+      "remedy": "Change the text, or have the author choose a font that covers these characters. No fallback font is used.",
+      "severity": "error"
+    },
+    {
+      "code": "E_DATA_INVALID",
+      "location": {
+        "nodeId": "price",
+        "rowId": "store-012",
+        "variantId": "portrait"
+      },
+      "message": "slot \"price\" has 9 characters; the template allows 7",
+      "remedy": "Shorten the value.",
+      "severity": "error"
+    },
+    {
+      "code": "E_DATA_INVALID",
+      "location": {
+        "nodeId": "price",
+        "rowId": "store-012",
+        "variantId": "square"
+      },
+      "message": "slot \"price\" has 9 characters; the template allows 7",
+      "remedy": "Shorten the value.",
+      "severity": "error"
+    },
+    {
+      "code": "E_DATA_INVALID",
+      "location": {
+        "nodeId": "tel",
+        "rowId": "store-013",
+        "variantId": "portrait"
+      },
+      "message": "required slot \"tel\" is empty",
+      "remedy": "Fill in the value; required slots are never generated or left blank.",
+      "severity": "error"
+    },
+    {
+      "code": "E_DATA_INVALID",
+      "location": {
+        "nodeId": "tel",
+        "rowId": "store-013",
+        "variantId": "square"
+      },
+      "message": "required slot \"tel\" is empty",
+      "remedy": "Fill in the value; required slots are never generated or left blank.",
+      "severity": "error"
+    }
+  ],
+  "status": "blocked"
+}
